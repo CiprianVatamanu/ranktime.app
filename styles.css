@@ -239,7 +239,19 @@ main {
   margin: 0 auto 6px;
   -webkit-tap-highlight-color: transparent;
 }
-.ring-stage svg#ringSvg { display: block; width: 100%; height: 100%; }
+.ring-stage svg#ringSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 14px rgba(139, 215, 6, 0.35));
+}
+.ring-stage::before {
+  content: "";
+  position: absolute;
+  inset: -90px;
+  background: radial-gradient(circle, rgba(139, 215, 6, 0.10) 0%, rgba(139, 215, 6, 0.04) 45%, transparent 70%);
+  pointer-events: none;
+}
 .ring-timer {
   position: absolute;
   top: 50%;
@@ -296,6 +308,33 @@ main {
   font-size: 16px;
 }
 .rank-section, .cards-section, .medal-section, .deep-section { margin-top: 100px; }
+
+/* ---------- Modes: real app screens ---------- */
+.modes-section { margin-top: 100px; }
+.modes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.mode-fig { margin: 0; }
+.mode-fig img {
+  width: 100%;
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65), 0 0 40px rgba(139, 215, 6, 0.06);
+  display: block;
+}
+.mode-fig figcaption { padding: 14px 4px 0; }
+.mode-fig figcaption strong {
+  display: block;
+  color: var(--lime);
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  margin-bottom: 6px;
+}
+.mode-fig figcaption span { color: var(--muted); font-size: 14px; line-height: 1.55; display: block; }
 
 /* ---------- Rank carousel (full-bleed marquee) ---------- */
 .rank-carousel {
@@ -527,16 +566,61 @@ main {
   .site-header nav { gap: 10px; font-size: 13px; }
   .site-header img.logo { width: 28px; height: 28px; }
   .brand { font-size: 17px; }
-  .features { grid-template-columns: 1fr; }
-  .ring-stage { width: 272px; height: 272px; }
-  .ring-timer { padding: 10px 18px 8px; }
-  .ring-timer span#ringTimer { font-size: 36px; }
-  .ring-label { font-size: 9px; letter-spacing: 0.2em; }
-  .hero h1 { font-size: 24px; }
-  .hero p.tagline { font-size: 16px; }
-  .section-title { font-size: 21px; }
-  .deep-grid { grid-template-columns: 1fr; }
-  .card-gallery { flex-wrap: nowrap; }
-  .card-gallery img { max-width: 34%; border-radius: 12px; }
-  .rank-section, .cards-section, .medal-section, .deep-section { margin-top: 70px; }
+  main { padding: 24px 16px 60px; }
+  .features { grid-template-columns: 1fr; gap: 12px; margin-top: 36px; }
+  .hero { padding: 24px 0 28px; }
+  .ring-stage { width: 260px; height: 260px; }
+  .ring-stage::before { inset: -60px; }
+  .ring-timer { padding: 9px 16px 7px; border-radius: 16px; }
+  .ring-timer span#ringTimer { font-size: 34px; }
+  .ring-label { font-size: 8px; letter-spacing: 0.18em; }
+  .hero h1 { font-size: 22px; letter-spacing: 0.07em; }
+  .hero p.tagline { font-size: 15px; }
+  .cta-glass { padding: 12px 26px; font-size: 13px; }
+  .section-title { font-size: 19px; letter-spacing: 0.07em; }
+  .section-sub { font-size: 14px; margin-bottom: 26px; }
+  .mil-label { font-size: 10px; letter-spacing: 0.28em; }
+  .deep-grid { grid-template-columns: 1fr; gap: 12px; }
+  .mil-card { padding: 20px 18px; border-radius: 18px; }
+  .rank-section, .cards-section, .medal-section, .deep-section, .modes-section { margin-top: 64px; }
+  .quote-band, .final-cta { margin-top: 64px; }
+
+  /* Modes: keep the two phones side by side, captions under each */
+  .modes-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mode-fig img { border-radius: 18px; }
+  .mode-fig figcaption { padding: 10px 2px 0; }
+  .mode-fig figcaption strong { font-size: 12px; letter-spacing: 0.16em; }
+  .mode-fig figcaption span { font-size: 12.5px; }
+
+  /* Achievement cards: swipeable snap carousel instead of the fan */
+  .card-gallery {
+    justify-content: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 6px 4px 14px;
+    scrollbar-width: none;
+  }
+  .card-gallery::-webkit-scrollbar { display: none; }
+  .card-gallery img,
+  .card-gallery img:first-child,
+  .card-gallery img.gallery-center,
+  .card-gallery img:last-child {
+    transform: none;
+    width: 78%;
+    max-width: 300px;
+    flex: none;
+    scroll-snap-align: center;
+    border-radius: 20px;
+  }
+  .card-caption { font-size: 13.5px; margin-top: 8px; }
+
+  .rk-cell { width: 112px; padding: 13px 8px 10px; }
+  .medal-row { padding: 10px 14px; gap: 12px; }
+  .medal-row img { height: 44px; }
+  .medal-info strong { font-size: 15px; }
+  .promo-abbr { font-size: 12px; }
+  .promo-track { height: 30px; }
+  .quote { font-size: 15px; }
 }

@@ -90,6 +90,30 @@
       </div>
     </section>
 
+    <!-- ============ MODES: real app screens ============ -->
+    <section class="modes-section reveal">
+      <div class="mil-label">MODES</div>
+      <h2 class="section-title stencil">TIME OR REPS</h2>
+      <p class="section-sub">Two ways to run a session. Count the clock down, or count the reps up. Same ring, two currencies.</p>
+
+      <div class="modes-grid">
+        <figure class="mode-fig reveal">
+          <img src="/assets/mode_time.jpg" alt="RankTime in TIME mode: a Tabata preset with a 4 minute segmented ring, 20 seconds work and 10 seconds rest over 8 rounds" loading="lazy">
+          <figcaption>
+            <strong class="stencil">TIME</strong>
+            <span>Intervals on the clock. Tabata 20/10, EMOM, or your own work and rest pattern, up to any number of rounds and exercises. The ring shows every interval before you press play.</span>
+          </figcaption>
+        </figure>
+        <figure class="mode-fig reveal">
+          <img src="/assets/mode_reps.jpg" alt="RankTime in REPS mode: an EMOM preset targeting 100 reps shown in the segmented ring" loading="lazy">
+          <figcaption>
+            <strong class="stencil">REPS</strong>
+            <span>Targets instead of timers. Set rep goals per exercise and the app paces the session around them, counting every rep with the camera or your Polar H10.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
     <!-- ============ RANKINGS: full 21-tier carousel ============ -->
     <section class="rank-section reveal">
       <div class="mil-label">RANKINGS</div>
@@ -419,6 +443,15 @@
         io2.observe(promo.parentElement);
       }
     }
+
+    /* ---------- Mobile: start the card gallery centered on the middle card ---------- */
+    window.addEventListener("load", function () {
+      var gal = document.querySelector(".card-gallery");
+      var galCenter = document.querySelector(".gallery-center");
+      if (gal && galCenter && window.innerWidth <= 560) {
+        gal.scrollLeft = galCenter.offsetLeft - (gal.clientWidth - galCenter.clientWidth) / 2;
+      }
+    });
 
     /* ---------- Rotating quotes, straight from the app ---------- */
     var quotes = [
