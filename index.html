@@ -19,7 +19,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=7">
+  <link rel="stylesheet" href="/styles.css?v=8">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -377,7 +377,7 @@
       var starMark = star
         ? '<circle cx="24" cy="' + (8 + c * 9 / 2) + '" r="3" fill="' + GOLD + '" stroke="none"/>'
         : "";
-      return '<svg viewBox="0 0 48 52" aria-hidden="true"><g fill="none" stroke="' + GOLD +
+      return '<svg viewBox="0 0 48 52" width="44" height="48" aria-hidden="true"><g fill="none" stroke="' + GOLD +
              '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">' +
              parts.join("") + "</g>" + starMark + "</svg>";
     }
@@ -397,11 +397,58 @@
              '<div class="rk-reps">' + rk.reps.toLocaleString("en-US") + "</div></div>";
     }
 
+    /* Scrollable carousel: auto-drifts, and the user can swipe (touch) or
+       drag (mouse) at any time; auto-drift pauses during interaction. */
+    var car = document.getElementById("rankCarousel");
     var track = document.getElementById("rankTrack");
-    if (track) {
+    if (track && car) {
       var cells = RANKS.map(rankCell).join("");
       track.innerHTML = cells + cells; /* duplicated for a seamless loop */
-      if (reduced) track.classList.add("static");
+
+      var pausedUntil = 0;
+      function pause(ms) { pausedUntil = Date.now() + ms; }
+
+      /* wrap-around: keep scroll position inside the first copy */
+      function wrap() {
+        var half = track.scrollWidth / 2;
+        if (half <= 0) return;
+        if (car.scrollLeft >= half) car.scrollLeft -= half;
+        else if (car.scrollLeft < 0) car.scrollLeft += half;
+      }
+
+      if (!reduced) {
+        (function drift() {
+          if (Date.now() > pausedUntil) {
+            car.scrollLeft += 0.6;
+            wrap();
+          }
+          requestAnimationFrame(drift);
+        })();
+      }
+
+      /* touch: native scroll, just pause the drift */
+      car.addEventListener("touchstart", function () { pause(4000); }, { passive: true });
+      car.addEventListener("scroll", function () { if (Date.now() > pausedUntil - 3500) wrap(); }, { passive: true });
+
+      /* mouse: drag to scroll */
+      var dragging = false, dragX = 0, dragStart = 0;
+      car.addEventListener("mousedown", function (e) {
+        dragging = true; dragX = e.pageX; dragStart = car.scrollLeft;
+        pause(4000);
+        car.classList.add("grabbing");
+        e.preventDefault();
+      });
+      window.addEventListener("mousemove", function (e) {
+        if (!dragging) return;
+        car.scrollLeft = dragStart - (e.pageX - dragX);
+        wrap();
+        dragStart = car.scrollLeft; dragX = e.pageX;
+      });
+      window.addEventListener("mouseup", function () {
+        dragging = false;
+        car.classList.remove("grabbing");
+      });
+      car.addEventListener("wheel", function () { pause(4000); }, { passive: true });
     }
 
     /* ---------- Scroll reveal ---------- */

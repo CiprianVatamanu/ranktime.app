@@ -357,22 +357,20 @@ main {
 .rank-carousel {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  overflow: hidden;
+  overflow-x: auto;
   padding: 8px 0 4px;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  cursor: grab;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
+.rank-carousel::-webkit-scrollbar { display: none; }
+.rank-carousel.grabbing { cursor: grabbing; }
 .rank-track {
   display: flex;
   gap: 14px;
   width: max-content;
-  animation: rankScroll 60s linear infinite;
-}
-.rank-carousel:hover .rank-track { animation-play-state: paused; }
-.rank-track.static { animation: none; }
-@keyframes rankScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
 }
 .rk-cell {
   width: 128px;
