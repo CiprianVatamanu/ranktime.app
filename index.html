@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RankTime - Interval Workout Timer</title>
-  <meta name="description" content="RankTime is an iPhone interval workout timer with camera rep detection, heart rate monitoring, and Apple Health sync.">
+  <meta name="description" content="RankTime is an iPhone interval workout timer with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ranktime.app/">
   <meta property="og:title" content="RankTime - Interval Workout Timer">
-  <meta property="og:description" content="RankTime is an iPhone interval workout timer with camera rep detection, heart rate monitoring, and Apple Health sync.">
+  <meta property="og:description" content="RankTime is an iPhone interval workout timer with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
   <meta property="og:image" content="https://ranktime.app/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RankTime - Interval Workout Timer">
-  <meta name="twitter:description" content="RankTime is an iPhone interval workout timer with camera rep detection, heart rate monitoring, and Apple Health sync.">
+  <meta name="twitter:description" content="RankTime is an iPhone interval workout timer with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
   <meta name="twitter:image" content="https://ranktime.app/og.png">
   <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -36,44 +37,179 @@
   </header>
 
   <main>
+    <!-- ============ HERO: Tabata ring, recreation of the app launch animation ============ -->
     <section class="hero">
-      <img class="app-mark" src="/logo.png" alt="RankTime app icon">
-      <h1>Your workout, timed to the second.</h1>
-      <p class="tagline">RankTime is an iPhone interval timer for guided workouts, with color cues, audio, haptics, camera rep counting, and heart rate tracking.</p>
-      <a class="cta" href="/support/">Get in touch</a>
+      <div class="ring-stage" id="ringStage" role="img" aria-label="RankTime Tabata ring animating: a gray circle splits into 20 second work and 10 second rest segments that fill with lime while the timer counts to four minutes">
+        <svg id="ringSvg" viewBox="0 0 360 360" width="330" height="330">
+          <g transform="rotate(-90 180 180)">
+            <circle id="ringGlow" cx="180" cy="180" r="160" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="15" stroke-linecap="round"></circle>
+            <circle id="ringGray" cx="180" cy="180" r="160" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="9" stroke-linecap="round"></circle>
+          </g>
+          <g id="ringSegments" transform="rotate(-90 180 180)"></g>
+        </svg>
+        <div class="ring-timer glass">
+          <svg class="ring-timer-border" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <rect id="timerBorder" x="1" y="2" width="98" height="96" rx="16" pathLength="100" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"></rect>
+          </svg>
+          <span id="ringTimer">00:00</span>
+          <small class="ring-label">TABATA &middot; 20 / 10</small>
+        </div>
+      </div>
+      <p class="ring-hint" id="ringHint">tap the ring to replay</p>
+
+      <h1 class="stencil">EVERY REP EARNS RANK</h1>
+      <p class="tagline">RankTime is an iPhone interval timer for guided workouts, with color cues, audio, haptics, camera rep counting, heart rate tracking, and a military service record that never resets.</p>
+      <a class="cta-glass" href="/support/">GET IN TOUCH</a>
     </section>
 
+    <!-- ============ QUICK FEATURES ============ -->
     <section class="features">
-      <div class="feature">
-        <h3><span class="dot">›</span> Interval training</h3>
+      <div class="feature reveal">
+        <h3><span class="dot">&rsaquo;</span> Interval training</h3>
         <p>Build templates with exercises, rounds, and durations. Time or reps mode, mixed or continuous order.</p>
       </div>
-      <div class="feature">
-        <h3><span class="dot">›</span> Camera rep counting</h3>
+      <div class="feature reveal">
+        <h3><span class="dot">&rsaquo;</span> Camera rep counting</h3>
         <p>Record your set while on-device Vision body pose tracking counts reps and paints live overlays.</p>
       </div>
-      <div class="feature">
-        <h3><span class="dot">›</span> Heart rate</h3>
+      <div class="feature reveal">
+        <h3><span class="dot">&rsaquo;</span> Heart rate</h3>
         <p>Live heart rate from a Polar H10, Apple Watch, or any Bluetooth chest strap, with five color zones.</p>
       </div>
-      <div class="feature">
-        <h3><span class="dot">›</span> Apple Health</h3>
+      <div class="feature reveal">
+        <h3><span class="dot">&rsaquo;</span> Apple Health</h3>
         <p>Completed workouts and heart rate samples save straight to Apple Health, with your permission.</p>
       </div>
-      <div class="feature">
-        <h3><span class="dot">›</span> iCloud sync</h3>
+      <div class="feature reveal">
+        <h3><span class="dot">&rsaquo;</span> iCloud sync</h3>
         <p>Presets, history, and body metrics sync privately across your devices through your own iCloud account.</p>
       </div>
-      <div class="feature">
-        <h3><span class="dot">›</span> Statistics</h3>
+      <div class="feature reveal">
+        <h3><span class="dot">&rsaquo;</span> Statistics</h3>
         <p>Track volume, calories, and progress per exercise over time, all stored on device.</p>
       </div>
+    </section>
+
+    <!-- ============ RANKINGS: full 21-tier carousel ============ -->
+    <section class="rank-section reveal">
+      <div class="mil-label">RANKINGS</div>
+      <h2 class="section-title stencil">21 RANKS. ONE LADDER.</h2>
+      <p class="section-sub">Every exercise climbs its own ladder modeled on US Army ranks. From Private at rep one to General of the Armies at 150,000 lifetime reps. Reps accumulate forever and never reset.</p>
+    </section>
+    <div class="rank-carousel reveal" id="rankCarousel" aria-label="All 21 ranks with rep thresholds">
+      <div class="rank-track" id="rankTrack"></div>
+    </div>
+
+    <!-- ============ ACHIEVEMENTS: real share cards ============ -->
+    <section class="cards-section reveal">
+      <div class="mil-label">ACHIEVEMENTS</div>
+      <h2 class="section-title stencil">YOUR SERVICE RECORD</h2>
+      <p class="section-sub">After every workout the app builds an achievement card: your rank, insignia, decorations, and the road to the next promotion. Share it straight from the app.</p>
+
+      <div class="card-gallery">
+        <img src="/assets/card_9901.jpg" alt="RankTime achievement card: Lieutenant Colonel, pushups at 22,152 reps, estimated promotion in 3 months" loading="lazy">
+        <img src="/assets/card_9899.jpg" class="gallery-center" alt="RankTime achievement card: Second Lieutenant, pullups at 8,896 reps, estimated promotion in 4 weeks" loading="lazy">
+        <img src="/assets/card_9900.jpg" alt="RankTime achievement card: Colonel, snatches at 34,768 reps, estimated promotion in 4 months" loading="lazy">
+      </div>
+      <p class="card-caption">Command suits you, Second Lieutenant.</p>
+    </section>
+
+    <!-- ============ DECORATIONS: medal ladder ============ -->
+    <section class="medal-section reveal">
+      <div class="mil-label">DECORATIONS</div>
+      <h2 class="section-title stencil">DECORATED FOR SHOWING UP</h2>
+      <p class="section-sub">Consistency earns medals. They are cumulative and never reset: take a break, your record stays, pick up where you left off.</p>
+
+      <div class="medal-ladder">
+        <div class="medal-row">
+          <img src="/assets/medal_achievement.png" alt="Achievement Medal">
+          <div class="medal-info"><strong>Achievement Medal</strong><span>1 workout day</span></div>
+        </div>
+        <div class="medal-row">
+          <img src="/assets/medal_commendation.png" alt="Commendation Medal">
+          <div class="medal-info"><strong>Commendation Medal</strong><span>1 week with 4 workout days</span></div>
+        </div>
+        <div class="medal-row">
+          <img src="/assets/medal_bronze_star.png" alt="Bronze Star">
+          <div class="medal-info"><strong>Bronze Star</strong><span>4 weeks</span></div>
+        </div>
+        <div class="medal-row">
+          <img src="/assets/medal_silver_star.png" alt="Silver Star">
+          <div class="medal-info"><strong>Silver Star</strong><span>16 weeks</span></div>
+        </div>
+        <div class="medal-row medal-row-honor">
+          <img src="/assets/medal_of_honor.png" alt="Medal of Honor">
+          <div class="medal-info"><strong>Medal of Honor</strong><span>64 weeks</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ANALYTICS / COACH / WIDGETS ============ -->
+    <section class="deep-section reveal">
+      <div class="mil-label">INTELLIGENCE</div>
+      <h2 class="section-title stencil">ANALYTICS AND PERFORMANCE</h2>
+      <p class="section-sub">Everything you log turns into intel: progress, trends, and marching orders.</p>
+
+      <div class="deep-grid">
+        <div class="mil-card reveal">
+          <div class="mil-card-head">PROGRESS</div>
+          <h3>Estimated promotion dates</h3>
+          <p>Per exercise, the app tracks lifetime reps, your recent pace, and projects when the next rank lands: promotion in 4 weeks, Colonel in 4 months. The bar keeps filling; the ladder keeps climbing.</p>
+          <div class="promo-bar">
+            <div class="promo-left"><span class="promo-abbr">2LT</span><span class="promo-thresh">7,500</span></div>
+            <div class="promo-track"><div class="promo-fill" id="promoFill"><span>8,896</span></div></div>
+            <div class="promo-right"><span class="promo-abbr">1LT</span><span class="promo-thresh">10,000</span></div>
+          </div>
+          <p class="promo-eta">estimated promotion in 4w</p>
+        </div>
+
+        <div class="mil-card reveal">
+          <div class="mil-card-head">ANALYTICS</div>
+          <h3>Reports for every exercise</h3>
+          <p>Volume, calories, weekly medal count, personal records, and heart rate zones, all charted over time. Filter history with your own labels, add notes, and export your data whenever you want. Stored on device.</p>
+        </div>
+
+        <div class="mil-card reveal">
+          <div class="mil-card-head">RECOMMENDATIONS</div>
+          <h3>A coach report after every session</h3>
+          <p>The coach reads your trend against past sessions, checks your streak, calls out what improved and what slipped, and closes with a word from command. Fifteen of them, none repeated until the bag is empty.</p>
+        </div>
+
+        <div class="mil-card reveal">
+          <div class="mil-card-head">WIDGETS</div>
+          <h3>Rank on your home screen</h3>
+          <p>The widget shows your current rank, lifetime reps, and exactly how many reps stand between you and the next promotion, with the estimated day it happens. Your medals line up right under it.</p>
+        </div>
+
+        <div class="mil-card reveal">
+          <div class="mil-card-head">VIDEO</div>
+          <h3>Progress video export</h3>
+          <p>Turn your body photos into a progress film where the rank insignia upgrades on the exact photo where you crossed the threshold. Watch yourself get promoted.</p>
+        </div>
+
+        <div class="mil-card reveal">
+          <div class="mil-card-head">RECORDING</div>
+          <h3>Overlays burned into your set</h3>
+          <p>Recordings carry live overlays: timer, next exercise, rep count, and heart rate zone color. Proof of work, rendered on device.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUOTE BAND ============ -->
+    <section class="quote-band reveal">
+      <blockquote class="quote" id="rankQuote" aria-live="polite">Every week a completed tour. Carry on, soldier.</blockquote>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="final-cta reveal">
+      <h2 class="section-title stencil">FALL IN.</h2>
+      <a class="cta-glass" href="/support/">GET IN TOUCH</a>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="inner">
-      <span>© 2026 RankTime</span>
+      <span>&copy; 2026 RankTime</span>
       <nav>
         <a href="/privacy/">Privacy</a>
         <a href="/terms/">Terms</a>
@@ -81,5 +217,241 @@
       </nav>
     </div>
   </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var svgNS = "http://www.w3.org/2000/svg";
+
+    /* ---------- Hero ring: Tabata 4:00, eight rounds of 20s work / 10s rest ----------
+       Phase 1: gray circle draws clockwise.
+       Phase 2: circle splits into interval segments.
+       Phase 3: segments fill with color while the timer counts up. */
+    var LIME = "#8bd706";
+    var R = 160, C = 2 * Math.PI * R;
+    var P1 = 1.0, P2 = 1.7, P3 = 3.0;
+    var TOTAL_SECONDS = 240;
+    var pattern = [];
+    for (var i = 0; i < 8; i++) {
+      pattern.push({ w: 20, work: true });
+      pattern.push({ w: 10, work: false });
+    }
+    var GAP_DEG = 2.6;
+
+    var glow = document.getElementById("ringGlow");
+    var gray = document.getElementById("ringGray");
+    var segG = document.getElementById("ringSegments");
+    var timerEl = document.getElementById("ringTimer");
+    var borderEl = document.getElementById("timerBorder");
+    var stage = document.getElementById("ringStage");
+    var hint = document.getElementById("ringHint");
+
+    var totalW = pattern.reduce(function (s, p) { return s + p.w; }, 0);
+    var usableDeg = 360 - GAP_DEG * pattern.length;
+    var segs = [];
+    var cursor = 0;
+    pattern.forEach(function (p) {
+      var deg = usableDeg * (p.w / totalW);
+      var len = C * (deg / 360);
+      var off = C * (cursor / 360);
+      var base = document.createElementNS(svgNS, "circle");
+      base.setAttribute("cx", 180); base.setAttribute("cy", 180); base.setAttribute("r", R);
+      base.setAttribute("fill", "none");
+      base.setAttribute("stroke", "rgba(255,255,255,0.22)");
+      base.setAttribute("stroke-width", 9);
+      base.setAttribute("stroke-linecap", "round");
+      base.setAttribute("stroke-dasharray", len + " " + (C - len));
+      base.setAttribute("stroke-dashoffset", -off);
+      segG.appendChild(base);
+      var fill = document.createElementNS(svgNS, "circle");
+      fill.setAttribute("cx", 180); fill.setAttribute("cy", 180); fill.setAttribute("r", R);
+      fill.setAttribute("fill", "none");
+      fill.setAttribute("stroke", p.work ? LIME : "rgba(255,255,255,0.45)");
+      fill.setAttribute("stroke-width", 9);
+      fill.setAttribute("stroke-linecap", "round");
+      fill.setAttribute("stroke-dasharray", "0 " + C);
+      fill.setAttribute("stroke-dashoffset", -off);
+      segG.appendChild(fill);
+      segs.push({ startDeg: cursor, deg: deg, len: len, fill: fill });
+      cursor += deg + GAP_DEG;
+    });
+
+    function fmt(s) {
+      var m = Math.floor(s / 60), r = s % 60;
+      return (m < 10 ? "0" : "") + m + ":" + (r < 10 ? "0" : "") + r;
+    }
+
+    function render(t) {
+      var draw = Math.min(1, t / P1);
+      var split = t <= P1 ? 0 : Math.min(1, (t - P1) / (P2 - P1));
+      var fillP = t <= P2 ? 0 : Math.min(1, (t - P2) / (P3 - P2));
+      gray.setAttribute("stroke-dasharray", (C * draw) + " " + C);
+      glow.setAttribute("stroke-dasharray", (C * draw) + " " + C);
+      gray.setAttribute("opacity", 1 - split);
+      glow.setAttribute("opacity", 1 - split);
+      segG.setAttribute("opacity", split);
+      var sweepDeg = fillP * 360;
+      segs.forEach(function (s) {
+        var frac = Math.min(1, Math.max(0, (sweepDeg - s.startDeg) / s.deg));
+        s.fill.setAttribute("stroke-dasharray", (s.len * frac) + " " + C);
+      });
+      timerEl.textContent = fmt(Math.round(Math.min(1, t / P3) * TOTAL_SECONDS));
+      borderEl.setAttribute("stroke-dasharray", (100 * Math.min(1, t / P1)) + " 100");
+    }
+
+    var raf = null, start = null;
+    function play() {
+      if (raf) cancelAnimationFrame(raf);
+      start = performance.now();
+      function tick(now) {
+        var t = (now - start) / 1000;
+        render(Math.min(t, P3));
+        if (t < P3) { raf = requestAnimationFrame(tick); } else { raf = null; }
+      }
+      raf = requestAnimationFrame(tick);
+    }
+
+    if (reduced) {
+      render(P3);
+      if (hint) hint.style.display = "none";
+    } else {
+      play();
+      stage.addEventListener("click", play);
+      stage.style.cursor = "pointer";
+    }
+
+    /* ---------- Rank carousel: all 21 tiers, straight from the app ---------- */
+    var RANKS = [
+      { abbr: "PVT", name: "Private", reps: 0, kind: "text" },
+      { abbr: "PV2", name: "Private Second Class", reps: 100, kind: "chev", c: 1, r: 0 },
+      { abbr: "PFC", name: "Private First Class", reps: 250, kind: "chev", c: 1, r: 1 },
+      { abbr: "CPL", name: "Corporal", reps: 500, kind: "chev", c: 2, r: 0 },
+      { abbr: "SGT", name: "Sergeant", reps: 1000, kind: "chev", c: 3, r: 0 },
+      { abbr: "SSG", name: "Staff Sergeant", reps: 2000, kind: "chev", c: 3, r: 1 },
+      { abbr: "SFC", name: "Sergeant First Class", reps: 3000, kind: "chev", c: 3, r: 2 },
+      { abbr: "MSG", name: "Master Sergeant", reps: 4000, kind: "chev", c: 3, r: 3 },
+      { abbr: "SGM", name: "Sergeant Major", reps: 5000, kind: "chev", c: 3, r: 3, star: true },
+      { abbr: "2LT", name: "Second Lieutenant", reps: 7500, kind: "img", src: "/assets/rank_2lt.svg" },
+      { abbr: "1LT", name: "First Lieutenant", reps: 10000, kind: "img", src: "/assets/rank_1lt.svg" },
+      { abbr: "CPT", name: "Captain", reps: 12500, kind: "img", src: "/assets/rank_captain.svg" },
+      { abbr: "MAJ", name: "Major", reps: 15000, kind: "img", src: "/assets/rank_oakleaf_gold.png" },
+      { abbr: "LTC", name: "Lieutenant Colonel", reps: 20000, kind: "img", src: "/assets/rank_oakleaf_silver.png" },
+      { abbr: "COL", name: "Colonel", reps: 30000, kind: "img", src: "/assets/rank_eagle_silver.png" },
+      { abbr: "BG", name: "Brigadier General", reps: 45000, kind: "img", src: "/assets/rank_bg.svg" },
+      { abbr: "MG", name: "Major General", reps: 60000, kind: "img", src: "/assets/rank_mg.svg" },
+      { abbr: "LTG", name: "Lieutenant General", reps: 80000, kind: "img", src: "/assets/rank_ltg.svg" },
+      { abbr: "GEN", name: "General", reps: 100000, kind: "img", src: "/assets/rank_gen.svg" },
+      { abbr: "GA", name: "General of the Army", reps: 125000, kind: "img", src: "/assets/rank_ga.svg" },
+      { abbr: "GAS", name: "General of the Armies", reps: 150000, kind: "img", src: "/assets/rank_gas.svg", max: true }
+    ];
+
+    function chevronSVG(c, r, star) {
+      var GOLD = "#d9b841";
+      var parts = [];
+      var y = 8;
+      for (var i = 0; i < c; i++) {
+        parts.push('<path d="M8 ' + (y + 7) + ' L24 ' + y + ' L40 ' + (y + 7) + '"/>');
+        y += 9;
+      }
+      y += 2;
+      for (var j = 0; j < r; j++) {
+        parts.push('<path d="M8 ' + y + ' Q24 ' + (y + 9) + ' 40 ' + y + '"/>');
+        y += 9;
+      }
+      var starMark = star
+        ? '<circle cx="24" cy="' + (8 + c * 9 / 2) + '" r="3" fill="' + GOLD + '" stroke="none"/>'
+        : "";
+      return '<svg viewBox="0 0 48 52" aria-hidden="true"><g fill="none" stroke="' + GOLD +
+             '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">' +
+             parts.join("") + "</g>" + starMark + "</svg>";
+    }
+
+    function rankCell(rk) {
+      var badge;
+      if (rk.kind === "text") {
+        badge = '<div class="rk-badge rk-badge-text">PVT</div>';
+      } else if (rk.kind === "chev") {
+        badge = '<div class="rk-badge">' + chevronSVG(rk.c, rk.r, rk.star) + "</div>";
+      } else {
+        badge = '<div class="rk-badge"><img src="' + rk.src + '" alt="" loading="lazy"></div>';
+      }
+      return '<div class="rk-cell' + (rk.max ? " rk-max" : "") + '">' + badge +
+             '<div class="rk-abbr">' + rk.abbr + "</div>" +
+             '<div class="rk-name">' + rk.name + "</div>" +
+             '<div class="rk-reps">' + rk.reps.toLocaleString("en-US") + "</div></div>";
+    }
+
+    var track = document.getElementById("rankTrack");
+    if (track) {
+      var cells = RANKS.map(rankCell).join("");
+      track.innerHTML = cells + cells; /* duplicated for a seamless loop */
+      if (reduced) track.classList.add("static");
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    var revealEls = document.querySelectorAll(".reveal");
+    if (reduced || !("IntersectionObserver" in window)) {
+      revealEls.forEach(function (el) { el.classList.add("in"); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(function (el) { io.observe(el); });
+    }
+
+    /* ---------- Promotion bar sweep (2LT at 8,896 of 10,000) ---------- */
+    var promo = document.getElementById("promoFill");
+    if (promo) {
+      if (reduced || !("IntersectionObserver" in window)) {
+        promo.classList.add("go");
+      } else {
+        var io2 = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              requestAnimationFrame(function () { promo.classList.add("go"); });
+              io2.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.5 });
+        io2.observe(promo.parentElement);
+      }
+    }
+
+    /* ---------- Rotating quotes, straight from the app ---------- */
+    var quotes = [
+      "Weeks of duty logged. Command salutes your service.",
+      "Every week a completed tour. Carry on, soldier.",
+      "Consistency is your chain of command. Keep obeying it.",
+      "Decorated for showing up. That is how campaigns are won.",
+      "Service record clean. March on.",
+      "Held the line week after week. Veteran material.",
+      "Boots on the ground, no leave requested. Salute.",
+      "That is a campaign, not a hobby. Press forward.",
+      "Earned in sweat, awarded in steel. Continue mission.",
+      "Your record speaks for itself at roll call. Stay sharp.",
+      "Enlisted for the long haul. The brass has noticed.",
+      "Discipline like this gets soldiers promoted. Keep rank.",
+      "Mission streak active. Do not break formation.",
+      "This is what dedication looks like on parade.",
+      "Tour of duty extended by choice. Highest respect."
+    ];
+    var quoteEl = document.getElementById("rankQuote");
+    if (quoteEl && !reduced) {
+      var qi = Math.floor(Math.random() * quotes.length);
+      quoteEl.textContent = quotes[qi];
+      setInterval(function () {
+        qi = (qi + 1) % quotes.length;
+        quoteEl.classList.add("fade");
+        setTimeout(function () {
+          quoteEl.textContent = quotes[qi];
+          quoteEl.classList.remove("fade");
+        }, 400);
+      }, 5000);
+    }
+  })();
+  </script>
 </body>
 </html>
