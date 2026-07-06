@@ -246,6 +246,7 @@ main {
   color: var(--text);
   letter-spacing: 0.14em;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.8);
+  text-transform: none;
 }
 .ring-stage {
   position: relative;
