@@ -3,22 +3,74 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RankTime - Interval Workout Timer</title>
+  <title>RankTime: HIIT Workout Timer for iPhone. Tabata, EMOM, Intervals</title>
   <meta name="description" content="RankTime is an iPhone HIIT timer for high intensity interval training: Tabata, EMOM, and custom intervals, with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ranktime.app/">
-  <meta property="og:title" content="RankTime - Interval Workout Timer">
+  <meta property="og:title" content="RankTime: HIIT Workout Timer for iPhone. Tabata, EMOM, Intervals">
   <meta property="og:description" content="RankTime is an iPhone HIIT timer for high intensity interval training: Tabata, EMOM, and custom intervals, with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
   <meta property="og:image" content="https://ranktime.app/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="RankTime - Interval Workout Timer">
+  <meta name="twitter:title" content="RankTime: HIIT Workout Timer for iPhone. Tabata, EMOM, Intervals">
   <meta name="twitter:description" content="RankTime is an iPhone HIIT timer for high intensity interval training: Tabata, EMOM, and custom intervals, with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
   <meta name="twitter:image" content="https://ranktime.app/og.png">
+  <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=3">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "RankTime",
+    "operatingSystem": "iOS",
+    "applicationCategory": "HealthApplication",
+    "description": "HIIT workout timer for iPhone: Tabata, EMOM, and custom intervals with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.",
+    "url": "https://ranktime.app/",
+    "image": "https://ranktime.app/og.png",
+    "author": { "@type": "Organization", "name": "RankTime", "url": "https://ranktime.app/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a HIIT timer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A HIIT timer is an interval timer built for high intensity interval training: short bursts of hard work separated by short rests. RankTime is a HIIT workout timer for iPhone that guides each interval with color, sound, and haptics, so you never have to look at the clock mid set." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a Tabata timer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Tabata is the classic HIIT protocol: 20 seconds of all-out work, 10 seconds of rest, repeated for 8 rounds, 4 minutes total. RankTime ships with Tabata as a preset." }
+      },
+      {
+        "@type": "Question",
+        "name": "What does EMOM mean?",
+        "acceptedAnswer": { "@type": "Answer", "text": "EMOM stands for every minute on the minute: you start a fixed set of work at the top of each minute and rest with whatever time is left. In RankTime you can run EMOM by time or give each exercise a rep target and let the app pace the session." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I build my own interval workout?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. RankTime is a fully custom interval timer: any number of exercises and rounds, your own work and rest durations, time mode or reps mode, and mixed or continuous exercise order. Presets sync across devices through iCloud." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the workout timer track heart rate?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. RankTime reads live heart rate from a Polar H10 chest strap, Apple Watch, or any Bluetooth heart rate sensor, shows five color zones during the workout, and saves the samples to Apple Health with your permission." }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes RankTime different from other interval timers?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Rank. Every rep you complete counts toward a 21-tier military rank ladder per exercise, with medals for consistency and shareable achievement cards." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -222,6 +274,39 @@
     <!-- ============ QUOTE BAND ============ -->
     <section class="quote-band reveal">
       <blockquote class="quote" id="rankQuote" aria-live="polite">Every week a completed tour. Carry on, soldier.</blockquote>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="faq-section reveal">
+      <div class="mil-label">BRIEFING</div>
+      <h2 class="section-title stencil">QUESTIONS</h2>
+
+      <div class="faq">
+        <details>
+          <summary>What is a HIIT timer?</summary>
+          <p>A HIIT timer is an interval timer built for high intensity interval training: short bursts of hard work separated by short rests. RankTime is a HIIT workout timer for iPhone that guides each interval with color, sound, and haptics, so you never have to look at the clock mid set.</p>
+        </details>
+        <details>
+          <summary>What is a Tabata timer?</summary>
+          <p>Tabata is the classic HIIT protocol: 20 seconds of all-out work, 10 seconds of rest, repeated for 8 rounds, 4 minutes total. RankTime ships with Tabata as a preset, and the ring on this page is exactly how the app draws it before you press play.</p>
+        </details>
+        <details>
+          <summary>What does EMOM mean?</summary>
+          <p>EMOM stands for every minute on the minute: you start a fixed set of work at the top of each minute and rest with whatever time is left. In RankTime you can run EMOM by time or give each exercise a rep target and let the app pace the session.</p>
+        </details>
+        <details>
+          <summary>Can I build my own interval workout?</summary>
+          <p>Yes. RankTime is a fully custom interval timer: any number of exercises and rounds, your own work and rest durations, time mode or reps mode, and mixed or continuous exercise order. Save it as a preset and it syncs across your devices through iCloud.</p>
+        </details>
+        <details>
+          <summary>Does the workout timer track heart rate?</summary>
+          <p>Yes. RankTime reads live heart rate from a Polar H10 chest strap, Apple Watch, or any Bluetooth heart rate sensor, shows five color zones during the workout, and saves the samples to Apple Health with your permission.</p>
+        </details>
+        <details>
+          <summary>What makes RankTime different from other interval timers?</summary>
+          <p>Rank. Every rep you complete counts toward a 21-tier military rank ladder per exercise, with medals for consistency and shareable achievement cards. The timer starts the workout; the service record keeps you coming back.</p>
+        </details>
+      </div>
     </section>
 
     <!-- ============ FINAL CTA ============ -->
