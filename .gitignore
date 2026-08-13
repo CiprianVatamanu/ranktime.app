@@ -1,0 +1,19 @@
+# ⚠️ This repo is PUBLIC and GitHub Pages serves the repo root.
+# Anything committed here is readable at https://ranktime.app/<file> too.
+
+# secrets / credentials
+.env
+.env.*
+SECRETS*.md
+*.local.md
+
+# AI assistant notes (infra details, not for public)
+CLAUDE.md
+.claude/
+
+# macOS
+.DS_Store
+
+# editor / local tooling
+.vscode/
+.idea/
