@@ -100,6 +100,10 @@
       var html = '';
 
       html += '<h2>Planned features</h2>';
+      // Newest first. The app can also sort by votes; this page has no vote data.
+      planned = planned.slice().sort(function (a, b) {
+        return String(b.added || '').localeCompare(String(a.added || ''));
+      });
       if (planned.length) {
         for (var i = 0; i < planned.length; i++) {
           var p = planned[i];
