@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15T18:05:00Z",
+  "generated": "2026-08-15T18:40:00Z",
   "versions": [],
   "planned": [
     {
@@ -8,7 +8,7 @@
       "added": "2026-08-15",
       "updated": "2026-08-15",
       "detail": "Run a whole workout from your wrist. Start, pause and finish without touching the phone, see the timer and the current exercise on the watch, and feel every interval change as a tap. Heart rate comes straight off the watch sensor, with no chest strap needed, and the watch motion sensors count your reps, so the camera becomes optional rather than required. Built to work on its own, so you can leave the phone in the bag and still get the full session saved to your history and to Apple Health.",
-      "note": "This is the biggest thing on the list and it will take a while. Watch rep counting has to be trained the same way the camera is, one exercise at a time, so expect it to arrive in pieces rather than all at once."
+      "note": "This is the next big step for RankTime, and the main thing being worked towards. It is a large build, so it will take time, but the plan is to ship it as one complete app rather than a piece at a time."
     },
     {
       "title": "AirPods rep counting",
