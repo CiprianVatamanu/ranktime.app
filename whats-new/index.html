@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What's New - RankTime</title>
+  <meta name="description" content="Everything that has shipped in RankTime, newest version first.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ranktime.app/whats-new/">
+  <meta property="og:title" content="What's New - RankTime">
+  <meta property="og:description" content="Everything that has shipped in RankTime, newest version first.">
+  <meta property="og:image" content="https://ranktime.app/og.png?v=3">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
+  <link rel="canonical" href="https://ranktime.app/whats-new/">
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="stylesheet" href="/styles.css?v=9">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand-link" href="/">
+        <img class="logo" src="/logo.png" alt="RankTime logo">
+        <div class="brand">RankTime</div>
+      </a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/support/">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="doc">
+    <h1>What's New</h1>
+    <p class="updated">Everything that has shipped, newest version first.</p>
+
+    <div id="content">
+      <p class="updated">Loading.</p>
+    </div>
+
+    <p class="updated" style="margin-top:40px">
+      Curious what is coming? See <a href="/whats-next/">What's Next</a>.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 RankTime</span>
+      <nav>
+        <a href="/whats-new/">What's New</a>
+        <a href="/whats-next/">What's Next</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/support/">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Content comes from /updates.json, the same file the iPhone app reads, so the
+    // site and the app can never disagree.
+    var esc = function (s) {
+      return String(s).replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    };
+
+    var prettyDate = function (iso) {
+      if (!iso) return '';
+      var parts = String(iso).split('-');
+      if (parts.length !== 3) return '';
+      var months = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+      var m = months[parseInt(parts[1], 10) - 1];
+      if (!m) return '';
+      return m + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+    };
+
+    var render = function (data) {
+      var versions = (data && data.versions) || [];
+      var host = document.getElementById('content');
+
+      if (!versions.length) {
+        host.innerHTML =
+          '<h2>Nothing here yet</h2>' +
+          '<p>RankTime has not had its first update yet. When one lands, ' +
+          'every change shows up on this page.</p>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < versions.length; i++) {
+        var v = versions[i];
+        var when = prettyDate(v.date);
+        html += '<h2>Version ' + esc(v.version) + '</h2>';
+        if (when) html += '<p class="updated">' + esc(when) + '</p>';
+        var items = v.items || [];
+        if (items.length) {
+          html += '<ul>';
+          for (var j = 0; j < items.length; j++) {
+            html += '<li>' + esc(items[j]) + '</li>';
+          }
+          html += '</ul>';
+        }
+      }
+      host.innerHTML = html;
+    };
+
+    fetch('/updates.json?t=' + Math.floor(Date.now() / 60000))
+      .then(function (r) { return r.json(); })
+      .then(render)
+      .catch(function () {
+        document.getElementById('content').innerHTML =
+          '<h2>Nothing here yet</h2>' +
+          '<p>The update list could not be loaded right now. Please try again in a moment.</p>';
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "generated": "2026-08-15",
+  "versions": [],
+  "planned": [
+    {
+      "title": "Starter exercises out of the box",
+      "detail": "A small set of ready trained exercises so rep counting works on day one, before you train your own."
+    },
+    {
+      "title": "ACFT support",
+      "detail": "Army Combat Fitness Test events as a workout preset, scored the way the test is scored."
+    }
+  ],
+  "knownIssues": []
+}
