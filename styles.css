@@ -733,6 +733,7 @@ main {
 .status-new { color: var(--muted); background: rgba(154, 154, 154, 0.15); }
 .status-in-progress { color: var(--gold); background: rgba(255, 204, 64, 0.15); }
 .status-implemented { color: var(--lime); background: rgba(139, 215, 6, 0.15); }
+.status-fixed { color: var(--lime); background: rgba(139, 215, 6, 0.15); }
 
 .dev-note {
   border-left: 2px solid rgba(139, 215, 6, 0.6);

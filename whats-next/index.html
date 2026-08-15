@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/whats-next/">
   <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="stylesheet" href="/styles.css?v=11">
+  <link rel="stylesheet" href="/styles.css?v=12">
 </head>
 <body>
   <header class="site-header">
@@ -136,11 +136,30 @@
       if (issues.length) {
         for (var j = 0; j < issues.length; j++) {
           var k = issues[j];
-          html += '<h3>' + esc(k.problem) + '</h3>';
+          var ikey = (k.status === 'fixed') ? 'fixed' : 'in-progress';
+          var ilabel = (ikey === 'fixed') ? 'Fixed' : 'In progress';
+          html += '<div class="plan-item">';
+          html += '<span class="status status-' + ikey + '">' + ilabel + '</span>';
+          html += '<h3 class="plan-title">' + esc(k.problem) + '</h3>';
           html += '<p><strong>Workaround:</strong> ' +
                   esc(k.workaround && k.workaround.length
                       ? k.workaround
                       : 'There is no workaround yet. A fix is on the way.') + '</p>';
+          if (k.note) {
+            html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
+                    '<p>' + esc(k.note) + '</p></div>';
+          }
+          var irows = '';
+          if (prettyDate(k.added)) {
+            irows += '<span class="stamp-row"><span class="stamp-label">Added</span>' +
+                     esc(prettyDate(k.added)) + '</span>';
+          }
+          if (prettyDate(k.updated)) {
+            irows += '<span class="stamp-row"><span class="stamp-label">Last update</span>' +
+                     esc(prettyDate(k.updated)) + '</span>';
+          }
+          if (irows) html += '<p class="plan-stamps">' + irows + '</p>';
+          html += '</div>';
         }
       } else {
         html += '<p>No known issues right now. If you have hit one, tell us at ' +
