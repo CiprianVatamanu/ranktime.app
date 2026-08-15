@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15T21:30:00Z",
+  "generated": "2026-08-15T22:15:00Z",
   "versions": [],
   "planned": [
     {
@@ -9,7 +9,8 @@
       "added": "2026-08-15",
       "updated": "2026-08-15",
       "detail": "Run a whole workout from your wrist. Start, pause and finish without touching the phone, see the timer and the current exercise on the watch, and feel every interval change as a tap. Heart rate comes straight off the watch sensor, with no chest strap needed, and the watch motion sensors count your reps, so the camera becomes optional rather than required. Built to work on its own, so you can leave the phone in the bag and still get the full session saved to your history and to Apple Health.",
-      "note": "This is the next big step for RankTime, and the main thing being worked towards. It is a large build, so it will take time, but the plan is to ship it as one complete app rather than a piece at a time."
+      "note": "This is the next big step for RankTime, and the main thing being worked towards. It is a large build, so it will take time, but the plan is to ship it as one complete app rather than a piece at a time.",
+      "requesters": []
     },
     {
       "id": "airpods-rep-counting",
@@ -18,7 +19,8 @@
       "added": "2026-08-15",
       "updated": "2026-08-15",
       "detail": "AirPods with motion sensors can feel your head and upper body move, which is enough to count reps on exercises like push ups, squats and sit ups. That means rep counting without setting up the camera and without wearing anything extra, useful when the phone is in a pocket or the room is too tight to frame yourself.",
-      "note": "Only AirPods with motion sensors can do this, so older models will not be supported. Accuracy will depend a lot on the exercise, and anything where your head barely moves is unlikely to work well."
+      "note": "Only AirPods with motion sensors can do this, so older models will not be supported. Accuracy will depend a lot on the exercise, and anything where your head barely moves is unlikely to work well.",
+      "requesters": []
     }
   ],
   "knownIssues": []

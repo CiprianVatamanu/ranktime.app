@@ -752,5 +752,7 @@ main {
 .dev-note p { color: var(--muted); font-size: 15px; margin-bottom: 0; }
 
 .plan-stamps { color: var(--muted); font-size: 13px; opacity: 0.75; }
+.requesters { color: var(--muted); font-size: 14px; }
+.requesters a { color: var(--lime); }
 .stamp-row { display: block; }
 .stamp-label { display: inline-block; min-width: 100px; opacity: 0.7; }

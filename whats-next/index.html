@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/whats-next/">
   <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="stylesheet" href="/styles.css?v=12">
+  <link rel="stylesheet" href="/styles.css?v=13">
 </head>
 <body>
   <header class="site-header">
@@ -94,6 +94,25 @@
       return 'New';
     };
 
+    // "Requested by Mike_92, anna.k". Only http and https links are ever rendered.
+    var requesterLine = function (list, verb) {
+      if (!list || !list.length) return '';
+      var parts = [];
+      for (var i = 0; i < list.length; i++) {
+        var p = list[i];
+        if (!p || !p.name) continue;
+        var name = esc(p.name);
+        var u = String(p.url || '');
+        if (/^https?:\/\//i.test(u)) {
+          parts.push('<a href="' + esc(u) + '" rel="nofollow noopener" target="_blank">' + name + '</a>');
+        } else {
+          parts.push(name);
+        }
+      }
+      if (!parts.length) return '';
+      return '<p class="requesters">' + verb + ' ' + parts.join(', ') + '</p>';
+    };
+
     var render = function (data) {
       var planned = (data && data.planned) || [];
       var issues = (data && data.knownIssues) || [];
@@ -112,6 +131,7 @@
                   esc(statusLabel(p.status)) + '</span>';
           html += '<h3 class="plan-title">' + esc(p.title) + '</h3>';
           if (p.detail) html += '<p>' + esc(p.detail) + '</p>';
+          html += requesterLine(p.requesters, 'Requested by');
           if (p.note) {
             html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
                     '<p>' + esc(p.note) + '</p></div>';
@@ -145,6 +165,7 @@
                   esc(k.workaround && k.workaround.length
                       ? k.workaround
                       : 'There is no workaround yet. A fix is on the way.') + '</p>';
+          html += requesterLine(k.requesters, 'Reported by');
           if (k.note) {
             html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
                     '<p>' + esc(k.note) + '</p></div>';
