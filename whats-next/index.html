@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/whats-next/">
   <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="stylesheet" href="/styles.css?v=10">
+  <link rel="stylesheet" href="/styles.css?v=11">
 </head>
 <body>
   <header class="site-header">
@@ -116,14 +116,16 @@
             html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
                     '<p>' + esc(p.note) + '</p></div>';
           }
-          var stamps = [];
-          if (prettyDate(p.added)) stamps.push('Added ' + prettyDate(p.added));
-          if (prettyDate(p.updated) && p.updated !== p.added) {
-            stamps.push('Updated ' + prettyDate(p.updated));
+          var rows = '';
+          if (prettyDate(p.added)) {
+            rows += '<span class="stamp-row"><span class="stamp-label">Added</span>' +
+                    esc(prettyDate(p.added)) + '</span>';
           }
-          if (stamps.length) {
-            html += '<p class="plan-stamps">' + esc(stamps.join('  \u00b7  ')) + '</p>';
+          if (prettyDate(p.updated)) {
+            rows += '<span class="stamp-row"><span class="stamp-label">Last update</span>' +
+                    esc(prettyDate(p.updated)) + '</span>';
           }
+          if (rows) html += '<p class="plan-stamps">' + rows + '</p>';
           html += '</div>';
         }
       } else {
