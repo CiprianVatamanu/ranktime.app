@@ -1,10 +1,14 @@
 {
-  "generated": "2026-08-15T16:45:00Z",
+  "generated": "2026-08-15T17:10:00Z",
   "versions": [],
   "planned": [
     {
-      "title": "Starter exercises out of the box",
-      "detail": "A small set of ready trained exercises so rep counting works on day one, before you train your own."
+      "title": "Apple Watch app",
+      "detail": "Run a whole workout from your wrist. Start, pause and finish without touching the phone, see the timer and the current exercise on the watch, and feel every interval change as a tap. Heart rate comes straight off the watch sensor, with no chest strap needed, and the watch motion sensors count your reps, so the camera becomes optional rather than required. Built to work on its own, so you can leave the phone in the bag and still get the full session saved to your history and to Apple Health."
+    },
+    {
+      "title": "AirPods rep counting",
+      "detail": "AirPods with motion sensors can feel your head and upper body move, which is enough to count reps on exercises like push ups, squats and sit ups. That means rep counting without setting up the camera and without wearing anything extra, useful when the phone is in a pocket or the room is too tight to frame yourself."
     }
   ],
   "knownIssues": []
