@@ -1,8 +1,9 @@
 {
-  "generated": "2026-08-15T18:40:00Z",
+  "generated": "2026-08-15T19:20:00Z",
   "versions": [],
   "planned": [
     {
+      "id": "apple-watch-app",
       "title": "Apple Watch app",
       "status": "new",
       "added": "2026-08-15",
@@ -11,6 +12,7 @@
       "note": "This is the next big step for RankTime, and the main thing being worked towards. It is a large build, so it will take time, but the plan is to ship it as one complete app rather than a piece at a time."
     },
     {
+      "id": "airpods-rep-counting",
       "title": "AirPods rep counting",
       "status": "new",
       "added": "2026-08-15",
