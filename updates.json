@@ -1,14 +1,22 @@
 {
-  "generated": "2026-08-15T17:10:00Z",
+  "generated": "2026-08-15T18:05:00Z",
   "versions": [],
   "planned": [
     {
       "title": "Apple Watch app",
-      "detail": "Run a whole workout from your wrist. Start, pause and finish without touching the phone, see the timer and the current exercise on the watch, and feel every interval change as a tap. Heart rate comes straight off the watch sensor, with no chest strap needed, and the watch motion sensors count your reps, so the camera becomes optional rather than required. Built to work on its own, so you can leave the phone in the bag and still get the full session saved to your history and to Apple Health."
+      "status": "new",
+      "added": "2026-08-15",
+      "updated": "2026-08-15",
+      "detail": "Run a whole workout from your wrist. Start, pause and finish without touching the phone, see the timer and the current exercise on the watch, and feel every interval change as a tap. Heart rate comes straight off the watch sensor, with no chest strap needed, and the watch motion sensors count your reps, so the camera becomes optional rather than required. Built to work on its own, so you can leave the phone in the bag and still get the full session saved to your history and to Apple Health.",
+      "note": "This is the biggest thing on the list and it will take a while. Watch rep counting has to be trained the same way the camera is, one exercise at a time, so expect it to arrive in pieces rather than all at once."
     },
     {
       "title": "AirPods rep counting",
-      "detail": "AirPods with motion sensors can feel your head and upper body move, which is enough to count reps on exercises like push ups, squats and sit ups. That means rep counting without setting up the camera and without wearing anything extra, useful when the phone is in a pocket or the room is too tight to frame yourself."
+      "status": "new",
+      "added": "2026-08-15",
+      "updated": "2026-08-15",
+      "detail": "AirPods with motion sensors can feel your head and upper body move, which is enough to count reps on exercises like push ups, squats and sit ups. That means rep counting without setting up the camera and without wearing anything extra, useful when the phone is in a pocket or the room is too tight to frame yourself.",
+      "note": "Only AirPods with motion sensors can do this, so older models will not be supported. Accuracy will depend a lot on the exercise, and anything where your head barely moves is unlikely to work well."
     }
   ],
   "knownIssues": []

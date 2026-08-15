@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/whats-next/">
   <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="stylesheet" href="/styles.css?v=9">
+  <link rel="stylesheet" href="/styles.css?v=10">
 </head>
 <body>
   <header class="site-header">
@@ -27,8 +27,8 @@
       </a>
       <nav>
         <a href="/">Home</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/terms/">Terms</a>
+        <a href="/whats-new/">What&#39;s New</a>
+        <a href="/whats-next/">What&#39;s Next</a>
         <a href="/support/">Support</a>
       </nav>
     </div>
@@ -70,6 +70,28 @@
       });
     };
 
+    var prettyDate = function (iso) {
+      if (!iso) return '';
+      var parts = String(iso).split('-');
+      if (parts.length !== 3) return '';
+      var months = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+      var m = months[parseInt(parts[1], 10) - 1];
+      if (!m) return '';
+      return m + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+    };
+
+    var statusKey = function (s) {
+      return (s === 'in-progress' || s === 'implemented') ? s : 'new';
+    };
+
+    var statusLabel = function (s) {
+      var key = statusKey(s);
+      if (key === 'in-progress') return 'In progress';
+      if (key === 'implemented') return 'Implemented';
+      return 'New';
+    };
+
     var render = function (data) {
       var planned = (data && data.planned) || [];
       var issues = (data && data.knownIssues) || [];
@@ -79,8 +101,24 @@
       if (planned.length) {
         for (var i = 0; i < planned.length; i++) {
           var p = planned[i];
-          html += '<h3>' + esc(p.title) + '</h3>';
+          html += '<div class="plan-item">';
+          html += '<span class="status status-' + esc(statusKey(p.status)) + '">' +
+                  esc(statusLabel(p.status)) + '</span>';
+          html += '<h3 class="plan-title">' + esc(p.title) + '</h3>';
           if (p.detail) html += '<p>' + esc(p.detail) + '</p>';
+          if (p.note) {
+            html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
+                    '<p>' + esc(p.note) + '</p></div>';
+          }
+          var stamps = [];
+          if (prettyDate(p.added)) stamps.push('Added ' + prettyDate(p.added));
+          if (prettyDate(p.updated) && p.updated !== p.added) {
+            stamps.push('Updated ' + prettyDate(p.updated));
+          }
+          if (stamps.length) {
+            html += '<p class="plan-stamps">' + esc(stamps.join('  \u00b7  ')) + '</p>';
+          }
+          html += '</div>';
         }
       } else {
         html += '<p>Nothing announced yet.</p>';

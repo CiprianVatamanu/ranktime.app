@@ -715,3 +715,39 @@ main {
   .promo-track { height: 30px; }
   .quote { font-size: 15px; }
 }
+
+/* ==================== What's Next: status, notes, stamps (#311) ==================== */
+
+.plan-item { margin-bottom: 30px; }
+.plan-item .plan-title { margin: 8px 0 8px; }
+
+.status {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+.status-new { color: var(--muted); background: rgba(154, 154, 154, 0.15); }
+.status-in-progress { color: var(--gold); background: rgba(255, 204, 64, 0.15); }
+.status-implemented { color: var(--lime); background: rgba(139, 215, 6, 0.15); }
+
+.dev-note {
+  border-left: 2px solid rgba(139, 215, 6, 0.6);
+  padding-left: 12px;
+  margin: 14px 0;
+}
+.dev-note-label {
+  display: block;
+  color: var(--lime);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.dev-note p { color: var(--muted); font-size: 15px; margin-bottom: 0; }
+
+.plan-stamps { color: var(--muted); font-size: 13px; opacity: 0.75; }
