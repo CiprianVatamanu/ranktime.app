@@ -16,9 +16,11 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/whats-next/">
   <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="stylesheet" href="/styles.css?v=13">
+  <link rel="stylesheet" href="/styles.css?v=14">
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="inner">
       <a class="brand-link" href="/">
@@ -28,7 +30,7 @@
       <nav>
         <a href="/">Home</a>
         <a href="/whats-new/">What&#39;s New</a>
-        <a href="/whats-next/">What&#39;s Next</a>
+        <a href="/whats-next/" aria-current="page">What&#39;s Next</a>
         <a href="/support/">Support</a>
       </nav>
     </div>
@@ -42,7 +44,7 @@
       <p class="updated">Loading.</p>
     </div>
 
-    <p class="updated" style="margin-top:40px">
+    <p class="callout">
       Want to vote for something on this list? Open RankTime on your iPhone, go to Settings and
       tap What's Next. Voting uses your iCloud account, so there is no sign up and no email needed.
       Missing something entirely? Write to <a href="mailto:feedback@ranktime.app">feedback@ranktime.app</a>.
@@ -124,9 +126,10 @@
         return String(b.added || '').localeCompare(String(a.added || ''));
       });
       if (planned.length) {
+        html += '<div class="plan-list">';
         for (var i = 0; i < planned.length; i++) {
           var p = planned[i];
-          html += '<div class="plan-item">';
+          html += '<div class="plan-item is-' + esc(statusKey(p.status)) + '">';
           html += '<span class="status status-' + esc(statusKey(p.status)) + '">' +
                   esc(statusLabel(p.status)) + '</span>';
           html += '<h3 class="plan-title">' + esc(p.title) + '</h3>';
@@ -148,17 +151,19 @@
           if (rows) html += '<p class="plan-stamps">' + rows + '</p>';
           html += '</div>';
         }
+        html += '</div>';
       } else {
         html += '<p>Nothing announced yet.</p>';
       }
 
       html += '<h2>Known issues</h2>';
       if (issues.length) {
+        html += '<div class="plan-list">';
         for (var j = 0; j < issues.length; j++) {
           var k = issues[j];
           var ikey = (k.status === 'fixed') ? 'fixed' : 'in-progress';
           var ilabel = (ikey === 'fixed') ? 'Fixed' : 'In progress';
-          html += '<div class="plan-item">';
+          html += '<div class="plan-item is-' + ikey + '">';
           html += '<span class="status status-' + ikey + '">' + ilabel + '</span>';
           html += '<h3 class="plan-title">' + esc(k.problem) + '</h3>';
           html += '<p><strong>Workaround:</strong> ' +
@@ -182,6 +187,7 @@
           if (irows) html += '<p class="plan-stamps">' + irows + '</p>';
           html += '</div>';
         }
+        html += '</div>';
       } else {
         html += '<p>No known issues right now. If you have hit one, tell us at ' +
                 '<a href="mailto:support@ranktime.app">support@ranktime.app</a>.</p>';

@@ -16,9 +16,11 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/whats-new/">
   <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="stylesheet" href="/styles.css?v=13">
+  <link rel="stylesheet" href="/styles.css?v=14">
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="inner">
       <a class="brand-link" href="/">
@@ -27,7 +29,7 @@
       </a>
       <nav>
         <a href="/">Home</a>
-        <a href="/whats-new/">What&#39;s New</a>
+        <a href="/whats-new/" aria-current="page">What&#39;s New</a>
         <a href="/whats-next/">What&#39;s Next</a>
         <a href="/support/">Support</a>
       </nav>
@@ -42,7 +44,7 @@
       <p class="updated">Loading.</p>
     </div>
 
-    <p class="updated" style="margin-top:40px">
+    <p class="callout">
       Curious what is coming? See <a href="/whats-next/">What's Next</a>.
     </p>
   </main>
@@ -80,22 +82,33 @@
       return m + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
     };
 
+    // The app mark, idle, for the empty state.
+    var mark =
+      '<svg viewBox="0 0 1024 1024" aria-hidden="true">' +
+      '<path d="M258.06 737.81A310 310 0 0 1 458.17 254.71" fill="none" stroke="#8e8e93" stroke-width="70" stroke-linecap="round"/>' +
+      '<path d="M565.83 254.71A310 310 0 1 1 334.19 813.94" fill="none" stroke="#b0e64a" stroke-width="70" stroke-linecap="round"/>' +
+      '<rect x="452" y="160" width="120" height="50" rx="25" fill="#fff"/>' +
+      '<line x1="512" y1="322" x2="512" y2="537" stroke="#fff" stroke-width="44" stroke-linecap="round"/></svg>';
+
+    var empty = function (text) {
+      return '<div class="empty-state">' + mark + '<h2>Nothing here yet</h2><p>' + text + '</p></div>';
+    };
+
     var render = function (data) {
       var versions = (data && data.versions) || [];
       var host = document.getElementById('content');
 
       if (!versions.length) {
-        host.innerHTML =
-          '<h2>Nothing here yet</h2>' +
-          '<p>RankTime has not had its first update yet. When one lands, ' +
-          'every change shows up on this page.</p>';
+        host.innerHTML = empty('RankTime has not had its first update yet. When one lands, ' +
+                               'every change shows up on this page.');
         return;
       }
 
-      var html = '';
+      var html = '<div class="timeline">';
       for (var i = 0; i < versions.length; i++) {
         var v = versions[i];
         var when = prettyDate(v.date);
+        html += '<article class="tl-item"><div class="tl-card">';
         html += '<h2>Version ' + esc(v.version) + '</h2>';
         if (when) html += '<p class="updated">' + esc(when) + '</p>';
         var items = v.items || [];
@@ -106,8 +119,9 @@
           }
           html += '</ul>';
         }
+        html += '</div></article>';
       }
-      host.innerHTML = html;
+      host.innerHTML = html + '</div>';
     };
 
     fetch('/updates.json?t=' + Math.floor(Date.now() / 60000))
@@ -115,8 +129,7 @@
       .then(render)
       .catch(function () {
         document.getElementById('content').innerHTML =
-          '<h2>Nothing here yet</h2>' +
-          '<p>The update list could not be loaded right now. Please try again in a moment.</p>';
+          empty('The update list could not be loaded right now. Please try again in a moment.');
       });
   </script>
 </body>

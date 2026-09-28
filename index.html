@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RankTime: HIIT Workout Timer for iPhone. Tabata, EMOM, Intervals</title>
   <meta name="description" content="RankTime is an iPhone HIIT timer for high intensity interval training: Tabata, EMOM, and custom intervals, with camera rep detection, heart rate monitoring, military rank progression, and Apple Health sync.">
+  <meta name="theme-color" content="#000000">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ranktime.app/">
   <meta property="og:title" content="RankTime: HIIT Workout Timer for iPhone. Tabata, EMOM, Intervals">
@@ -19,7 +20,8 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=13">
+  <link rel="stylesheet" href="/styles.css?v=14">
+  <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -72,7 +74,9 @@
   }
   </script>
 </head>
-<body>
+<body class="home">
+  <div class="ambient" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="inner">
       <a class="brand-link" href="/">
@@ -80,7 +84,7 @@
         <div class="brand">RankTime</div>
       </a>
       <nav>
-        <a href="/">Home</a>
+        <a href="/" aria-current="page">Home</a>
         <a href="/whats-new/">What&#39;s New</a>
         <a href="/whats-next/">What&#39;s Next</a>
         <a href="/support/">Support</a>
@@ -89,233 +93,480 @@
   </header>
 
   <main>
-    <!-- ============ HERO: app logo and wordmark, like the launch splash ============ -->
-    <section class="hero">
-      <div class="hero-mark">
-        <img class="app-mark" src="/logo.png" alt="RankTime app icon">
-        <div class="hero-wordmark stencil">RankTime</div>
-      </div>
+    <!-- ============ HERO: the app mark, drawn live, like the launch splash ============ -->
+    <section class="hero" id="hero">
+      <div class="hero-mist" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="wrap hero-inner">
+        <div class="hero-stage" id="heroStage">
+          <svg class="hero-orbit" id="heroOrbit" viewBox="0 0 1000 1000" aria-hidden="true"></svg>
+          <svg class="hero-mark" id="heroMark" viewBox="0 0 1024 1024" role="img" aria-label="RankTime app icon">
+            <defs>
+              <filter id="hmBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="26"/></filter>
+            </defs>
+            <circle class="hm-track" cx="512" cy="560" r="310"/>
+            <g class="hm-glow" filter="url(#hmBlur)">
+              <path class="hm-arc hm-grey" pathLength="1" d="M258.06 737.81A310 310 0 0 1 458.17 254.71"/>
+              <path class="hm-arc hm-lime" pathLength="1" d="M565.83 254.71A310 310 0 1 1 334.19 813.94"/>
+            </g>
+            <path class="hm-arc hm-grey" pathLength="1" d="M258.06 737.81A310 310 0 0 1 458.17 254.71"/>
+            <path class="hm-arc hm-lime" pathLength="1" d="M565.83 254.71A310 310 0 1 1 334.19 813.94"/>
+            <rect class="hm-crown" x="452" y="160" width="120" height="50" rx="25"/>
+            <g class="hm-hand" id="heroHand"><line x1="512" y1="322" x2="512" y2="537"/></g>
+          </svg>
+        </div>
 
-      <h1 class="stencil">EVERY REP EARNS RANK</h1>
-      <p class="tagline">RankTime is an iPhone timer for HIIT, high intensity interval training: Tabata, EMOM, and custom intervals, with camera rep counting, heart rate tracking, and a military service record that never resets.</p>
-      <a class="cta-glass" href="/support/">GET IN TOUCH</a>
+        <div class="hero-wordmark stencil hero-in" style="--i:0">RankTime</div>
+        <h1 class="stencil hero-in" style="--i:1">EVERY REP EARNS RANK</h1>
+        <p class="tagline hero-in" style="--i:2">RankTime is an iPhone timer for HIIT, high intensity interval training: Tabata, EMOM, and custom intervals, with camera rep counting, heart rate tracking, and a military service record that never resets.</p>
+        <div class="hero-in" style="--i:3"><a class="cta-glass" href="/support/">GET IN TOUCH</a></div>
+      </div>
+      <a class="scroll-cue" href="#modes" aria-label="Scroll to modes"><span></span></a>
     </section>
 
-    <!-- ============ MODES: real app screens ============ -->
-    <section class="modes-section reveal">
-      <div class="mil-label">MODES</div>
-      <h2 class="section-title stencil">TIME OR REPS</h2>
-      <p class="section-sub">Built for high intensity interval training. Count the clock down, or count the reps up. Same ring, two currencies.</p>
-
-      <div class="modes-grid">
-        <figure class="mode-fig reveal">
-          <img src="/assets/mode_time.jpg" alt="RankTime in TIME mode: a Tabata preset with a 4 minute segmented ring, 20 seconds work and 10 seconds rest over 8 rounds">
-          <figcaption>
-            <strong class="stencil">TIME</strong>
-            <span>Intervals on the clock. Tabata 20/10, EMOM (every minute on the minute), or your own work and rest pattern, up to any number of rounds and exercises. The ring shows every interval before you press play.</span>
-          </figcaption>
-        </figure>
-        <figure class="mode-fig reveal">
-          <img src="/assets/mode_reps.jpg" alt="RankTime in REPS mode: an EMOM preset targeting 100 reps shown in the segmented ring">
-          <figcaption>
-            <strong class="stencil">REPS</strong>
-            <span>Targets instead of timers. Set rep goals per exercise and the app paces the session around them, counting every rep with the camera or your Polar H10.</span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- ============ QUICK FEATURES ============ -->
-    <section class="features">
-      <div class="feature reveal">
-        <h3><span class="dot">&rsaquo;</span> HIIT intervals</h3>
-        <p>Tabata, EMOM, or your own templates with exercises, rounds, and durations. Time or reps mode, mixed or continuous order.</p>
-      </div>
-      <div class="feature reveal">
-        <h3><span class="dot">&rsaquo;</span> Camera rep counting</h3>
-        <p>Record your set while on-device Vision body pose tracking counts reps and paints live overlays.</p>
-      </div>
-      <div class="feature reveal">
-        <h3><span class="dot">&rsaquo;</span> Heart rate</h3>
-        <p>Live heart rate from a Polar H10, Apple Watch, or any Bluetooth chest strap, with five color zones.</p>
-      </div>
-      <div class="feature reveal">
-        <h3><span class="dot">&rsaquo;</span> Apple Health</h3>
-        <p>Completed workouts and heart rate samples save straight to Apple Health, with your permission.</p>
-      </div>
-      <div class="feature reveal">
-        <h3><span class="dot">&rsaquo;</span> iCloud sync</h3>
-        <p>Presets, history, and body metrics sync privately across your devices through your own iCloud account.</p>
-      </div>
-      <div class="feature reveal">
-        <h3><span class="dot">&rsaquo;</span> Statistics</h3>
-        <p>Track volume, calories, and progress per exercise over time, all stored on device.</p>
+    <!-- ============ STATS ============ -->
+    <section class="stats-strip">
+      <div class="wrap stats">
+        <div class="stat reveal" style="--i:0"><span class="stat-num" data-count="21">21</span><span class="stat-label">Ranks per exercise</span></div>
+        <div class="stat reveal" style="--i:1"><span class="stat-num" data-count="150000">150,000</span><span class="stat-label">Reps to the top</span></div>
+        <div class="stat reveal" style="--i:2"><span class="stat-num" data-count="5">5</span><span class="stat-label">Decorations</span></div>
       </div>
     </section>
 
-    <!-- ============ RANKINGS: full 21-tier carousel ============ -->
-    <section class="rank-section reveal">
-      <div class="mil-label">RANKINGS</div>
-      <h2 class="section-title stencil">21 RANKS. ONE LADDER.</h2>
-      <p class="section-sub">Every exercise climbs its own ladder modeled on US Army ranks. From Private at rep one to General of the Armies at 150,000 lifetime reps. Reps accumulate forever and never reset.</p>
+    <!-- ============ MODES: the app's ring, live ============ -->
+    <section class="sec modes-section" id="modes">
+      <div class="wrap modes-grid">
+        <div class="modes-copy">
+          <header class="sec-head sec-head-left reveal">
+            <div class="mil-label">MODES</div>
+            <h2 class="section-title stencil">TIME OR REPS</h2>
+            <p class="section-sub">Built for high intensity interval training. Count the clock down, or count the reps up. Same ring, two currencies.</p>
+          </header>
+
+          <div class="mode-cards reveal" style="--i:1">
+            <button class="mode-card is-active" type="button" data-mode="time" aria-pressed="true">
+              <strong class="stencil">TIME</strong>
+              <span>Intervals on the clock. Tabata 20/10, EMOM (every minute on the minute), or your own work and rest pattern, up to any number of rounds and exercises. The ring shows every interval before you press play.</span>
+            </button>
+            <button class="mode-card" type="button" data-mode="reps" aria-pressed="false">
+              <strong class="stencil">REPS</strong>
+              <span>Targets instead of timers. Set rep goals per exercise and the app paces the session around them, counting every rep with the camera or your Polar H10.</span>
+            </button>
+          </div>
+          <div class="preset-row reveal" style="--i:2">
+            <span class="preset-row-label">Presets</span>
+            <span id="presetChips" class="preset-row"></span>
+          </div>
+        </div>
+
+        <div class="phone-col reveal" style="--i:1">
+          <div class="phone" id="phone">
+            <div class="phone-screen">
+              <div class="ph-island"></div>
+              <span class="ph-glass ph-circle ph-menu" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8h14M5 12h14M5 16h14"/></svg></span>
+              <button class="ph-glass ph-pill" id="phPill" type="button" aria-label="Switch between time and reps"><span id="phMode">TIME</span></button>
+              <span class="ph-glass ph-circle ph-edit" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/></svg></span>
+              <div class="ph-dots" aria-hidden="true"><i></i><i class="on"></i></div>
+              <div class="ph-slide" id="phSlide">
+                <div class="ph-preset" id="phPreset">TABATA</div>
+                <div class="ph-ring" id="phRing">
+                  <canvas class="ph-glow" aria-hidden="true"></canvas>
+                  <canvas class="ph-arcs" aria-hidden="true"></canvas>
+                  <div class="ph-center"><span class="ph-value" id="phValue">04:00</span></div>
+                  <span class="ph-phase" id="phPhase" aria-hidden="true"></span>
+                </div>
+              </div>
+              <button class="ph-glass ph-play" id="phPlay" type="button" aria-label="Play a sped up run"></button>
+              <div class="ph-tabs" id="phTabs" aria-hidden="true"></div>
+            </div>
+          </div>
+          <p class="phone-hint">Switch modes, pick a preset, press play.</p>
+        </div>
+      </div>
     </section>
-    <div class="rank-carousel reveal" id="rankCarousel" aria-label="All 21 ranks with rep thresholds">
-      <div class="rank-track" id="rankTrack"></div>
-    </div>
+
+    <!-- ============ FEATURES: one live visual each ============ -->
+    <section class="sec features-section">
+      <div class="wrap bento">
+        <article class="feature reveal" style="--i:0">
+          <div class="f-visual iv" aria-hidden="true">
+            <div class="iv-meta"><b>TABATA</b><span>20/10 &times; 8</span></div>
+            <div class="iv-strip">
+              <div class="iv-row"><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i></div>
+              <div class="iv-row lit"><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i><i class="w"></i><i class="r"></i></div>
+              <div class="iv-head"></div>
+            </div>
+            <div class="iv-clock"><span>00:00</span><span>04:00</span></div>
+          </div>
+          <h3><span class="dot">&rsaquo;</span> HIIT intervals</h3>
+          <p>Tabata, EMOM, or your own templates with exercises, rounds, and durations. Time or reps mode, mixed or continuous order.</p>
+        </article>
+
+        <article class="feature span-4 reveal" style="--i:1">
+          <div class="f-visual cam" id="camDemo" aria-hidden="true">
+            <div class="cam-view">
+              <svg class="pose" viewBox="40 14 220 170" preserveAspectRatio="xMidYMid meet">
+                <path class="bracket" d="M66 38V24h14M220 24h14v14M234 164v14h-14M80 178H66v-14"/>
+                <line class="floor" x1="84" y1="176" x2="216" y2="176"/>
+                <line class="bone" data-b="S E"/>
+                <line class="bone" data-b="E W"/>
+                <line class="bone" data-b="S H"/>
+                <line class="bone" data-b="H K"/>
+                <line class="bone" data-b="K A"/>
+                <line class="bone" data-b="A T"/>
+                <circle class="head" data-j="N" r="9"/>
+                <circle class="joint" data-j="S" r="3.6"/>
+                <circle class="joint" data-j="E" r="3.6"/>
+                <circle class="joint" data-j="W" r="3.6"/>
+                <circle class="joint" data-j="H" r="3.6"/>
+                <circle class="joint" data-j="K" r="3.6"/>
+                <circle class="joint" data-j="A" r="3.6"/>
+              </svg>
+              <div class="cam-rec">REC <span id="camTime">00:37</span></div>
+              <div class="cam-hud"><span>KNEE <b id="camKnee">176&deg;</b></span><span>HIP <b id="camHip">178&deg;</b></span><span>DEPTH <b id="camDepth">0%</b></span></div>
+              <div class="cam-wave"><svg viewBox="0 0 300 46" preserveAspectRatio="none"><g id="camMarks"></g><polyline class="sig" id="camSig" vector-effect="non-scaling-stroke" points=""/></svg></div>
+            </div>
+            <div class="cam-side">
+              <div class="cam-count" id="camCount">12</div>
+              <div class="cam-label">REPS</div>
+              <div class="cam-ex">SQUATS</div>
+            </div>
+          </div>
+          <h3><span class="dot">&rsaquo;</span> Camera rep counting</h3>
+          <p>Record your set while on-device Vision body pose tracking counts reps and paints live overlays.</p>
+        </article>
+
+        <article class="feature span-4 reveal" style="--i:0">
+          <div class="f-visual hr" id="hrDemo" aria-hidden="true">
+            <div class="hr-read">
+              <div><span class="hr-bpm" id="hrBpm">142</span><span class="hr-unit">BPM</span></div>
+              <div class="hr-zone" id="hrZone">ZONE 3 &middot; MODERATE</div>
+            </div>
+            <div class="hr-trace">
+              <svg viewBox="0 0 400 150" preserveAspectRatio="none">
+                <g class="hr-grid"><line x1="0" y1="30" x2="400" y2="30" vector-effect="non-scaling-stroke"/><line x1="0" y1="75" x2="400" y2="75" vector-effect="non-scaling-stroke"/><line x1="0" y1="120" x2="400" y2="120" vector-effect="non-scaling-stroke"/></g>
+                <path class="hr-line" id="hrLine" vector-effect="non-scaling-stroke" d=""/>
+              </svg>
+            </div>
+            <div class="hr-zones" id="hrZones"><i></i><i></i><i class="on"></i><i></i><i></i></div>
+          </div>
+          <h3><span class="dot">&rsaquo;</span> Heart rate</h3>
+          <p>Live heart rate from a Polar H10, Apple Watch, or any Bluetooth chest strap, with five color zones.</p>
+        </article>
+
+        <article class="feature reveal" style="--i:1">
+          <div class="f-visual hk" aria-hidden="true">
+            <div class="hk-heart"><svg viewBox="0 0 24 24"><path d="M12 21s-7.6-4.7-9.7-9.3C.8 8.3 3 4.4 6.7 4.4c2.1 0 3.6 1.2 4.4 2.5.2.3.6.3.8 0 .8-1.3 2.3-2.5 4.4-2.5 3.7 0 5.9 3.9 4.4 7.3C18.6 16.3 12 21 12 21z"/></svg></div>
+            <div class="hk-rows">
+              <div class="hk-row"><span class="hk-check">&#10003;</span>Workout</div>
+              <div class="hk-row"><span class="hk-check">&#10003;</span>Heart rate samples</div>
+            </div>
+          </div>
+          <h3><span class="dot">&rsaquo;</span> Apple Health</h3>
+          <p>Completed workouts and heart rate samples save straight to Apple Health, with your permission.</p>
+        </article>
+
+        <article class="feature span-3 reveal" style="--i:0">
+          <div class="f-visual sync" aria-hidden="true">
+            <svg viewBox="0 0 320 130">
+              <rect class="dev" x="22" y="20" width="50" height="90" rx="11"/>
+              <rect class="dev-screen" x="28" y="28" width="38" height="70" rx="6"/>
+              <rect class="dev-bar" x="34" y="40" width="26" height="4" rx="2"/>
+              <rect class="dev-bar" x="34" y="50" width="18" height="4" rx="2" opacity=".5"/>
+              <rect class="dev-bar" x="34" y="60" width="22" height="4" rx="2" opacity=".3"/>
+              <rect class="dev" x="248" y="20" width="50" height="90" rx="11"/>
+              <rect class="dev-screen" x="254" y="28" width="38" height="70" rx="6"/>
+              <rect class="dev-bar" x="260" y="40" width="26" height="4" rx="2"/>
+              <rect class="dev-bar" x="260" y="50" width="18" height="4" rx="2" opacity=".5"/>
+              <rect class="dev-bar" x="260" y="60" width="22" height="4" rx="2" opacity=".3"/>
+              <path class="link" d="M76 58C100 58 110 56 128 56"/>
+              <path class="link back" d="M76 72C100 72 110 74 128 74"/>
+              <path class="link" d="M192 56C210 56 220 58 244 58"/>
+              <path class="link back" d="M192 74C210 74 220 72 244 72"/>
+              <g transform="translate(128 26) scale(2.67)">
+                <path class="cloud" vector-effect="non-scaling-stroke" d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                <rect class="lock" vector-effect="non-scaling-stroke" x="8.6" y="12.6" width="6.8" height="5" rx="1"/>
+                <path class="lock" vector-effect="non-scaling-stroke" d="M10 12.6v-1.5a2 2 0 0 1 4 0v1.5"/>
+              </g>
+            </svg>
+          </div>
+          <h3><span class="dot">&rsaquo;</span> iCloud sync</h3>
+          <p>Presets, history, and body metrics sync privately across your devices through your own iCloud account.</p>
+        </article>
+
+        <article class="feature span-3 reveal" style="--i:1">
+          <div class="f-visual mc" id="mcDemo" aria-hidden="true">
+            <div class="mc-top"><span class="mc-title">PUSHUPS</span><span class="mc-pill"><b>149 reps</b> &middot; 35 reps/min</span></div>
+            <div class="mc-plot">
+              <div class="mc-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="mc-avg"><span>avg</span></div>
+            </div>
+          </div>
+          <h3><span class="dot">&rsaquo;</span> Statistics</h3>
+          <p>Track volume, calories, and progress per exercise over time, all stored on device.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ RANKINGS: drag through all 21 tiers ============ -->
+    <section class="sec rank-section" id="ranks">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <div class="mil-label">RANKINGS</div>
+          <h2 class="section-title stencil">21 RANKS. ONE LADDER.</h2>
+          <p class="section-sub">Every exercise climbs its own ladder modeled on US Army ranks. From Private at rep one to General of the Armies at 150,000 lifetime reps. Reps accumulate forever and never reset.</p>
+        </header>
+
+        <div class="promo-sim reveal" id="promoSim">
+          <div class="ps-card">
+            <div class="ps-top"><span>Achievements</span><span>Pullups</span></div>
+            <div class="ps-name stencil" id="psName">Private</div>
+            <div class="ps-insignia" id="psInsignia"></div>
+            <div class="ps-bar">
+              <div class="ps-fill" id="psFill"></div>
+              <div class="ps-end"><span class="ps-abbr" id="psCurAbbr">PVT</span><span class="ps-mini" id="psCurIcon"></span><span class="ps-th" id="psCurTh">0</span></div>
+              <div class="ps-mid"><span class="ps-ex">PULLUPS</span><span class="ps-reps" id="psReps">0</span><span class="ps-eta" id="psEta">100 reps to Private Second Class</span></div>
+              <div class="ps-end"><span class="ps-abbr" id="psNextAbbr">PV2</span><span class="ps-mini" id="psNextIcon"></span><span class="ps-th" id="psNextTh">100</span></div>
+            </div>
+          </div>
+          <div class="ps-control">
+            <div class="ps-control-head"><label for="psSlider">LIFETIME REPS</label><output id="psOut" for="psSlider">0</output></div>
+            <input class="ps-slider" id="psSlider" type="range" min="0" max="2000" step="1" value="0">
+            <div class="ps-ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="ps-scale"><span>PRIVATE</span><span>GENERAL OF THE ARMIES</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="ladder reveal" id="ladder" aria-label="All 21 ranks with rep thresholds"><div class="ladder-track" id="ladderTrack"></div></div>
+    </section>
 
     <!-- ============ ACHIEVEMENTS: real share cards ============ -->
-    <section class="cards-section reveal">
-      <div class="mil-label">ACHIEVEMENTS</div>
-      <h2 class="section-title stencil">YOUR SERVICE RECORD</h2>
-      <p class="section-sub">After every workout the app builds an achievement card: your rank, insignia, decorations, and the road to the next promotion. Share it straight from the app.</p>
+    <section class="sec cards-section">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <div class="mil-label">ACHIEVEMENTS</div>
+          <h2 class="section-title stencil">YOUR SERVICE RECORD</h2>
+          <p class="section-sub">After every workout the app builds an achievement card: your rank, insignia, decorations, and the road to the next promotion. Share it straight from the app.</p>
+        </header>
 
-      <div class="card-gallery">
-        <img src="/assets/card_9901.jpg" alt="RankTime achievement card: Lieutenant Colonel, pushups at 22,152 reps, estimated promotion in 3 months" loading="lazy">
-        <img src="/assets/card_9899.jpg" class="gallery-center" alt="RankTime achievement card: Second Lieutenant, pullups at 8,896 reps, estimated promotion in 4 weeks" loading="lazy">
-        <img src="/assets/card_9900.jpg" alt="RankTime achievement card: Colonel, snatches at 34,768 reps, estimated promotion in 4 months" loading="lazy">
-      </div>
-      <p class="card-caption">Command suits you, Second Lieutenant.</p>
-    </section>
-
-    <!-- ============ DECORATIONS: medal ladder ============ -->
-    <section class="medal-section reveal">
-      <div class="mil-label">DECORATIONS</div>
-      <h2 class="section-title stencil">DECORATED FOR SHOWING UP</h2>
-      <p class="section-sub">Consistency earns medals. They are cumulative and never reset: take a break, your record stays, pick up where you left off.</p>
-
-      <div class="medal-ladder">
-        <div class="medal-row">
-          <img src="/assets/medal_achievement.png" alt="Achievement Medal">
-          <div class="medal-info"><strong>Achievement Medal</strong><span>1 workout day</span></div>
+        <div class="card-gallery reveal">
+          <div class="tilt-card"><img src="/assets/card_9901.jpg" alt="RankTime achievement card: Lieutenant Colonel, pushups at 22,152 reps, estimated promotion in 3 months" loading="lazy"></div>
+          <div class="tilt-card gallery-center"><img src="/assets/card_9899.jpg" alt="RankTime achievement card: Second Lieutenant, pullups at 8,896 reps, estimated promotion in 4 weeks" loading="lazy"></div>
+          <div class="tilt-card"><img src="/assets/card_9900.jpg" alt="RankTime achievement card: Colonel, snatches at 34,768 reps, estimated promotion in 4 months" loading="lazy"></div>
         </div>
-        <div class="medal-row">
-          <img src="/assets/medal_commendation.png" alt="Commendation Medal">
-          <div class="medal-info"><strong>Commendation Medal</strong><span>1 week with 3 workout days</span></div>
-        </div>
-        <div class="medal-row">
-          <img src="/assets/medal_bronze_star.png" alt="Bronze Star">
-          <div class="medal-info"><strong>Bronze Star</strong><span>4 weeks</span></div>
-        </div>
-        <div class="medal-row">
-          <img src="/assets/medal_silver_star.png" alt="Silver Star">
-          <div class="medal-info"><strong>Silver Star</strong><span>16 weeks</span></div>
-        </div>
-        <div class="medal-row medal-row-honor">
-          <img src="/assets/medal_of_honor.png" alt="Medal of Honor">
-          <div class="medal-info"><strong>Medal of Honor</strong><span>64 weeks</span></div>
-        </div>
+        <p class="card-caption">Command suits you, Second Lieutenant.</p>
       </div>
     </section>
 
-    <!-- ============ ANALYTICS / COACH / WIDGETS ============ -->
-    <section class="deep-section reveal">
-      <div class="mil-label">INTELLIGENCE</div>
-      <h2 class="section-title stencil">ANALYTICS AND PERFORMANCE</h2>
-      <p class="section-sub">Everything you log turns into intel: progress, trends, and marching orders.</p>
+    <!-- ============ DECORATIONS: medals earned along the timeline ============ -->
+    <section class="sec medal-section">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <div class="mil-label">DECORATIONS</div>
+          <h2 class="section-title stencil">DECORATED FOR SHOWING UP</h2>
+          <p class="section-sub">Consistency earns medals. They are cumulative and never reset: take a break, your record stays, pick up where you left off.</p>
+        </header>
 
-      <div class="intel-block reveal">
-        <h3 class="intel-title stencil">HIGHLY DETAILED CHARTS</h3>
-        <p class="intel-sub">A workout heatmap for every exercise, daily, weekly, and monthly volume with pace in reps per minute, averages, trend lines, and the exact rep count standing between you and the next rank.</p>
-        <div class="shots shots-3">
-          <img src="/assets/an_daily.jpg" alt="RankTime analytics for pushups: a workout heatmap over 249 workouts, a daily rep chart with average line, and rank progress showing 19,144 of 20,000 reps toward Lieutenant Colonel" loading="lazy">
-          <img src="/assets/an_weekly.jpg" alt="RankTime analytics for snatches: weekly volume chart with 540 reps and 17 reps per minute pace, rank progress at Colonel" loading="lazy">
-          <img src="/assets/an_monthly.jpg" alt="RankTime analytics for pullups: monthly volume chart with trend line across a year, rank progress showing Second Lieutenant" loading="lazy">
-        </div>
-      </div>
-
-      <div class="intel-block reveal">
-        <h3 class="intel-title stencil">TAILORED TO YOUR RESULTS</h3>
-        <p class="intel-sub">Performance tiles compare this week against your averages, and the recommendations read like marching orders: what is on track, what slipped, and exactly how many reps recover the ground.</p>
-        <div class="shots shots-2">
-          <img src="/assets/perf_snatches.jpg" alt="RankTime performance page for snatches: achievement card, average reps and pace per week, and five recommendations including 11,280 reps to Brigadier General" loading="lazy">
-          <img src="/assets/perf_pullups.jpg" alt="RankTime performance page for pullups: weekly stats showing a missed week and recommendations telling the soldier to fall back in before the rank pace stalls" loading="lazy">
-        </div>
-      </div>
-
-      <div class="intel-block reveal">
-        <h3 class="intel-title stencil">STATE OF THE ART WIDGETS</h3>
-        <p class="intel-sub">Home screen widgets for every size: rank and reps to the next promotion with the estimated day, the workout heatmap, your achievement card with medals, and a full chart widget. The war room, one glance away.</p>
-        <div class="shots shots-2">
-          <img src="/assets/widget_2lt.jpg" alt="RankTime home screen widgets: pullups rank progress at Second Lieutenant, workout heatmap, achievement card with medals, and a large chart widget" loading="lazy">
-          <img src="/assets/widget_col.jpg" alt="RankTime home screen widgets for snatches: Colonel rank progress with 33,720 of 45,000 reps, heatmap, achievement card, and monthly chart widget" loading="lazy">
-        </div>
-      </div>
-
-      <div class="deep-grid">
-        <div class="mil-card reveal">
-          <div class="mil-card-head">PROGRESS</div>
-          <h3>Estimated promotion dates</h3>
-          <p>Per exercise, the app tracks lifetime reps, your recent pace, and projects when the next rank lands: 1LT in about 70 days, BG in about 136. The bar keeps filling; the ladder keeps climbing.</p>
-          <div class="promo-bar">
-            <div class="promo-left"><span class="promo-abbr">2LT</span><span class="promo-thresh">7,500</span></div>
-            <div class="promo-track"><div class="promo-fill" id="promoFill"><span>8,896</span></div></div>
-            <div class="promo-right"><span class="promo-abbr">1LT</span><span class="promo-thresh">10,000</span></div>
+        <div class="medal-ladder" id="medalLadder">
+          <div class="medal-track" aria-hidden="true"><div class="medal-fill"></div></div>
+          <div class="medal-row">
+            <div class="medal-art"><img src="/assets/medal_achievement.png" alt="Achievement Medal"></div>
+            <span class="medal-pip" aria-hidden="true"></span>
+            <div class="medal-info"><strong>Achievement Medal</strong><span>1 workout day</span></div>
           </div>
-          <p class="promo-eta">estimated promotion in 4w</p>
+          <div class="medal-row">
+            <div class="medal-art"><img src="/assets/medal_commendation.png" alt="Commendation Medal"></div>
+            <span class="medal-pip" aria-hidden="true"></span>
+            <div class="medal-info"><strong>Commendation Medal</strong><span>1 week with 3 workout days</span></div>
+          </div>
+          <div class="medal-row">
+            <div class="medal-art"><img src="/assets/medal_bronze_star.png" alt="Bronze Star"></div>
+            <span class="medal-pip" aria-hidden="true"></span>
+            <div class="medal-info"><strong>Bronze Star</strong><span>4 weeks</span></div>
+          </div>
+          <div class="medal-row">
+            <div class="medal-art"><img src="/assets/medal_silver_star.png" alt="Silver Star"></div>
+            <span class="medal-pip" aria-hidden="true"></span>
+            <div class="medal-info"><strong>Silver Star</strong><span>16 weeks</span></div>
+          </div>
+          <div class="medal-row medal-row-honor">
+            <div class="medal-art"><img src="/assets/medal_of_honor.png" alt="Medal of Honor"></div>
+            <span class="medal-pip" aria-hidden="true"></span>
+            <div class="medal-info"><strong>Medal of Honor</strong><span>64 weeks</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INTELLIGENCE: live charts, real screens ============ -->
+    <section class="sec deep-section">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <div class="mil-label">INTELLIGENCE</div>
+          <h2 class="section-title stencil">ANALYTICS AND PERFORMANCE</h2>
+          <p class="section-sub">Everything you log turns into intel: progress, trends, and marching orders.</p>
+        </header>
+
+        <div class="intel-block">
+          <div class="intel-head reveal">
+            <h3 class="intel-title stencil">HIGHLY DETAILED CHARTS</h3>
+            <p class="intel-sub">A workout heatmap for every exercise, daily, weekly, and monthly volume with pace in reps per minute, averages, trend lines, and the exact rep count standing between you and the next rank.</p>
+          </div>
+
+          <div class="an-widget reveal" id="anWidget" aria-hidden="true">
+            <div class="an-card">
+              <div class="an-head">
+                <div><strong id="heatTitle">249 WORKOUTS</strong><small>PUSHUPS</small></div>
+                <div class="seg" id="heatSeg"><button type="button" data-v="w" class="is-active" tabindex="-1">W</button><button type="button" data-v="r" tabindex="-1">R</button></div>
+              </div>
+              <div class="heat">
+                <div></div>
+                <div class="heat-months" id="heatMonths"></div>
+                <div class="heat-days"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+                <div class="heat-grid" id="heatGrid"></div>
+              </div>
+              <div class="heat-legend">Less <i style="background:rgba(255,255,255,.06)"></i><i style="background:rgba(139,215,6,.25)"></i><i style="background:rgba(139,215,6,.5)"></i><i style="background:rgba(139,215,6,.75)"></i><i style="background:#8bd706"></i> More</div>
+              <div class="an-rank">
+                <div class="an-rank-text"><strong>PUSHUPS</strong><span><em>19,144</em> / 20,000</span><span>LTC in about 10 days (856 reps)</span></div>
+                <div class="an-rank-badge">MAJ <img src="/assets/rank_oakleaf_gold.png" alt="" loading="lazy"></div>
+              </div>
+              <div class="heat-tip" id="heatTip"></div>
+            </div>
+
+            <div class="an-card an-bars">
+              <div class="bars-toolbar">
+                <div class="seg" id="barsSeg"><button type="button" data-v="daily" class="is-active" tabindex="-1">DAILY</button><button type="button" data-v="weekly" tabindex="-1">W</button><button type="button" data-v="monthly" tabindex="-1">M</button></div>
+                <div class="bars-pill" id="barsPill"><b>149 reps</b>35 reps/min</div>
+              </div>
+              <div class="bars-plot">
+                <span class="bp-top">100%</span><span class="bp-max" id="barsMax">296</span>
+                <div class="bars" id="bars"></div>
+                <svg class="bars-trend" viewBox="0 0 100 100" preserveAspectRatio="none"><line id="barsTrend" x1="0" y1="60" x2="100" y2="50" vector-effect="non-scaling-stroke"/></svg>
+                <div class="bars-avg" id="barsAvg"><span>avg</span><b id="barsAvgVal">149</b></div>
+              </div>
+              <div class="bars-x" id="barsX"></div>
+            </div>
+          </div>
+
+          <div class="shots shots-3 reveal">
+            <img src="/assets/an_daily.jpg" alt="RankTime analytics for pushups: a workout heatmap over 249 workouts, a daily rep chart with average line, and rank progress showing 19,144 of 20,000 reps toward Lieutenant Colonel" loading="lazy">
+            <img src="/assets/an_weekly.jpg" alt="RankTime analytics for snatches: weekly volume chart with 540 reps and 17 reps per minute pace, rank progress at Colonel" loading="lazy">
+            <img src="/assets/an_monthly.jpg" alt="RankTime analytics for pullups: monthly volume chart with trend line across a year, rank progress showing Second Lieutenant" loading="lazy">
+          </div>
         </div>
 
-        <div class="mil-card reveal">
-          <div class="mil-card-head">VIDEO</div>
-          <h3>Progress video export</h3>
-          <p>Turn your body photos into a progress film where the rank insignia upgrades on the exact photo where you crossed the threshold. Watch yourself get promoted.</p>
+        <div class="intel-block intel-split">
+          <div class="intel-text reveal">
+            <h3 class="intel-title stencil">TAILORED TO YOUR RESULTS</h3>
+            <p class="intel-sub">Performance tiles compare this week against your averages, and the recommendations read like marching orders: what is on track, what slipped, and exactly how many reps recover the ground.</p>
+          </div>
+          <div class="shots shots-2 reveal" style="--i:1">
+            <img src="/assets/perf_snatches.jpg" alt="RankTime performance page for snatches: achievement card, average reps and pace per week, and five recommendations including 11,280 reps to Brigadier General" loading="lazy">
+            <img src="/assets/perf_pullups.jpg" alt="RankTime performance page for pullups: weekly stats showing a missed week and recommendations telling the soldier to fall back in before the rank pace stalls" loading="lazy">
+          </div>
         </div>
 
-        <div class="mil-card reveal">
-          <div class="mil-card-head">RECORDING</div>
-          <h3>Overlays burned into your set</h3>
-          <p>Recordings carry live overlays: timer, next exercise, rep count, and heart rate zone color. Proof of work, rendered on device.</p>
+        <div class="intel-block intel-split flip">
+          <div class="intel-text reveal">
+            <h3 class="intel-title stencil">STATE OF THE ART WIDGETS</h3>
+            <p class="intel-sub">Home screen widgets for every size: rank and reps to the next promotion with the estimated day, the workout heatmap, your achievement card with medals, and a full chart widget. The war room, one glance away.</p>
+          </div>
+          <div class="shots shots-2 reveal" style="--i:1">
+            <img src="/assets/widget_2lt.jpg" alt="RankTime home screen widgets: pullups rank progress at Second Lieutenant, workout heatmap, achievement card with medals, and a large chart widget" loading="lazy">
+            <img src="/assets/widget_col.jpg" alt="RankTime home screen widgets for snatches: Colonel rank progress with 33,720 of 45,000 reps, heatmap, achievement card, and monthly chart widget" loading="lazy">
+          </div>
         </div>
 
-        <div class="mil-card reveal">
-          <div class="mil-card-head">EXPORT</div>
-          <h3>Your data, yours</h3>
-          <p>Workout history, notes, and labels export whenever you want. Everything is stored on device and in your own iCloud, never on our servers.</p>
+        <div class="deep-grid">
+          <div class="mil-card reveal" style="--i:0">
+            <div class="mil-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+            <div class="mil-card-head">PROGRESS</div>
+            <h3>Estimated promotion dates</h3>
+            <p>Per exercise, the app tracks lifetime reps, your recent pace, and projects when the next rank lands: 1LT in about 70 days, BG in about 136. The bar keeps filling; the ladder keeps climbing.</p>
+            <div class="promo-bar">
+              <div class="promo-left"><span class="promo-abbr">2LT</span><span class="promo-thresh">7,500</span></div>
+              <div class="promo-track"><div class="promo-fill" id="promoFill"><span>8,896</span></div></div>
+              <div class="promo-right"><span class="promo-abbr">1LT</span><span class="promo-thresh">10,000</span></div>
+            </div>
+            <p class="promo-eta">estimated promotion in 4w</p>
+          </div>
+
+          <div class="mil-card reveal" style="--i:1">
+            <div class="mil-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z"/></svg></div>
+            <div class="mil-card-head">VIDEO</div>
+            <h3>Progress video export</h3>
+            <p>Turn your body photos into a progress film where the rank insignia upgrades on the exact photo where you crossed the threshold. Watch yourself get promoted.</p>
+          </div>
+
+          <div class="mil-card reveal" style="--i:2">
+            <div class="mil-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></div>
+            <div class="mil-card-head">RECORDING</div>
+            <h3>Overlays burned into your set</h3>
+            <p>Recordings carry live overlays: timer, next exercise, rep count, and heart rate zone color. Proof of work, rendered on device.</p>
+          </div>
+
+          <div class="mil-card reveal" style="--i:3">
+            <div class="mil-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></div>
+            <div class="mil-card-head">EXPORT</div>
+            <h3>Your data, yours</h3>
+            <p>Workout history, notes, and labels export whenever you want. Everything is stored on device and in your own iCloud, never on our servers.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ============ QUOTE BAND ============ -->
     <section class="quote-band reveal">
-      <blockquote class="quote" id="rankQuote" aria-live="polite">Every week a completed tour. Carry on, soldier.</blockquote>
+      <blockquote class="quote" id="rankQuote"><span class="sr-only" id="quoteText">Every week a completed tour. Carry on, soldier.</span><span aria-hidden="true" id="quoteVis">Every week a completed tour. Carry on, soldier.</span></blockquote>
     </section>
 
     <!-- ============ FAQ ============ -->
-    <section class="faq-section reveal">
-      <div class="mil-label">BRIEFING</div>
-      <h2 class="section-title stencil">QUESTIONS</h2>
+    <section class="sec faq-section">
+      <div class="wrap faq-grid">
+        <header class="sec-head sec-head-left reveal">
+          <div class="mil-label">BRIEFING</div>
+          <h2 class="section-title stencil">QUESTIONS</h2>
+        </header>
 
-      <div class="faq">
-        <details>
-          <summary>What is a HIIT timer?</summary>
-          <p>A HIIT timer is an interval timer built for high intensity interval training: short bursts of hard work separated by short rests. RankTime is a HIIT workout timer for iPhone that guides each interval with color, sound, and haptics, so you never have to look at the clock mid set.</p>
-        </details>
-        <details>
-          <summary>What is a Tabata timer?</summary>
-          <p>Tabata is the classic HIIT protocol: 20 seconds of all-out work, 10 seconds of rest, repeated for 8 rounds, 4 minutes total. RankTime ships with Tabata as a preset, and the ring on this page is exactly how the app draws it before you press play.</p>
-        </details>
-        <details>
-          <summary>What does EMOM mean?</summary>
-          <p>EMOM stands for every minute on the minute: you start a fixed set of work at the top of each minute and rest with whatever time is left. In RankTime you can run EMOM by time or give each exercise a rep target and let the app pace the session.</p>
-        </details>
-        <details>
-          <summary>Can I build my own interval workout?</summary>
-          <p>Yes. RankTime is a fully custom interval timer: any number of exercises and rounds, your own work and rest durations, time mode or reps mode, and mixed or continuous exercise order. Save it as a preset and it syncs across your devices through iCloud.</p>
-        </details>
-        <details>
-          <summary>Does the workout timer track heart rate?</summary>
-          <p>Yes. RankTime reads live heart rate from a Polar H10 chest strap, Apple Watch, or any Bluetooth heart rate sensor, shows five color zones during the workout, and saves the samples to Apple Health with your permission.</p>
-        </details>
-        <details>
-          <summary>What makes RankTime different from other interval timers?</summary>
-          <p>Rank. Every rep you complete counts toward a 21-tier military rank ladder per exercise, with medals for consistency and shareable achievement cards. The timer starts the workout; the service record keeps you coming back.</p>
-        </details>
+        <div class="faq reveal" style="--i:1">
+          <details>
+            <summary>What is a HIIT timer?</summary>
+            <p>A HIIT timer is an interval timer built for high intensity interval training: short bursts of hard work separated by short rests. RankTime is a HIIT workout timer for iPhone that guides each interval with color, sound, and haptics, so you never have to look at the clock mid set.</p>
+          </details>
+          <details>
+            <summary>What is a Tabata timer?</summary>
+            <p>Tabata is the classic HIIT protocol: 20 seconds of all-out work, 10 seconds of rest, repeated for 8 rounds, 4 minutes total. RankTime ships with Tabata as a preset, and the ring on this page is exactly how the app draws it before you press play.</p>
+          </details>
+          <details>
+            <summary>What does EMOM mean?</summary>
+            <p>EMOM stands for every minute on the minute: you start a fixed set of work at the top of each minute and rest with whatever time is left. In RankTime you can run EMOM by time or give each exercise a rep target and let the app pace the session.</p>
+          </details>
+          <details>
+            <summary>Can I build my own interval workout?</summary>
+            <p>Yes. RankTime is a fully custom interval timer: any number of exercises and rounds, your own work and rest durations, time mode or reps mode, and mixed or continuous exercise order. Save it as a preset and it syncs across your devices through iCloud.</p>
+          </details>
+          <details>
+            <summary>Does the workout timer track heart rate?</summary>
+            <p>Yes. RankTime reads live heart rate from a Polar H10 chest strap, Apple Watch, or any Bluetooth heart rate sensor, shows five color zones during the workout, and saves the samples to Apple Health with your permission.</p>
+          </details>
+          <details>
+            <summary>What makes RankTime different from other interval timers?</summary>
+            <p>Rank. Every rep you complete counts toward a 21-tier military rank ladder per exercise, with medals for consistency and shareable achievement cards. The timer starts the workout; the service record keeps you coming back.</p>
+          </details>
+        </div>
       </div>
     </section>
 
     <!-- ============ FINAL CTA ============ -->
-    <section class="final-cta reveal">
-      <h2 class="section-title stencil">FALL IN.</h2>
-      <a class="cta-glass" href="/support/">GET IN TOUCH</a>
+    <section class="final-cta">
+      <svg class="final-mark" viewBox="0 0 1024 1024" aria-hidden="true">
+        <path d="M258.06 737.81A310 310 0 0 1 458.17 254.71" fill="none" stroke="#8e8e93" stroke-width="70" stroke-linecap="round"/>
+        <path d="M565.83 254.71A310 310 0 1 1 334.19 813.94" fill="none" stroke="#b0e64a" stroke-width="70" stroke-linecap="round"/>
+        <rect x="452" y="160" width="120" height="50" rx="25" fill="#fff"/>
+      </svg>
+      <div class="wrap reveal">
+        <h2 class="section-title stencil">FALL IN.</h2>
+        <a class="cta-glass" href="/support/">GET IN TOUCH</a>
+      </div>
     </section>
   </main>
 
@@ -336,9 +587,573 @@
   (function () {
     "use strict";
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var svgNS = "http://www.w3.org/2000/svg";
+    var hasIO = "IntersectionObserver" in window;
+    var LIME = "#8bd706", GREY = "#636366";
 
-    /* ---------- Rank carousel: all 21 tiers, straight from the app ---------- */
+    function $(s, r) { return (r || document).querySelector(s); }
+    function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
+    function mmss(s) {
+      s = Math.max(0, Math.ceil(s));
+      var m = Math.floor(s / 60), r = s % 60;
+      return (m < 10 ? "0" : "") + m + ":" + (r < 10 ? "0" : "") + r;
+    }
+
+    /* Run cb once, the first time el scrolls into view. */
+    function onceVisible(el, cb, threshold) {
+      if (!el) return;
+      if (!hasIO) { cb(); return; }
+      var io = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { io.disconnect(); cb(); }
+      }, { threshold: threshold || 0.25 });
+      io.observe(el);
+    }
+
+    /* Animation loop that only runs while el is on screen. step(dt, now) */
+    function loopWhileVisible(el, step) {
+      if (!el) return;
+      var running = false, raf = 0, last = 0;
+      function frame(now) {
+        var dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        step(dt, now);
+        if (running) raf = requestAnimationFrame(frame);
+      }
+      function set(on) {
+        if (on && !running) { running = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+        else if (!on && running) { running = false; cancelAnimationFrame(raf); }
+      }
+      if (!hasIO) { set(true); return; }
+      new IntersectionObserver(function (es) { set(es[0].isIntersecting); }, { rootMargin: "60px" }).observe(el);
+    }
+
+    function arcPath(cx, cy, r, t0, t1) {
+      var a0 = t0 * 2 * Math.PI, a1 = t1 * 2 * Math.PI;
+      return "M" + (cx + r * Math.sin(a0)).toFixed(2) + " " + (cy - r * Math.cos(a0)).toFixed(2) +
+             "A" + r + " " + r + " 0 " + (t1 - t0 > 0.5 ? 1 : 0) + " 1 " +
+             (cx + r * Math.sin(a1)).toFixed(2) + " " + (cy - r * Math.cos(a1)).toFixed(2);
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    var revealEls = $$(".reveal");
+    if (reduced || !hasIO) {
+      revealEls.forEach(function (el) { el.classList.add("in"); });
+    } else {
+      var rio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("in"); rio.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      revealEls.forEach(function (el) { rio.observe(el); });
+    }
+
+    /* ---------- Hero: mark draws in, orbit ring, stopwatch hand ---------- */
+    var mark = $("#heroMark"), hand = $("#heroHand"), orbit = $("#heroOrbit"), stage = $("#heroStage");
+    if (orbit) {
+      /* The TABATA ring from the app, 8 x 20/10, as a slow outer orbit */
+      var o = "", tot = 240, cum = 0, i;
+      for (i = 0; i < 16; i++) {
+        var w = i % 2 ? 10 : 20, t0 = cum / tot, t1 = (cum + w) / tot, g = Math.min(2 / 360, (t1 - t0) * 0.22);
+        o += '<path d="' + arcPath(500, 500, 430, t0 + g, t1 - g) + '" fill="none" stroke="' + (i % 2 ? GREY : LIME) +
+             '" stroke-opacity="' + (i % 2 ? 0.5 : 0.55) + '" stroke-width="10" stroke-linecap="round"/>';
+        cum += w;
+      }
+      o += '<g class="orbit-ticks">';
+      for (i = 0; i < 60; i++) {
+        var a = i / 60 * 2 * Math.PI, r1 = i % 5 ? 474 : 466, r2 = 486;
+        o += '<line class="' + (i % 5 ? "" : "major") + '" x1="' + (500 + r1 * Math.sin(a)).toFixed(1) + '" y1="' + (500 - r1 * Math.cos(a)).toFixed(1) +
+             '" x2="' + (500 + r2 * Math.sin(a)).toFixed(1) + '" y2="' + (500 - r2 * Math.cos(a)).toFixed(1) + '"/>';
+      }
+      orbit.innerHTML = o + "</g>";
+    }
+    if (mark) {
+      requestAnimationFrame(function () { requestAnimationFrame(function () { mark.classList.add("drawn"); }); });
+      if (!reduced && hand) {
+        var handDeg = 0, heroOn = true;
+        if (hasIO) new IntersectionObserver(function (es) { heroOn = es[0].isIntersecting; }).observe(mark);
+        setTimeout(function () {
+          hand.style.transition = "transform 1.4s cubic-bezier(0.65, 0, 0.25, 1)";
+          handDeg = 360;
+          hand.style.transform = "rotate(360deg)";
+          setTimeout(function () {
+            hand.style.transition = "";
+            setInterval(function () {
+              if (!heroOn || document.hidden) return;
+              handDeg += 6;
+              hand.style.transform = "rotate(" + handDeg + "deg)";
+            }, 1000);
+          }, 1500);
+        }, 700);
+      }
+    }
+    if (stage && !reduced && window.matchMedia("(hover: hover)").matches) {
+      var hero = $("#hero");
+      hero.addEventListener("pointermove", function (e) {
+        var x = e.clientX / window.innerWidth - 0.5, y = e.clientY / window.innerHeight - 0.5;
+        mark.style.transform = "perspective(900px) rotateX(" + (-y * 10).toFixed(2) + "deg) rotateY(" + (x * 12).toFixed(2) + "deg)";
+        orbit.style.translate = (-x * 26).toFixed(1) + "px " + (-y * 26).toFixed(1) + "px";
+      });
+      hero.addEventListener("pointerleave", function () { mark.style.transform = ""; orbit.style.translate = ""; });
+    }
+
+    /* ---------- Stats count up ---------- */
+    $$(".stat-num[data-count]").forEach(function (el) {
+      if (reduced) return;
+      var target = +el.getAttribute("data-count");
+      el.textContent = "0";
+      onceVisible(el, function () {
+        var start = performance.now(), dur = 1700;
+        (function tick(now) {
+          var t = clamp((now - start) / dur, 0, 1);
+          el.textContent = fmt(target * easeOut(t));
+          if (t < 1) requestAnimationFrame(tick);
+        })(start);
+      }, 0.6);
+    });
+
+    /* ---------- The phone: the app's config ring, same maths as the app ---------- */
+    (function () {
+      var phone = $("#phone");
+      if (!phone) return;
+      var ring = $("#phRing"), glowCv = $(".ph-glow", ring), mainCv = $(".ph-arcs", ring);
+      var gctx = glowCv.getContext("2d"), mctx = mainCv.getContext("2d");
+      var valueEl = $("#phValue"), phaseEl = $("#phPhase"), presetEl = $("#phPreset"), modeEl = $("#phMode");
+      var slideEl = $("#phSlide"), playBtn = $("#phPlay"), tabsEl = $("#phTabs"), chipsEl = $("#presetChips");
+      var dots = $$(".ph-dots i", phone), modeCards = $$(".mode-card");
+
+      var ICON = {
+        clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+        play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 5.5v13l10.5-6.5z"/></svg>',
+        pause: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></svg>',
+        repeat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10V9a3 3 0 0 1 3-3h13l-3-3"/><path d="M20 14v1a3 3 0 0 1-3 3H4l3 3"/></svg>',
+        layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/></svg>',
+        target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg>',
+        bigPlay: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.8c0-.9 1-1.5 1.8-1l11 7.2c.7.5.7 1.5 0 2l-11 7.2c-.8.5-1.8-.1-1.8-1z"/></svg>',
+        bigPause: '<svg viewBox="0 0 24 24"><rect fill="currentColor" x="6" y="4.5" width="4" height="15" rx="1.4"/><rect fill="currentColor" x="14" y="4.5" width="4" height="15" rx="1.4"/></svg>'
+      };
+
+      /* Index 1 is the base template page, index 0 the preset above it, like the app. */
+      var PRESETS = {
+        time: [
+          { name: "EMOM", work: 10, rest: 50, rounds: 20, ex: 1 },
+          { name: "TABATA", work: 20, rest: 10, rounds: 8, ex: 1 }
+        ],
+        reps: [
+          { name: "MURPH", rest: 10, mixed: true, sets: [[100, 2], [200, 4], [300, 6]] },
+          { name: "CENTURION", rest: 30, mixed: false, sets: [[100, 5]] }
+        ]
+      };
+      var mode = "time", idx = { time: 1, reps: 1 }, segs = [], fill = reduced ? 1 : 0, run = null, seen = false;
+
+      /* Ring weights: TIME uses seconds. REPS uses set sizes, and rest is a quarter of the
+         average set so the ring maps volume (same rule as the app). */
+      function build() {
+        var p = PRESETS[mode][idx[mode]], out = [], r, e;
+        if (mode === "time") {
+          for (e = 0; e < p.ex; e++) for (r = 0; r < p.rounds; r++) {
+            out.push({ type: "work", w: p.work, secs: p.work });
+            if (p.rest > 0) out.push({ type: "rest", w: p.rest, secs: p.rest });
+          }
+        } else {
+          var per = p.sets.map(function (x) {
+            var sizes = [], left = x[0];
+            while (left > 0) { var s = Math.min(x[1], left); sizes.push(s); left -= s; }
+            return sizes;
+          });
+          var all = [].concat.apply([], per);
+          var restW = Math.max(1, all.reduce(function (a, b) { return a + b; }, 0) / all.length * 0.25);
+          var add = function (reps) {
+            out.push({ type: "work", w: Math.max(1, reps), reps: reps, secs: reps * 2.2 });
+            if (p.rest > 0) out.push({ type: "rest", w: restW, secs: p.rest });
+          };
+          if (!p.mixed) per.forEach(function (sz) { sz.forEach(add); });
+          else {
+            var most = Math.max.apply(null, per.map(function (s) { return s.length; }));
+            for (r = 0; r < most; r++) per.forEach(function (sz) { if (r < sz.length) add(sz[r]); });
+          }
+        }
+        var total = out.reduce(function (a, s) { return a + s.w; }, 0), cum = 0;
+        out.forEach(function (s) { s.t0 = cum / total; cum += s.w; s.t1 = cum / total; });
+        segs = out;
+      }
+      function totalSecs() { return segs.reduce(function (a, s) { return a + s.secs; }, 0); }
+      function totalReps() { return segs.reduce(function (a, s) { return a + (s.reps || 0); }, 0); }
+
+      function sizeCanvas() {
+        var dpr = Math.min(2, window.devicePixelRatio || 1), px = ring.clientWidth;
+        [glowCv, mainCv].forEach(function (cv) {
+          var want = Math.round(px * dpr);
+          if (cv.width !== want) { cv.width = want; cv.height = want; }
+        });
+        return { px: px, dpr: dpr };
+      }
+
+      /* state: { run: bool, active: index } */
+      function draw(state) {
+        var d = sizeCanvas(), px = d.px;
+        var lw = px * (2.1 / 90), R = px * (77 / 90) / 2 - lw / 2, c = px / 2;
+        [gctx, mctx].forEach(function (ctx) {
+          ctx.setTransform(d.dpr, 0, 0, d.dpr, 0, 0);
+          ctx.clearRect(0, 0, px, px);
+          ctx.lineCap = "round";
+        });
+        mctx.lineWidth = lw;
+        gctx.lineWidth = lw + px * 0.022;
+        function stroke(ctx, a, b, color) {
+          ctx.strokeStyle = color;
+          ctx.beginPath();
+          ctx.arc(c, c, R, -Math.PI / 2 + a * 2 * Math.PI, -Math.PI / 2 + b * 2 * Math.PI);
+          ctx.stroke();
+        }
+        /* rest arcs first, work arcs last so lime always sits on top */
+        var order = segs.map(function (s, i) { return i; }).sort(function (x, y) {
+          var wx = segs[x].type === "work", wy = segs[y].type === "work";
+          return wx === wy ? x - y : (wx ? 1 : -1);
+        });
+        order.forEach(function (i) {
+          var s = segs[i], gap = Math.min(2 / 360, (s.t1 - s.t0) * 0.22), a = s.t0 + gap, b = s.t1 - gap;
+          if (b <= a) return;
+          var work = s.type === "work", color = work ? LIME : GREY;
+          var glow = work ? "rgba(139,215,6,0.35)" : "rgba(99,99,102,0.35)";
+          if (state && state.run) {
+            if (i < state.active) stroke(mctx, a, b, "rgba(255,255,255,0.12)");
+            else if (i === state.active) { stroke(mctx, a, b, "#fff"); stroke(gctx, a, b, "rgba(255,255,255,0.55)"); }
+            else { stroke(mctx, a, b, color); stroke(gctx, a, b, work ? "rgba(139,215,6,0.22)" : "rgba(99,99,102,0.2)"); }
+            return;
+          }
+          if (fill < 1) stroke(mctx, fill > 0 ? a + (b - a) * fill : a, b, "rgba(255,255,255,0.12)");
+          if (fill > 0) { var e = a + (b - a) * fill; stroke(mctx, a, e, color); stroke(gctx, a, e, glow); }
+        });
+      }
+
+      function idleValue() { return mode === "time" ? mmss(totalSecs()) : String(totalReps()); }
+
+      function renderStatic() {
+        var p = PRESETS[mode][idx[mode]];
+        presetEl.textContent = p.name;
+        modeEl.textContent = mode === "time" ? "TIME" : "REPS";
+        valueEl.textContent = idleValue();
+        dots[0].classList.toggle("on", mode === "reps");
+        dots[1].classList.toggle("on", mode === "time");
+        modeCards.forEach(function (b) {
+          var on = b.getAttribute("data-mode") === mode;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        var tabs = mode === "time"
+          ? [[ICON.clock, mmss(p.work)], [ICON.pause, mmss(p.rest)], [ICON.repeat, p.ex], [ICON.layers, p.rounds]]
+          : [[ICON.play, p.sets.map(function (x) { return x[1]; }).join("/")], [ICON.pause, mmss(p.rest)], [ICON.repeat, p.sets.length], [ICON.target, totalReps()]];
+        tabsEl.innerHTML = tabs.map(function (t) { return '<span class="ph-glass ph-tab">' + t[0] + "<b>" + t[1] + "</b></span>"; }).join("");
+        /* chips: base template first, then the preset */
+        chipsEl.innerHTML = [1, 0].map(function (k) {
+          var q = PRESETS[mode][k];
+          return '<button type="button" class="chip' + (k === idx[mode] ? " is-active" : "") + '" data-k="' + k + '" aria-pressed="' + (k === idx[mode]) + '">' + q.name + "</button>";
+        }).join("");
+      }
+
+      function fillIn() {
+        if (reduced) { fill = 1; draw(); return; }
+        var start = performance.now(), dur = 1000;
+        fill = 0;
+        (function tick(now) {
+          if (run) return;
+          fill = easeOut(clamp((now - start) / dur, 0, 1));
+          draw();
+          if (fill < 1) requestAnimationFrame(tick);
+        })(start);
+      }
+
+      /* Slide the ring out and the new one in, like a swipe in the app */
+      function swap(dx, dy, apply, label) {
+        stopRun(true);
+        if (reduced || !slideEl.animate) { apply(); build(); renderStatic(); fill = 1; draw(); return; }
+        var outT = "translate(" + (-dx * 70) + "%, " + (-dy * 22) + "%)", inT = "translate(" + (dx * 70) + "%, " + (dy * 22) + "%)";
+        var targets = label ? [slideEl, modeEl] : [slideEl];
+        var anims = targets.map(function (el) {
+          return el.animate([{ transform: "none", opacity: 1 }, { transform: outT, opacity: 0 }], { duration: 200, easing: "cubic-bezier(0.4, 0, 1, 1)", fill: "forwards" });
+        });
+        anims[0].onfinish = function () {
+          apply(); build(); renderStatic(); fill = 0; draw();
+          targets.forEach(function (el, k) {
+            anims[k].cancel();
+            el.animate([{ transform: inT, opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 420, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
+          });
+          fillIn();
+        };
+      }
+
+      /* REPS is the left page and TIME the right one, as in the app */
+      function setMode(m) {
+        if (m === mode) return;
+        swap(m === "reps" ? -1 : 1, 0, function () { mode = m; }, true);
+      }
+      function setPreset(k) {
+        if (k === idx[mode]) return;
+        swap(0, k < idx[mode] ? -1 : 1, function () { idx[mode] = k; });
+      }
+
+      /* Play: a sped up run. Done arcs dim, the live one turns white. */
+      function setPlayIcon(playing) {
+        playBtn.innerHTML = playing ? ICON.bigPause : ICON.bigPlay;
+        playBtn.setAttribute("aria-label", playing ? "Stop the run" : "Play a sped up run");
+      }
+      function stopRun(silent) {
+        if (!run) return;
+        cancelAnimationFrame(run.raf);
+        run = null;
+        setPlayIcon(false);
+        phaseEl.classList.remove("on");
+        if (!silent) { valueEl.textContent = idleValue(); fill = 1; draw(); }
+      }
+      function play() {
+        if (run) { stopRun(); return; }
+        var tot = totalSecs(), reps = totalReps();
+        var demo = clamp(4 + segs.length * 0.03, 6, 12);
+        run = { t: 0, last: performance.now(), speed: tot / demo, raf: 0 };
+        setPlayIcon(true);
+        phaseEl.classList.add("on");
+        (function frame(now) {
+          if (!run) return;
+          run.t += (now - run.last) / 1000 * run.speed;
+          run.last = now;
+          if (run.t >= tot) {
+            cancelAnimationFrame(run.raf);
+            run = null;
+            setPlayIcon(false);
+            valueEl.textContent = mode === "time" ? "00:00" : "0";
+            phaseEl.textContent = "DONE";
+            phaseEl.style.color = "#fff";
+            fill = 1; draw();
+            setTimeout(function () { if (!run) { phaseEl.classList.remove("on"); valueEl.textContent = idleValue(); } }, 1400);
+            return;
+          }
+          var acc = 0, i = 0, done = 0;
+          for (; i < segs.length - 1; i++) {
+            if (run.t < acc + segs[i].secs) break;
+            acc += segs[i].secs;
+            done += segs[i].reps || 0;
+          }
+          var s = segs[i], q = (run.t - acc) / s.secs;
+          draw({ run: true, active: i });
+          if (mode === "time") valueEl.textContent = mmss(tot - run.t);
+          else valueEl.textContent = String(reps - done - (s.type === "work" ? Math.floor(q * s.reps) : 0));
+          phaseEl.textContent = s.type === "work" ? "WORK" : "REST";
+          phaseEl.style.color = s.type === "work" ? LIME : "#8e8e93";
+          run.raf = requestAnimationFrame(frame);
+        })(run.last);
+      }
+
+      modeCards.forEach(function (b) { b.addEventListener("click", function () { setMode(b.getAttribute("data-mode")); }); });
+      $("#phPill").addEventListener("click", function () { setMode(mode === "time" ? "reps" : "time"); });
+      chipsEl.addEventListener("click", function (e) {
+        var b = e.target.closest(".chip");
+        if (b) setPreset(+b.getAttribute("data-k"));
+      });
+      playBtn.addEventListener("click", play);
+
+      /* Swipe sideways on the phone to change mode */
+      var sx = 0, sy = 0, down = false;
+      phone.addEventListener("pointerdown", function (e) { down = true; sx = e.clientX; sy = e.clientY; });
+      phone.addEventListener("pointerup", function (e) {
+        if (!down) return;
+        down = false;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) setMode(dx > 0 ? "reps" : "time");
+      });
+      phone.addEventListener("pointercancel", function () { down = false; });
+
+      build();
+      renderStatic();
+      setPlayIcon(false);
+      draw();
+      onceVisible(ring, function () { seen = true; fillIn(); }, 0.4);
+      var redraw = function () { if (!run) draw(); };
+      if ("ResizeObserver" in window) new ResizeObserver(redraw).observe(ring);
+      else window.addEventListener("resize", redraw);
+    })();
+
+    /* ---------- Feature cards: pointer spotlight ---------- */
+    $$(".feature").forEach(function (f) {
+      f.addEventListener("pointermove", function (e) {
+        var r = f.getBoundingClientRect();
+        f.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        f.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    });
+
+    /* ---------- Camera: pose tracking a squat, reps counted off the signal ---------- */
+    (function () {
+      var root = $("#camDemo");
+      if (!root) return;
+      var bones = $$(".bone", root), joints = $$("[data-j]", root);
+      var countEl = $("#camCount"), timeEl = $("#camTime"), sig = $("#camSig"), marks = $("#camMarks");
+      var kneeEl = $("#camKnee"), hipEl = $("#camHip"), depthEl = $("#camDepth");
+      function angle(a, b, c) {
+        var v1x = a.x - b.x, v1y = a.y - b.y, v2x = c.x - b.x, v2y = c.y - b.y;
+        var cos = (v1x * v2x + v1y * v2y) / (Math.hypot(v1x, v1y) * Math.hypot(v2x, v2y));
+        return Math.round(Math.acos(clamp(cos, -1, 1)) * 180 / Math.PI);
+      }
+      var PERIOD = 2.6, N = 150, RATE = 30;
+
+      function depth(ph) {
+        if (ph < 0.12) return 0;
+        if (ph < 0.5) return easeInOut((ph - 0.12) / 0.38);
+        if (ph < 0.58) return 1;
+        if (ph < 0.92) return 1 - easeInOut((ph - 0.58) / 0.34);
+        return 0;
+      }
+      function rad(d) { return d * Math.PI / 180; }
+      function pose(d) {
+        var A = { x: 142, y: 170 };
+        var s = rad(lerp(4, 36, d)), K = { x: A.x + 36 * Math.sin(s), y: A.y - 36 * Math.cos(s) };
+        var th = rad(lerp(-4, -92, d)), H = { x: K.x + 38 * Math.sin(th), y: K.y - 38 * Math.cos(th) };
+        var to = rad(lerp(4, 44, d)), S = { x: H.x + 44 * Math.sin(to), y: H.y - 44 * Math.cos(to) };
+        var N0 = { x: S.x + 16 * Math.sin(to), y: S.y - 16 * Math.cos(to) };
+        var ar = rad(lerp(12, 88, d)), E = { x: S.x + 22 * Math.sin(ar), y: S.y + 22 * Math.cos(ar) };
+        var fa = ar + rad(lerp(10, 2, d)), W = { x: E.x + 21 * Math.sin(fa), y: E.y + 21 * Math.cos(fa) };
+        return { A: A, K: K, H: H, S: S, N: N0, E: E, W: W, T: { x: A.x + 20, y: A.y + 4 } };
+      }
+      function render(d) {
+        var P = pose(d);
+        bones.forEach(function (b) {
+          var k = b.getAttribute("data-b").split(" "), p = P[k[0]], q = P[k[1]];
+          b.setAttribute("x1", p.x.toFixed(1)); b.setAttribute("y1", p.y.toFixed(1));
+          b.setAttribute("x2", q.x.toFixed(1)); b.setAttribute("y2", q.y.toFixed(1));
+        });
+        joints.forEach(function (j) {
+          var p = P[j.getAttribute("data-j")];
+          j.setAttribute("cx", p.x.toFixed(1)); j.setAttribute("cy", p.y.toFixed(1));
+        });
+        kneeEl.textContent = angle(P.H, P.K, P.A) + "\u00b0";
+        hipEl.textContent = angle(P.S, P.H, P.K) + "\u00b0";
+        depthEl.textContent = Math.round(d * 100) + "%";
+      }
+      /* the signal strip: hip depth over the last five seconds, a tick for each counted rep */
+      var buf = [], t = 0, acc = 0, baseReps = 12;
+      for (var k = 0; k < N; k++) {
+        var tt = (k - N) / RATE, ph = ((tt % PERIOD) + PERIOD) % PERIOD / PERIOD, prev = (((tt - 1 / RATE) % PERIOD) + PERIOD) % PERIOD / PERIOD;
+        buf.push({ d: depth(ph), rep: prev < 0.92 && ph >= 0.92 });
+      }
+      function drawSig() {
+        var pts = "", m = "";
+        for (var i = 0; i < buf.length; i++) {
+          var x = i * 300 / (N - 1), y = 40 - buf[i].d * 30;
+          pts += x.toFixed(1) + "," + y.toFixed(1) + " ";
+          if (buf[i].rep) m += '<line class="mark" vector-effect="non-scaling-stroke" x1="' + x.toFixed(1) + '" y1="4" x2="' + x.toFixed(1) + '" y2="42"/>';
+        }
+        sig.setAttribute("points", pts);
+        marks.innerHTML = m;
+      }
+      var lastRep = 0;
+      render(reduced ? 0.6 : 0);
+      drawSig();
+      if (reduced) return;
+      loopWhileVisible(root, function (dt) {
+        t += dt;
+        var ph = (t % PERIOD) / PERIOD, d = depth(ph);
+        render(d);
+        var reps = baseReps + Math.floor((t + PERIOD * 0.08) / PERIOD);
+        if (reps !== lastRep) {
+          if (lastRep) {
+            countEl.textContent = reps;
+            countEl.classList.add("flash");
+            setTimeout(function () { countEl.classList.remove("flash"); }, 60);
+          }
+          lastRep = reps;
+        }
+        timeEl.textContent = mmss(37 + t);
+        acc += dt;
+        var pushed = false;
+        while (acc >= 1 / RATE) {
+          acc -= 1 / RATE;
+          var p0 = buf[buf.length - 1];
+          buf.push({ d: d, rep: p0 && p0.d > 0.05 && d <= 0.05 && reps !== baseReps });
+          buf.shift();
+          pushed = true;
+        }
+        if (pushed) drawSig();
+      });
+    })();
+
+    /* ---------- Heart rate: a live trace, coloured by zone ---------- */
+    (function () {
+      var root = $("#hrDemo");
+      if (!root) return;
+      var line = $("#hrLine"), bpmEl = $("#hrBpm"), zoneEl = $("#hrZone"), zoneBars = $$("#hrZones i");
+      var ZONES = [
+        { n: 1, name: "VERY LIGHT", c: "#0a84ff" }, { n: 2, name: "LIGHT", c: "#8bd706" },
+        { n: 3, name: "MODERATE", c: "#ffd60a" }, { n: 4, name: "HARD", c: "#ff9f0a" }, { n: 5, name: "MAXIMUM", c: "#ff453a" }
+      ];
+      var MAX = 190, RATE = 90, N = 290;
+      function g(x, mu, s) { return Math.exp(-((x - mu) * (x - mu)) / (2 * s * s)); }
+      function ecg(p) {
+        return 0.1 * g(p, 0.16, 0.03) - 0.12 * g(p, 0.27, 0.01) + 1.0 * g(p, 0.3, 0.012) -
+               0.28 * g(p, 0.33, 0.012) + 0.24 * g(p, 0.56, 0.05);
+      }
+      var buf = [], phase = 0, bpm = 142, t = 0, acc = 0, zone = -1;
+      for (var i = 0; i < N; i++) { phase = (phase + bpm / 60 / RATE) % 1; buf.push(ecg(phase)); }
+      function drawLine() {
+        var d = "";
+        for (var i = 0; i < buf.length; i++) {
+          d += (i ? "L" : "M") + (i * 400 / (N - 1)).toFixed(1) + " " + (98 - buf[i] * 70).toFixed(1);
+        }
+        line.setAttribute("d", d);
+      }
+      function setZone() {
+        var pct = bpm / MAX, z = pct < 0.6 ? 0 : pct < 0.7 ? 1 : pct < 0.8 ? 2 : pct < 0.9 ? 3 : 4;
+        if (z === zone) return;
+        zone = z;
+        var Z = ZONES[z];
+        line.style.stroke = Z.c;
+        zoneEl.style.color = Z.c;
+        zoneEl.textContent = "ZONE " + Z.n + " · " + Z.name;
+        zoneBars.forEach(function (b, k) { b.classList.toggle("on", k === z); });
+      }
+      setZone();
+      drawLine();
+      if (reduced) return;
+      loopWhileVisible(root, function (dt) {
+        t += dt;
+        var target = (t % 12) < 7 ? 178 : 122;
+        bpm += (target - bpm) * (1 - Math.exp(-dt * 0.45));
+        acc += dt;
+        while (acc >= 1 / RATE) {
+          acc -= 1 / RATE;
+          phase = (phase + bpm / 60 / RATE) % 1;
+          buf.push(ecg(phase));
+          buf.shift();
+        }
+        drawLine();
+        bpmEl.textContent = Math.round(bpm);
+        setZone();
+      });
+    })();
+
+    /* ---------- Statistics card: bars that keep re-drawing ---------- */
+    (function () {
+      var root = $("#mcDemo");
+      if (!root) return;
+      var bars = $$(".mc-bars i", root), avgEl = $(".mc-avg", root);
+      function shuffle() {
+        var hs = bars.map(function () { return 0.25 + Math.random() * 0.75; });
+        var top = hs.indexOf(Math.max.apply(null, hs)), avg = hs.reduce(function (a, b) { return a + b; }, 0) / hs.length;
+        bars.forEach(function (b, i) { b.style.setProperty("--h", hs[i].toFixed(3)); b.classList.toggle("top", i === top); });
+        avgEl.style.setProperty("--avg", avg.toFixed(3));
+      }
+      shuffle();
+      if (reduced) return;
+      var timer = 0;
+      loopWhileVisible(root, function (dt) {
+        timer += dt;
+        if (timer > 2.6) { timer = 0; shuffle(); }
+      });
+    })();
+
+    /* ---------- Rankings: 21 tiers, straight from the app ---------- */
     var RANKS = [
       { abbr: "PVT", name: "Private", reps: 0, kind: "text" },
       { abbr: "PV2", name: "Private Second Class", reps: 100, kind: "chev", c: 1, r: 0 },
@@ -360,140 +1175,330 @@
       { abbr: "LTG", name: "Lieutenant General", reps: 80000, kind: "img", src: "/assets/rank_ltg.svg" },
       { abbr: "GEN", name: "General", reps: 100000, kind: "img", src: "/assets/rank_gen.svg" },
       { abbr: "GA", name: "General of the Army", reps: 125000, kind: "img", src: "/assets/rank_ga.svg" },
-      { abbr: "GAS", name: "General of the Armies", reps: 150000, kind: "img", src: "/assets/rank_gas.svg", max: true }
+      { abbr: "GAS", name: "General of the Armies", reps: 150000, kind: "img", src: "/assets/rank_gas.svg" }
     ];
 
-    function chevronSVG(c, r, star) {
-      var GOLD = "#d9b841";
-      var parts = [];
-      var y = 8;
-      for (var i = 0; i < c; i++) {
-        parts.push('<path d="M8 ' + (y + 7) + ' L24 ' + y + ' L40 ' + (y + 7) + '"/>');
-        y += 9;
+    /* Enlisted stripes, same shapes as the app: filled chevrons, rockers underneath, SGM star */
+    function stripesSVG(c, r, star) {
+      var W = 85, SH = 18, SP = 4, x = 7.5, n = c + r;
+      var h = n * SH + (n - 1) * SP + (r ? SP : 0), vb = Math.max(100, h + 8), y = (vb - h) / 2, y0 = y, d = "", i;
+      function f(v) { return +v.toFixed(2); }
+      for (i = 0; i < c; i++) {
+        d += "M" + x + " " + f(y + SH) + "L" + f(x + W / 2) + " " + f(y) + "L" + f(x + W) + " " + f(y + SH) +
+             "L" + f(x + W * 0.82) + " " + f(y + SH) + "L" + f(x + W / 2) + " " + f(y + SH * 0.45) +
+             "L" + f(x + W * 0.18) + " " + f(y + SH) + "Z";
+        y += SH + SP;
       }
-      y += 2;
-      for (var j = 0; j < r; j++) {
-        parts.push('<path d="M8 ' + y + ' Q24 ' + (y + 9) + ' 40 ' + y + '"/>');
-        y += 9;
+      if (r) y += SP;
+      for (i = 0; i < r; i++) {
+        d += "M" + x + " " + f(y) + "Q" + f(x + W / 2) + " " + f(y + SH * 1.5) + " " + f(x + W) + " " + f(y) +
+             "L" + f(x + W * 0.9) + " " + f(y) + "Q" + f(x + W / 2) + " " + f(y + SH * 0.95) + " " + f(x + W * 0.1) + " " + f(y) + "Z";
+        y += SH + SP;
       }
-      var starMark = star
-        ? '<circle cx="24" cy="' + (8 + c * 9 / 2) + '" r="3" fill="' + GOLD + '" stroke="none"/>'
-        : "";
-      return '<svg viewBox="0 0 48 52" width="44" height="48" aria-hidden="true"><g fill="none" stroke="' + GOLD +
-             '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">' +
-             parts.join("") + "</g>" + starMark + "</svg>";
+      var s = "";
+      if (star) {
+        for (i = 0; i < 10; i++) {
+          var rr = i % 2 ? 4.6 : 11, a = -Math.PI / 2 + i * Math.PI / 5;
+          s += (i ? "L" : "M") + f(50 + rr * Math.cos(a)) + " " + f(y0 + h / 2 + rr * Math.sin(a));
+        }
+        s = '<path fill="#ffd60a" d="' + s + 'Z"/>';
+      }
+      return '<svg viewBox="0 0 100 ' + vb + '" aria-hidden="true"><path fill="#d9b340" d="' + d + '"/>' + s + "</svg>";
+    }
+    function insignia(rk, px) {
+      var inner;
+      if (rk.kind === "text") inner = '<span class="ins-text" style="font-size:' + Math.round(px * 0.4) + 'px">PVT</span>';
+      else if (rk.kind === "chev") inner = stripesSVG(rk.c, rk.r, rk.star);
+      else inner = '<img src="' + rk.src + '" alt="" loading="lazy">';
+      return '<span class="ins" style="width:' + px + "px;height:" + px + 'px">' + inner + "</span>";
+    }
+    function rankIndex(reps) {
+      var k = 0;
+      for (var i = 0; i < RANKS.length; i++) if (RANKS[i].reps <= reps) k = i;
+      return k;
     }
 
-    function rankCell(rk) {
-      var badge;
-      if (rk.kind === "text") {
-        badge = '<div class="rk-badge rk-badge-text">PVT</div>';
-      } else if (rk.kind === "chev") {
-        badge = '<div class="rk-badge">' + chevronSVG(rk.c, rk.r, rk.star) + "</div>";
-      } else {
-        badge = '<div class="rk-badge"><img src="' + rk.src + '" alt="" loading="lazy"></div>';
+    (function () {
+      var sim = $("#promoSim");
+      if (!sim) return;
+      var slider = $("#psSlider"), out = $("#psOut"), name = $("#psName"), ins = $("#psInsignia");
+      var fillEl = $("#psFill"), repsEl = $("#psReps"), eta = $("#psEta");
+      var curAbbr = $("#psCurAbbr"), curIcon = $("#psCurIcon"), curTh = $("#psCurTh");
+      var nextAbbr = $("#psNextAbbr"), nextIcon = $("#psNextIcon"), nextTh = $("#psNextTh");
+      var ladder = $("#ladder"), track = $("#ladderTrack");
+      var cur = -1, auto = null, lastPromo = 0;
+
+      track.innerHTML = RANKS.map(function (rk, i) {
+        return '<button class="rk-cell" type="button" data-i="' + i + '" aria-label="' + rk.name + ", " + fmt(rk.reps) + ' reps">' +
+               '<span class="rk-badge">' + insignia(rk, 50) + "</span>" +
+               '<span class="rk-abbr">' + rk.abbr + "</span>" +
+               '<span class="rk-name">' + rk.name + "</span>" +
+               '<span class="rk-reps">' + fmt(rk.reps) + "</span></button>";
+      }).join("");
+      var cells = $$(".rk-cell", track);
+
+      /* Each rank gets the same stretch of slider, so the early ranks are not squashed */
+      function repsAt(v) {
+        var p = v / 100;
+        if (p >= 20) return 150000;
+        var i = Math.floor(p);
+        return Math.round(lerp(RANKS[i].reps, RANKS[i + 1].reps, p - i));
       }
-      return '<div class="rk-cell' + (rk.max ? " rk-max" : "") + '">' + badge +
-             '<div class="rk-abbr">' + rk.abbr + "</div>" +
-             '<div class="rk-name">' + rk.name + "</div>" +
-             '<div class="rk-reps">' + rk.reps.toLocaleString("en-US") + "</div></div>";
-    }
-
-    /* Scrollable carousel: auto-drifts, and the user can swipe (touch) or
-       drag (mouse) at any time; auto-drift pauses during interaction. */
-    var car = document.getElementById("rankCarousel");
-    var track = document.getElementById("rankTrack");
-    if (track && car) {
-      var cells = RANKS.map(rankCell).join("");
-      track.innerHTML = cells + cells; /* duplicated for a seamless loop */
-
-      var pausedUntil = 0;
-      function pause(ms) { pausedUntil = Date.now() + ms; }
-
-      /* wrap-around: keep scroll position inside the first copy */
-      function wrap() {
-        var half = track.scrollWidth / 2;
-        if (half <= 0) return;
-        if (car.scrollLeft >= half) car.scrollLeft -= half;
-        else if (car.scrollLeft < 0) car.scrollLeft += half;
+      function sliderFor(reps) {
+        var k = rankIndex(reps);
+        if (k >= 20) return 2000;
+        return Math.round((k + (reps - RANKS[k].reps) / (RANKS[k + 1].reps - RANKS[k].reps)) * 100);
       }
-
-      if (!reduced) {
-        (function drift() {
-          if (Date.now() > pausedUntil) {
-            car.scrollLeft += 0.6;
-            wrap();
+      function centerCell(k, smooth) {
+        var c = cells[k];
+        ladder.scrollTo({ left: c.offsetLeft - (ladder.clientWidth - c.offsetWidth) / 2, behavior: smooth && !reduced ? "smooth" : "auto" });
+      }
+      function setReps(reps, animate) {
+        var k = rankIndex(reps), rk = RANKS[k], nx = RANKS[k + 1];
+        repsEl.textContent = fmt(reps);
+        out.textContent = fmt(reps);
+        slider.setAttribute("aria-valuetext", fmt(reps) + " reps, " + rk.name);
+        slider.style.setProperty("--p", (slider.value / 20) + "%");
+        if (k !== cur) {
+          name.textContent = rk.name;
+          ins.innerHTML = insignia(rk, window.innerWidth < 640 ? 84 : 104);
+          curAbbr.textContent = rk.abbr;
+          curIcon.innerHTML = insignia(rk, 28);
+          curTh.textContent = fmt(rk.reps);
+          nextAbbr.textContent = nx ? nx.abbr : "MAX";
+          nextIcon.innerHTML = nx ? insignia(nx, 28) : "";
+          nextTh.textContent = nx ? fmt(nx.reps) : "";
+          var now = performance.now();
+          if (animate && k > cur && cur !== -1 && !reduced && now - lastPromo > 140) {
+            lastPromo = now;
+            ins.classList.remove("promote");
+            void ins.offsetWidth;
+            ins.classList.add("promote");
           }
-          requestAnimationFrame(drift);
-        })();
+          cells.forEach(function (c, i) {
+            c.classList.toggle("done", i < k);
+            c.classList.toggle("current", i === k);
+          });
+          centerCell(k, cur !== -1);
+          cur = k;
+        }
+        var frac = nx ? (reps - rk.reps) / (nx.reps - rk.reps) : 1;
+        fillEl.style.width = (frac * 100).toFixed(2) + "%";
+        eta.textContent = nx ? fmt(nx.reps - reps) + " reps to " + nx.name : "Top of the ladder";
       }
+      function stopAuto() { if (auto) { cancelAnimationFrame(auto); auto = null; } }
 
-      /* touch: native scroll, just pause the drift */
-      car.addEventListener("touchstart", function () { pause(4000); }, { passive: true });
-      car.addEventListener("scroll", function () { if (Date.now() > pausedUntil - 3500) wrap(); }, { passive: true });
+      slider.addEventListener("input", function () { stopAuto(); setReps(repsAt(+slider.value), true); });
+      ["pointerdown", "keydown", "touchstart"].forEach(function (ev) { slider.addEventListener(ev, stopAuto, { passive: true }); });
+      track.addEventListener("click", function (e) {
+        var c = e.target.closest(".rk-cell");
+        if (!c) return;
+        stopAuto();
+        var i = +c.getAttribute("data-i");
+        slider.value = i * 100;
+        setReps(RANKS[i].reps, true);
+      });
+      ladder.addEventListener("pointerdown", stopAuto, { passive: true });
 
-      /* mouse: drag to scroll */
-      var dragging = false, dragX = 0, dragStart = 0;
-      car.addEventListener("mousedown", function (e) {
-        dragging = true; dragX = e.pageX; dragStart = car.scrollLeft;
-        pause(4000);
-        car.classList.add("grabbing");
-        e.preventDefault();
-      });
-      window.addEventListener("mousemove", function (e) {
-        if (!dragging) return;
-        car.scrollLeft = dragStart - (e.pageX - dragX);
-        wrap();
-        dragStart = car.scrollLeft; dragX = e.pageX;
-      });
-      window.addEventListener("mouseup", function () {
-        dragging = false;
-        car.classList.remove("grabbing");
-      });
-      car.addEventListener("wheel", function () { pause(4000); }, { passive: true });
-    }
+      setReps(0, false);
+      requestAnimationFrame(function () { centerCell(cur, false); });
 
-    /* ---------- Scroll reveal ---------- */
-    var revealEls = document.querySelectorAll(".reveal");
-    if (reduced || !("IntersectionObserver" in window)) {
-      revealEls.forEach(function (el) { el.classList.add("in"); });
-    } else {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      /* First visit: climb to Second Lieutenant, 8,896 reps, like the card below */
+      var goal = sliderFor(8896);
+      if (reduced) { slider.value = goal; setReps(8896, false); return; }
+      onceVisible(sim, function () {
+        var start = performance.now(), dur = 4600;
+        auto = requestAnimationFrame(function tick(now) {
+          var t = clamp((now - start) / dur, 0, 1), v = Math.round(goal * easeInOut(t));
+          slider.value = v;
+          setReps(t >= 1 ? 8896 : repsAt(v), true);
+          auto = t < 1 ? requestAnimationFrame(tick) : null;
         });
-      }, { threshold: 0.12 });
-      revealEls.forEach(function (el) { io.observe(el); });
+      }, 0.45);
+    })();
+
+    /* ---------- Achievement cards: tilt with a glass glare ---------- */
+    if (!reduced) {
+      $$(".tilt-card").forEach(function (card) {
+        var box = null;
+        card.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") box = card.getBoundingClientRect(); });
+        card.addEventListener("pointermove", function (e) {
+          if (e.pointerType !== "mouse" || !box) return;
+          var x = clamp((e.clientX - box.left) / box.width, 0, 1), y = clamp((e.clientY - box.top) / box.height, 0, 1);
+          card.classList.add("is-tilting");
+          card.style.setProperty("--ry", ((x - 0.5) * 18).toFixed(2) + "deg");
+          card.style.setProperty("--rx", ((0.5 - y) * 14).toFixed(2) + "deg");
+          card.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
+          card.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
+        });
+        card.addEventListener("pointerleave", function () {
+          box = null;
+          card.classList.remove("is-tilting");
+          card.style.setProperty("--rx", "0deg");
+          card.style.setProperty("--ry", "0deg");
+        });
+      });
     }
+
+    /* ---------- Decorations: medals earned as the timeline fills. Never un-earned. ---------- */
+    (function () {
+      var ml = $("#medalLadder");
+      if (!ml) return;
+      var rows = $$(".medal-row", ml), track = $(".medal-track", ml), stops = [0, 0.25, 0.5, 0.75, 1], best = -1, queued = false;
+      var vertical = window.matchMedia("(max-width: 640px)");
+      function apply(p) {
+        if (p <= best) return;
+        best = p;
+        ml.style.setProperty("--p", p.toFixed(4));
+        rows.forEach(function (row, i) { if (p >= stops[i] - 0.001) row.classList.add("earned"); });
+      }
+      function update() {
+        queued = false;
+        var r = track.getBoundingClientRect(), vh = window.innerHeight;
+        if (r.top > vh * 0.85) return;
+        apply(vertical.matches ? clamp((vh * 0.72 - r.top) / Math.max(1, r.height), 0, 1)
+                               : clamp((vh * 0.8 - r.top) / (vh * 0.4), 0, 1));
+      }
+      if (reduced) { apply(1); return; }
+      window.addEventListener("scroll", function () { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    })();
+
+    /* ---------- Analytics: heatmap and volume chart, in the app's style ---------- */
+    (function () {
+      var widget = $("#anWidget");
+      if (!widget) return;
+      function rng(seed) {
+        return function () {
+          seed = seed + 0x6D2B79F5 | 0;
+          var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+      var R = rng(20260928), WEEKS = 26, MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      var grid = $("#heatGrid"), monthsEl = $("#heatMonths"), tip = $("#heatTip"), title = $("#heatTitle");
+      var today = new Date(); today.setHours(12, 0, 0, 0);
+      var dow = (today.getDay() + 6) % 7, start = new Date(today);
+      start.setDate(today.getDate() - dow - (WEEKS - 1) * 7);
+      var days = [], html = "", months = "", lastMonth = -1, workouts = 0, maxReps = 1;
+      for (var c = 0; c < WEEKS; c++) {
+        var colDate = new Date(start); colDate.setDate(start.getDate() + c * 7);
+        if (colDate.getMonth() !== lastMonth) {
+          if (c < WEEKS - 2) months += '<span style="left:' + (c / WEEKS * 100).toFixed(2) + '%">' + MONTHS[colDate.getMonth()] + "</span>";
+          lastMonth = colDate.getMonth();
+        }
+        var mood = 0.55 + 0.35 * Math.sin(c / 3.1);
+        for (var r = 0; r < 7; r++) {
+          var dt = new Date(start); dt.setDate(start.getDate() + c * 7 + r);
+          var future = dt > today, on = !future && R() < (r < 5 ? mood + 0.12 : mood - 0.2);
+          var reps = on ? Math.round(60 + R() * 240) : 0, count = on ? (R() < 0.15 ? 2 : 1) : 0;
+          if (on) workouts += count;
+          maxReps = Math.max(maxReps, reps);
+          days.push({ date: dt, reps: reps, count: count, future: future });
+        }
+      }
+      function level(v, max) { if (!v) return 0; var q = v / max; return q < 0.25 ? 1 : q < 0.5 ? 2 : q < 0.75 ? 3 : 4; }
+      days.forEach(function (d, i) {
+        html += '<i data-i="' + i + '" style="--d:' + (Math.floor(i / 7) * 0.025).toFixed(3) + 's' + (d.future ? ';visibility:hidden' : "") + '"></i>';
+      });
+      grid.innerHTML = html;
+      monthsEl.innerHTML = months;
+      title.textContent = workouts + " WORKOUTS";
+      var cellsEl = $$("i", grid);
+      function paint(byReps) {
+        cellsEl.forEach(function (el, i) {
+          var d = days[i];
+          el.setAttribute("data-l", byReps ? level(d.reps, maxReps) : level(d.count, 2));
+        });
+      }
+      paint(false);
+      grid.addEventListener("mouseover", function (e) {
+        var el = e.target.closest("i[data-i]");
+        if (!el) return;
+        var d = days[+el.getAttribute("data-i")], card = grid.closest(".an-card");
+        var cr = card.getBoundingClientRect(), er = el.getBoundingClientRect();
+        tip.innerHTML = DAYS[(d.date.getDay() + 6) % 7] + " " + d.date.getDate() + " " + MONTHS[d.date.getMonth()] + " &middot; <b>" + (d.reps ? fmt(d.reps) + " reps" : "rest day") + "</b>";
+        tip.style.left = (er.left - cr.left + er.width / 2) + "px";
+        tip.style.top = (er.top - cr.top) + "px";
+        tip.classList.add("on");
+      });
+      grid.addEventListener("mouseleave", function () { tip.classList.remove("on"); });
+
+      function segControl(el, cb) {
+        el.addEventListener("click", function (e) {
+          var b = e.target.closest("button");
+          if (!b) return;
+          $$("button", el).forEach(function (x) { x.classList.toggle("is-active", x === b); });
+          cb(b.getAttribute("data-v"));
+        });
+      }
+      segControl($("#heatSeg"), function (v) { paint(v === "r"); });
+
+      /* Volume chart: DAILY, W, M */
+      var SETS = {
+        daily: { n: 30, avg: 149, pace: 35, spread: 0.9, zeros: 0.18, label: function (i, n) { var d = new Date(today); d.setDate(today.getDate() - (n - 1 - i)); return d.getDate(); } },
+        weekly: { n: 12, avg: 540, pace: 17, spread: 0.55, zeros: 0.04, label: function (i, n) { return "W" + (i + 1); } },
+        monthly: { n: 12, avg: 2160, pace: 16, spread: 0.45, zeros: 0, label: function (i, n) { var d = new Date(today); d.setMonth(today.getMonth() - (n - 1 - i)); return MONTHS[d.getMonth()].charAt(0); } }
+      };
+      var barsEl = $("#bars"), avgEl = $("#barsAvg"), avgVal = $("#barsAvgVal"), maxEl = $("#barsMax"), pill = $("#barsPill");
+      var trend = $("#barsTrend"), xEl = $("#barsX"), current = null;
+      function dataFor(key) {
+        var s = SETS[key], rr = rng(key.length * 977), vals = [];
+        for (var i = 0; i < s.n; i++) {
+          var v = rr() < s.zeros ? 0 : s.avg * (1 + (rr() * 2 - 1) * s.spread) * (0.85 + i / s.n * 0.3);
+          vals.push(Math.max(0, Math.round(v)));
+        }
+        return vals;
+      }
+      function showBars(key, first) {
+        var s = SETS[key], vals = dataFor(key), max = Math.max.apply(null, vals), n = vals.length;
+        var mean = vals.reduce(function (a, b) { return a + b; }, 0) / n;
+        var sx = 0, sy = 0, sxy = 0, sxx = 0;
+        vals.forEach(function (v, i) { sx += i; sy += v; sxy += i * v; sxx += i * i; });
+        var slope = (n * sxy - sx * sy) / (n * sxx - sx * sx), icpt = (sy - slope * sx) / n;
+        var rebuild = current === null || SETS[current].n !== n;
+        if (rebuild) barsEl.innerHTML = vals.map(function () { return '<i style="--h:0"></i>'; }).join("");
+        var bs = $$("i", barsEl), top = vals.indexOf(max);
+        var setH = function () {
+          bs.forEach(function (b, i) { b.style.setProperty("--h", (vals[i] / max).toFixed(3)); b.classList.toggle("max", i === top); });
+          avgEl.style.setProperty("--avg", (mean / max).toFixed(3));
+          trend.setAttribute("y1", (100 - icpt / max * 100).toFixed(1));
+          trend.setAttribute("y2", (100 - (icpt + slope * (n - 1)) / max * 100).toFixed(1));
+        };
+        if (rebuild && !first) requestAnimationFrame(function () { requestAnimationFrame(setH); }); else setH();
+        avgVal.textContent = fmt(mean);
+        maxEl.textContent = fmt(max);
+        pill.innerHTML = "<b>" + fmt(s.avg) + " reps</b>" + s.pace + " reps/min";
+        var labels = "", step = Math.ceil(n / 6);
+        for (var i = 0; i < n; i += step) labels += "<span>" + s.label(i, n) + "</span>";
+        xEl.innerHTML = labels;
+        current = key;
+      }
+      segControl($("#barsSeg"), function (v) { showBars(v, false); });
+      if (reduced) { showBars("daily", true); return; }
+      barsEl.innerHTML = "";
+      onceVisible(widget, function () { showBars("daily", false); }, 0.3);
+    })();
 
     /* ---------- Promotion bar sweep (2LT at 8,896 of 10,000) ---------- */
-    var promo = document.getElementById("promoFill");
+    var promo = $("#promoFill");
     if (promo) {
-      if (reduced || !("IntersectionObserver" in window)) {
-        promo.classList.add("go");
-      } else {
-        var io2 = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              requestAnimationFrame(function () { promo.classList.add("go"); });
-              io2.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.5 });
-        io2.observe(promo.parentElement);
-      }
+      if (reduced) promo.classList.add("go");
+      else onceVisible(promo.parentElement, function () { requestAnimationFrame(function () { promo.classList.add("go"); }); }, 0.5);
     }
 
     /* ---------- Mobile: start the card gallery centered on the middle card ---------- */
     window.addEventListener("load", function () {
-      var gal = document.querySelector(".card-gallery");
-      var galCenter = document.querySelector(".gallery-center");
-      if (gal && galCenter && window.innerWidth <= 560) {
-        gal.scrollLeft = galCenter.offsetLeft - (gal.clientWidth - galCenter.clientWidth) / 2;
+      var gal = $(".card-gallery"), mid = $(".gallery-center");
+      if (gal && mid && window.innerWidth <= 640) {
+        var g = gal.getBoundingClientRect(), m = mid.getBoundingClientRect();
+        gal.scrollLeft += (m.left + m.width / 2) - (g.left + g.width / 2);
       }
     });
 
-    /* ---------- Rotating quotes, straight from the app ---------- */
+    /* ---------- Rotating quotes, straight from the app, decoded like a transmission ---------- */
     var quotes = [
       "Weeks of duty logged. Command salutes your service.",
       "Every week a completed tour. Carry on, soldier.",
@@ -511,19 +1516,34 @@
       "This is what dedication looks like on parade.",
       "Tour of duty extended by choice. Highest respect."
     ];
-    var quoteEl = document.getElementById("rankQuote");
-    if (quoteEl && !reduced) {
-      var qi = Math.floor(Math.random() * quotes.length);
-      quoteEl.textContent = quotes[qi];
+    (function () {
+      var vis = $("#quoteVis"), sr = $("#quoteText"), band = $(".quote-band");
+      if (!vis || reduced) return;
+      var qi = Math.floor(Math.random() * quotes.length), GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&";
+      function decode(text) {
+        sr.textContent = text;
+        var n = text.length, start = performance.now(), dur = 1200, at = [];
+        for (var i = 0; i < n; i++) at.push(i / n * 0.6 + Math.random() * 0.4);
+        (function frame(now) {
+          var t = (now - start) / dur, s = "";
+          for (var i = 0; i < n; i++) {
+            var ch = text.charAt(i);
+            s += (t >= at[i] || ch === " ") ? ch : GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
+          }
+          vis.textContent = s;
+          if (t < 1) requestAnimationFrame(frame); else vis.textContent = text;
+        })(start);
+      }
+      var visible = false;
+      if (hasIO) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(band);
+      sr.textContent = vis.textContent = quotes[qi];
+      onceVisible(band, function () { decode(quotes[qi]); }, 0.5);
       setInterval(function () {
+        if (!visible || document.hidden) return;
         qi = (qi + 1) % quotes.length;
-        quoteEl.classList.add("fade");
-        setTimeout(function () {
-          quoteEl.textContent = quotes[qi];
-          quoteEl.classList.remove("fade");
-        }, 400);
-      }, 5000);
-    }
+        decode(quotes[qi]);
+      }, 6000);
+    })();
   })();
   </script>
 </body>
