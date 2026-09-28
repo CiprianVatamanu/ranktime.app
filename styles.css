@@ -783,17 +783,20 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 .doc .plan-item .plan-title { display: flex; align-items: baseline; gap: 8px; margin: 4px 0 0; font-size: 17px; font-weight: 600; color: #fff; }
 .plan-item .plan-title span { flex: 1; }
 .plan-item .plan-title svg { width: 12px; height: 12px; color: var(--muted); transition: transform 0.2s ease; flex: none; }
+.plan-head:focus-visible { outline-offset: 6px; }
+.upd-header .circ, .doc .upd-header h1 { text-decoration: none; }
 .plan-item.closed .plan-title svg { transform: rotate(-90deg); }
 .plan-item.closed .plan-body { display: none; }
 .plan-body { margin-top: 4px; }
 .doc .plan-item p { color: var(--muted); font-size: 15px; margin: 0 0 4px; }
-.doc .requesters { color: rgba(235, 235, 245, 0.48); font-size: 12px; padding-top: 4px; }
+.doc .plan-item .requesters, .doc .requesters { color: rgba(235, 235, 245, 0.48); font-size: 12px; padding-top: 4px; }
 .requesters a { color: var(--lime); }
 .dev-note { display: flex; gap: 8px; padding-top: 4px; margin: 6px 0; }
+.dev-note > div { min-width: 0; }
 .dev-note::before { content: ""; width: 2px; flex: none; background: rgba(139, 215, 6, 0.6); }
 .dev-note-label { display: block; color: var(--lime); font-size: 10px; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 2px; }
-.doc .dev-note p { color: var(--muted); font-size: 13px; margin: 0; }
-.doc .plan-stamps { padding-top: 8px; font-size: 12px; color: var(--muted); margin: 0; }
+.doc .plan-item .dev-note p, .doc .dev-note p { color: var(--muted); font-size: 13px; margin: 0; }
+.doc .plan-item .plan-stamps, .doc .plan-stamps { padding-top: 8px; font-size: 12px; color: var(--muted); margin: 0; }
 .stamp-row { display: flex; gap: 8px; }
 .stamp-label { width: 84px; color: rgba(235, 235, 245, 0.36); flex: none; }
 .empty-state { text-align: center; padding: 40px 32px; }

@@ -37,11 +37,15 @@
   </header>
 
   <main class="doc">
-    <h1>What's Next</h1>
-    <p class="updated">What is being worked on, and what is already known to be broken. No dates, because plans move.</p>
+    <div class="upd-header">
+      <a class="g rim circ" href="/" aria-label="Back to Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4.5L7.5 12l7.5 7.5"/></svg></a>
+      <h1 class="g rim">What's Next</h1>
+      <a class="g rim circ" href="/" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+    </div>
+    <p class="upd-sub">What is being worked on, and what is already known to be broken. No dates, because plans move.</p>
 
     <div id="content">
-      <p class="updated">Loading.</p>
+      <p class="upd-sub">Loading.</p>
     </div>
 
     <p class="callout">
@@ -115,93 +119,109 @@
       return '<p class="requesters">' + verb + ' ' + parts.join(', ') + '</p>';
     };
 
+    // WhatsNextView: one card per item, the header row folds it open and shut like the app.
+    var chevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>';
+    var hammer = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l4 4M3.5 20.5l9-9M12 5l3-2 6 6-2 3-2-1-3 3-4-4 3-3z"/></svg>';
+    var shield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>';
+
+    var stamps = function (item) {
+      var rows = '';
+      if (prettyDate(item.added)) {
+        rows += '<span class="stamp-row"><span class="stamp-label">Added</span>' + esc(prettyDate(item.added)) + '</span>';
+      }
+      if (prettyDate(item.updated)) {
+        rows += '<span class="stamp-row"><span class="stamp-label">Last update</span>' + esc(prettyDate(item.updated)) + '</span>';
+      }
+      return rows ? '<p class="plan-stamps">' + rows + '</p>' : '';
+    };
+
+    var note = function (text) {
+      if (!text) return '';
+      return '<div class="dev-note"><div><span class="dev-note-label">From the developer</span>' +
+             '<p>' + esc(text) + '</p></div></div>';
+    };
+
+    var card = function (statusClass, statusText, title, body) {
+      return '<div class="plan-item">' +
+             '<div class="plan-head" role="button" tabindex="0" aria-expanded="true">' +
+             '<span class="status status-' + statusClass + '">' + statusText + '</span>' +
+             '<h3 class="plan-title"><span>' + title + '</span>' + chevron + '</h3></div>' +
+             '<div class="plan-body">' + body + '</div></div>';
+    };
+
+    var emptyCard = function (icon, text) {
+      return '<div class="empty-card">' + icon + '<p>' + text + '</p></div>';
+    };
+
     var render = function (data) {
       var planned = (data && data.planned) || [];
       var issues = (data && data.knownIssues) || [];
       var html = '';
 
-      html += '<h2>Planned features</h2>';
+      html += '<h2 class="upd-section">Planned features</h2>';
       // Newest first. The app can also sort by votes; this page has no vote data.
       planned = planned.slice().sort(function (a, b) {
         return String(b.added || '').localeCompare(String(a.added || ''));
       });
       if (planned.length) {
-        html += '<div class="plan-list">';
+        html += '<div class="upd-list">';
         for (var i = 0; i < planned.length; i++) {
           var p = planned[i];
-          html += '<div class="plan-item is-' + esc(statusKey(p.status)) + '">';
-          html += '<span class="status status-' + esc(statusKey(p.status)) + '">' +
-                  esc(statusLabel(p.status)) + '</span>';
-          html += '<h3 class="plan-title">' + esc(p.title) + '</h3>';
-          if (p.detail) html += '<p>' + esc(p.detail) + '</p>';
-          html += requesterLine(p.requesters, 'Requested by');
-          if (p.note) {
-            html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
-                    '<p>' + esc(p.note) + '</p></div>';
-          }
-          var rows = '';
-          if (prettyDate(p.added)) {
-            rows += '<span class="stamp-row"><span class="stamp-label">Added</span>' +
-                    esc(prettyDate(p.added)) + '</span>';
-          }
-          if (prettyDate(p.updated)) {
-            rows += '<span class="stamp-row"><span class="stamp-label">Last update</span>' +
-                    esc(prettyDate(p.updated)) + '</span>';
-          }
-          if (rows) html += '<p class="plan-stamps">' + rows + '</p>';
-          html += '</div>';
+          html += card(esc(statusKey(p.status)), esc(statusLabel(p.status)), esc(p.title),
+                       (p.detail ? '<p>' + esc(p.detail) + '</p>' : '') +
+                       requesterLine(p.requesters, 'Requested by') + note(p.note) + stamps(p));
         }
         html += '</div>';
       } else {
-        html += '<p>Nothing announced yet.</p>';
+        html += emptyCard(hammer, 'Nothing announced yet.');
       }
 
-      html += '<h2>Known issues</h2>';
+      html += '<h2 class="upd-section">Known issues</h2>';
       if (issues.length) {
-        html += '<div class="plan-list">';
+        html += '<div class="upd-list">';
         for (var j = 0; j < issues.length; j++) {
           var k = issues[j];
           var ikey = (k.status === 'fixed') ? 'fixed' : 'in-progress';
           var ilabel = (ikey === 'fixed') ? 'Fixed' : 'In progress';
-          html += '<div class="plan-item is-' + ikey + '">';
-          html += '<span class="status status-' + ikey + '">' + ilabel + '</span>';
-          html += '<h3 class="plan-title">' + esc(k.problem) + '</h3>';
-          html += '<p><strong>Workaround:</strong> ' +
-                  esc(k.workaround && k.workaround.length
-                      ? k.workaround
-                      : 'There is no workaround yet. A fix is on the way.') + '</p>';
-          html += requesterLine(k.requesters, 'Reported by');
-          if (k.note) {
-            html += '<div class="dev-note"><span class="dev-note-label">From the developer</span>' +
-                    '<p>' + esc(k.note) + '</p></div>';
-          }
-          var irows = '';
-          if (prettyDate(k.added)) {
-            irows += '<span class="stamp-row"><span class="stamp-label">Added</span>' +
-                     esc(prettyDate(k.added)) + '</span>';
-          }
-          if (prettyDate(k.updated)) {
-            irows += '<span class="stamp-row"><span class="stamp-label">Last update</span>' +
-                     esc(prettyDate(k.updated)) + '</span>';
-          }
-          if (irows) html += '<p class="plan-stamps">' + irows + '</p>';
-          html += '</div>';
+          html += card(ikey, ilabel, esc(k.problem),
+                       '<p><strong>Workaround:</strong> ' +
+                       esc(k.workaround && k.workaround.length
+                           ? k.workaround
+                           : 'There is no workaround yet. A fix is on the way.') + '</p>' +
+                       requesterLine(k.requesters, 'Reported by') + note(k.note) + stamps(k));
         }
         html += '</div>';
       } else {
-        html += '<p>No known issues right now. If you have hit one, tell us at ' +
-                '<a href="mailto:support@ranktime.app">support@ranktime.app</a>.</p>';
+        html += emptyCard(shield, 'No known issues right now. If you have hit one, tell us at ' +
+                '<a href="mailto:support@ranktime.app">support@ranktime.app</a>.');
       }
 
-      document.getElementById('content').innerHTML = html;
+      var host = document.getElementById('content');
+      host.innerHTML = html;
     };
+
+    // Tapping a card's header folds it, like the app. Everything starts open.
+    document.getElementById('content').addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;
+      var head = e.target.closest('.plan-head');
+      if (!head) return;
+      var item = head.parentNode;
+      item.classList.toggle('closed');
+      head.setAttribute('aria-expanded', item.classList.contains('closed') ? 'false' : 'true');
+    });
+    document.getElementById('content').addEventListener('keydown', function (e) {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('plan-head')) {
+        e.preventDefault();
+        e.target.click();
+      }
+    });
 
     fetch('/updates.json?t=' + Math.floor(Date.now() / 60000))
       .then(function (r) { return r.json(); })
       .then(render)
       .catch(function () {
         document.getElementById('content').innerHTML =
-          '<h2>Planned features</h2><p>The list could not be loaded right now. Please try again in a moment.</p>';
+          '<h2 class="upd-section">Planned features</h2><div class="empty-card"><p>The list could not be loaded right now. Please try again in a moment.</p></div>';
       });
   </script>
 </body>

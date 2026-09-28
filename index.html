@@ -719,7 +719,7 @@
       this.round = 0;
     }
     HeartSim.prototype.step = function (dt, type) {
-      var target = type === "work" ? Math.min(184, 150 + this.round * 4) : type === "rest" ? 124 + this.round * 3 : 98;
+      var target = type === "work" ? Math.min(184, 150 + this.round * 4) : type === "rest" ? Math.min(160, 124 + this.round * 3) : 98;
       this.bpm += (target - this.bpm) * (1 - Math.exp(-dt * (type === "work" ? 0.16 : 0.12)));
       return this.bpm;
     };
