@@ -168,19 +168,29 @@
                   <span class="unit" id="cfgUnit">min:sec</span>
                 </div>
                 <div class="cfg-breath" aria-hidden="true"><i></i><i></i></div>
-                <button class="g rim circ cfg-play" id="cfgPlay" type="button" aria-label="Play a sped up run" data-icon="playFill"></button>
+                <button class="g rim circ cfg-play" id="cfgPlay" type="button" aria-label="Start the workout" data-icon="playFill"></button>
                 <div id="cfgTabs" aria-hidden="true"></div>
               </div>
 
               <div class="run" id="run" aria-hidden="true">
                 <div class="run-bg" id="runBg"></div>
                 <div class="run-next" id="runNext"></div>
-                <div class="rp" id="runPill"></div>
-                <span class="g rim circ run-cam" data-icon="videoSlash"></span>
+                <div class="run-pause"></div>
+                <div class="run-feed"><div class="letterbox top"></div><div class="letterbox bottom"></div></div>
+                <svg class="run-ring" viewBox="0 0 360 360"><circle class="track" cx="180" cy="180" r="160"/><circle class="glow" cx="180" cy="180" r="160" pathLength="1"/><circle class="arc" cx="180" cy="180" r="160" pathLength="1"/></svg>
+                <div class="g rim run-digits" id="runDigits">00:10</div>
+                <div class="run-rec" id="runRec">00:00:00</div>
+                <div class="run-top"><div class="rp" id="runPill"></div><button class="g rim run-x" id="runX" type="button" aria-label="End workout" data-icon="x"></button></div>
+                <div class="run-ctrls">
+                  <button class="rim run-btn run-mic" id="runMic" type="button" aria-label="Mute audio" data-icon="mic"></button>
+                  <button class="g run-recbtn" id="runRecBtn" type="button" aria-label="Start recording"><i></i></button>
+                  <button class="rim run-btn run-cam" id="runCam" type="button" aria-label="Turn on camera" data-icon="videoSlash"></button>
+                </div>
+                <div class="run-fb" id="runFb"><button type="button" class="on" data-p="front">FRONT</button><button type="button" data-p="back">BACK</button></div>
               </div>
             </div>
           </div>
-          <p class="phone-hint">Swipe or tap the mode, pick a preset, press play.</p>
+          <p class="phone-hint">Pick a mode and preset, press play. Tap the running screen to pause.</p>
         </div>
       </div>
     </section>
@@ -193,7 +203,7 @@
             <div class="run-bg"></div>
             <div class="run-next"></div>
             <div class="rp"></div>
-            <span class="g rim circ run-cam" data-icon="videoSlash"></span>
+            <span class="rim run-btn run-cam" data-icon="videoSlash"></span>
           </div>
           <h3><span class="dot">&rsaquo;</span> HIIT intervals</h3>
           <p>Tabata, EMOM, or your own templates with exercises, rounds, and durations. Time or reps mode, mixed or continuous order.</p>
@@ -639,6 +649,9 @@
       shuffle: S + 'stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>',
       layers: S + 'stroke-width="1.9"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/></svg>',
       layersDown: S + 'stroke-width="1.9"><path d="M12 3l9 4.5-9 4.5-9-4.5z" fill="currentColor" fill-opacity=".25"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/></svg>',
+      mic: S + 'stroke-width="1.7"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>',
+      micSlash: S + 'stroke-width="1.7"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M3 3l18 18"/></svg>',
+      video: S + 'stroke-width="1.7"><path d="M15 10.5l6-3.5v10l-6-3.5"/><path d="M3.5 6.5h9a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/></svg>',
       videoSlash: S + 'stroke-width="1.9"><path d="M15 10.5l6-3.5v10l-6-3.5"/><path d="M3.5 6.5h9a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/><path d="M2 3l20 18"/></svg>',
       heartFill: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.6-4.7-9.7-9.3C.8 8.3 3 4.4 6.7 4.4c2.1 0 3.6 1.2 4.4 2.5.4.6 1.4.6 1.8 0 .8-1.3 2.3-2.5 4.4-2.5 3.7 0 5.9 3.9 4.4 7.3C19.6 16.3 12 21 12 21z"/></svg>',
       timer: S + 'stroke-width="2.2"><circle cx="12" cy="13.5" r="8"/><path d="M12 13.5V9.5M9.5 2.5h5"/></svg>',
@@ -976,7 +989,9 @@
       function setMode(m) { if (m !== mode) swap(m === "reps" ? -1 : 1, 0, function () { mode = m; }, true); }
       function setPreset(k) { if (k !== idx[mode]) swap(0, k < idx[mode] ? -1 : 1, function () { idx[mode] = k; }, false); }
 
-      /* ---- TimerRunningView playback ---- */
+      /* ---- TimerRunningView, in real time: tap to pause, the X ends it, the camera button swaps controls ---- */
+      var runRing = $(".run-ring", run), ringArc = $(".run-ring .arc", run), ringGlow = $(".run-ring .glow", run);
+      var digits = $("#runDigits"), recEl = $("#runRec"), camBtn = $("#runCam"), micBtn = $("#runMic"), recBtn = $("#runRecBtn");
       function timeline() {
         var first = segs[0].name, list = [{ type: "getReady", secs: 10, name: first }];
         segs.forEach(function (sg, i) {
@@ -989,24 +1004,34 @@
         if (!running) return;
         cancelAnimationFrame(running.raf);
         running = null;
-        run.classList.remove("on");
+        run.classList.remove("on", "paused", "cam", "recording");
         cfg.classList.remove("morph");
         openAnimation();
       }
+      function setCam(on) {
+        if (!running) return;
+        running.cam = on;
+        run.classList.toggle("cam", on);
+        camBtn.innerHTML = on ? I.video : I.videoSlash;
+        camBtn.setAttribute("aria-label", on ? "Turn off camera" : "Turn on camera");
+        $("#runPill").classList.toggle("large", on);
+        if (!on) { running.recording = false; run.classList.remove("recording"); }
+      }
       function startRun() {
         if (running) return;
-        var list = timeline(), total = totalOf(list), repsTotal = totalReps();
-        var demo = clamp(6 + list.length * 0.02, 8, 12);
-        running = { t: 0, last: performance.now(), speed: total / demo, list: list, hr: new HeartSim(98), wall: 0, beat: 0, lastI: -1, raf: 0 };
+        var list = timeline(), total = totalOf(list), repsTotal = totalReps(), workTotal = total - list[0].secs;
+        running = { t: 0, last: performance.now(), list: list, hr: new HeartSim(98), beat: 0, lastI: -1, raf: 0, paused: false, cam: false, recording: false, recT: 0, wall: 0 };
+        setCam(false);
         cfg.classList.add("morph");
         run.classList.add("on");
         var r = running;
         (function frame(now) {
           if (running !== r) return;
           var dt = Math.min(0.05, (now - r.last) / 1000);
-          r.last = now; r.wall += dt;
-          r.t += dt * r.speed;
-          if (r.t >= total) { if (!r.ending) { r.ending = true; setTimeout(stopRun, 500); } r.t = total - 1e-6; }
+          r.last = now;
+          if (!r.paused) { r.t += dt; r.wall += dt; }
+          if (r.recording) r.recT += dt;
+          if (r.t >= total) { stopRun(); return; }
           var ph = playhead(list, r.t), iv = ph.iv, rem = iv.secs - ph.e;
           if (ph.i !== r.lastI) { if (r.lastI !== -1) pill.mistFlash(); r.lastI = ph.i; if (iv.type === "work") r.hr.round++; }
           var color = iv.type === "work" ? LIME : GREY;
@@ -1014,35 +1039,65 @@
           var nx = ph.next, nextColor = nx ? (nx.type === "work" ? LIME : GREY) : color;
           runNext.style.background = nextColor;
           runNext.style.opacity = nx && nextColor !== color ? clamp((3 - rem) / 3, 0, 1) : 0;
-          var bpm = r.hr.step(dt * r.speed, iv.type);
+          var bpm = r.hr.step(r.paused ? 0 : dt, iv.type);
           r.beat += dt;
           if (r.beat >= 60 / bpm) { r.beat = 0; pill.beat(); }
           var repsDone = 0, setDone = 0;
           if (mode === "reps") {
             for (var k = 1; k < ph.i; k++) repsDone += list[k].reps || 0;
             if (iv.type === "work") { setDone = Math.floor(ph.e / iv.secs * iv.reps + 1e-6); repsDone += setDone; }
-            else repsDone += 0;
           }
-          var showTimer = Math.floor(r.wall / 1.6) % 2 === 1;
+          /* timerDisplaySeconds: get ready counts its own 10s, TIME counts the whole workout down, REPS counts up */
+          var shown = iv.type === "getReady" ? rem : mode === "reps" ? r.t - list[0].secs : total - r.t;
+          var clock = mmss(mode === "reps" && iv.type !== "getReady" ? Math.floor(shown) : shown);
+          digits.textContent = clock;
+          /* workoutProgress: time in TIME, reps in REPS; empty during get ready */
+          var prog = iv.type === "getReady" ? 0 : mode === "reps" ? repsDone / repsTotal : (r.t - list[0].secs) / workTotal;
+          ringArc.style.strokeDasharray = ringGlow.style.strokeDasharray = prog.toFixed(4) + " 1";
+          var showTimer = Math.floor(r.wall / 5) % 2 === 1;
           pill.set({
             color: color,
             work: iv.type === "work",
             fraction: mode === "reps" && iv.type === "work" ? setDone / iv.reps : (iv.type === "work" ? ph.e / iv.secs : rem / iv.secs),
             hr: bpm,
-            name: showTimer ? mmss(rem) : iv.name,
+            name: showTimer ? clock : iv.name,
             timer: showTimer,
             reps: mode === "reps" ? repsDone : null,
-            border: mode === "reps" ? repsDone / repsTotal : null
+            border: (r.cam || mode === "reps") ? prog : null
           });
+          if (r.recording) { var rs = Math.floor(r.recT); recEl.textContent = "00:" + mmss(rs); }
           r.raf = requestAnimationFrame(frame);
         })(r.last);
       }
+      /* the screen itself: a tap pauses and resumes, like the app */
+      run.addEventListener("click", function (e) {
+        if (!running || e.target.closest("button")) return;
+        running.paused = !running.paused;
+        run.classList.toggle("paused", running.paused);
+      });
+      $("#runX").addEventListener("click", stopRun);
+      camBtn.addEventListener("click", function () { if (running && !running.paused && !running.recording) setCam(!running.cam); });
+      micBtn.addEventListener("click", function () {
+        var muted = micBtn.classList.toggle("muted");
+        micBtn.innerHTML = muted ? I.micSlash : I.mic;
+      });
+      recBtn.addEventListener("click", function () {
+        if (!running || !running.cam) return;
+        running.recording = !running.recording;
+        if (running.recording) { running.recT = 0; recEl.textContent = "00:00:00"; }
+        run.classList.toggle("recording", running.recording);
+        recBtn.setAttribute("aria-label", running.recording ? "Stop recording" : "Start recording");
+      });
+      $("#runFb").addEventListener("click", function (e) {
+        var b = e.target.closest("button");
+        if (!b || !running || running.recording) return;
+        $$("button", $("#runFb")).forEach(function (x) { x.classList.toggle("on", x === b); });
+      });
 
       modeCards.forEach(function (b) { b.addEventListener("click", function () { setMode(b.getAttribute("data-mode")); }); });
       $("#cfgTitle").addEventListener("click", function () { setMode(mode === "time" ? "reps" : "time"); });
       chipsEl.addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) setPreset(+b.getAttribute("data-k")); });
       $("#cfgPlay").addEventListener("click", startRun);
-      run.addEventListener("click", stopRun);
       var sx = 0, sy = 0, down = false;
       phone.addEventListener("pointerdown", function (e) { down = true; sx = e.clientX; sy = e.clientY; });
       phone.addEventListener("pointerup", function (e) {
@@ -1071,7 +1126,7 @@
       var bg = $(".run-bg", root), nextBg = $(".run-next", root), pill = Pill($(".rp", root));
       var list = [{ type: "getReady", secs: 10, name: "SQUATS" }];
       for (var r = 0; r < 8; r++) { list.push({ type: "work", secs: 20, name: "SQUATS" }); list.push({ type: "rest", secs: 10, name: r < 7 ? "SQUATS" : "WORKOUT COMPLETE" }); }
-      var total = totalOf(list), t = 0, wall = 0, beat = 0, lastI = -1, hr = new HeartSim(100), SPEED = 4;
+      var total = totalOf(list), t = 0, wall = 0, beat = 0, lastI = -1, hr = new HeartSim(100), SPEED = 1;
       function paint(dt) {
         var ph = playhead(list, t), iv = ph.iv, rem = iv.secs - ph.e;
         if (ph.i !== lastI) { if (lastI !== -1) pill.mistFlash(); lastI = ph.i; if (iv.type === "work") hr.round++; }
