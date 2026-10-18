@@ -996,3 +996,10 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
   .app-cta { flex-direction: column; align-items: flex-start; }
   .guide-card img { width: 58px; }
 }
+
+/* Apple's official badge (#318). Never restyle the artwork itself: size and spacing only. */
+.store-badge { display: inline-block; line-height: 0; transition: transform 0.2s ease; }
+.store-badge:hover { transform: translateY(-2px); }
+.store-badge img { width: 180px; height: auto; }
+.hero-badge { position: relative; margin-top: 28px; }
+.app-cta .store-badge img { width: 150px; }

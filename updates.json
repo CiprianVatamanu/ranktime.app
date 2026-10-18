@@ -1,6 +1,20 @@
 {
-  "generated": "2026-08-15T22:15:00Z",
-  "versions": [],
+  "generated": "2026-10-18T12:00:00Z",
+  "versions": [
+    {
+      "version": "1.44.2",
+      "date": "2026-10-16",
+      "items": [
+        "RankTime is live on the App Store.",
+        "TIME and REPS workouts, with Tabata, EMOM, Centurion and Murph built in.",
+        "Camera rep counting: train an exercise once and the phone counts your reps.",
+        "Heart rate from a Polar H10 or any Bluetooth chest strap, saved to Apple Health.",
+        "Record your workout with the timer and your reps shown on the video.",
+        "A military rank for every exercise, plus weekly medals for showing up.",
+        "History, analytics and progress photos, backed up to your iCloud."
+      ]
+    }
+  ],
   "planned": [
     {
       "id": "apple-watch-app",
