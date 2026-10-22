@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=17">
+  <link rel="stylesheet" href="/styles.css?v=18">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -262,12 +262,28 @@
 
         <article class="feat feat-wide reveal">
           <figure class="device land"><div class="scr">
-            <img src="/assets/screens/heart-rate.jpg" width="1400" height="644" loading="lazy" alt="RankTime heart rate detail in landscape: the heart rate line of a HIIT 40/20 workout climbing into the orange and red zones on every work interval, over work and rest stripes">
+            <img src="/assets/screens/heart-rate.jpg" width="1400" height="644" loading="lazy" alt="RankTime heart rate detail in landscape: the heart rate of a HIIT 40/20 workout rising in waves from 90 to about 140, through the grey, blue, green and yellow zones, over work and rest stripes">
+            <!-- Live copy of the same screen (HRDetailView), drawn from #hrData; replaces the picture when scripts run -->
+            <div class="hr-app" id="hrApp" hidden>
+              <div class="hr-card">
+                <button class="hr-btn" id="hrAuto" type="button" aria-label="Auto scale" aria-pressed="false"></button>
+                <button class="hr-btn on" id="hrStrips" type="button" aria-label="Work and rest stripes" aria-pressed="true"></button>
+                <button class="hr-zones" id="hrZones" type="button" aria-label="Heart rate zones: recorded or current"><i></i><span>Recorded</span></button>
+                <span class="hr-title" id="hrTitle"></span>
+                <button class="hr-btn hr-close" id="hrClose" type="button" aria-label="Close"></button>
+                <div class="hr-y" id="hrY"></div>
+                <div class="hr-plot" id="hrPlot" tabindex="0" role="slider" aria-label="Heart rate over the workout. Drag, or use the arrow keys."><canvas id="hrCanvas"></canvas></div>
+                <div class="hr-foot" id="hrFoot"></div>
+                <span class="hr-read" id="hrBpm"><i></i><b>HR</b></span>
+                <span class="hr-read tm" id="hrTime"><i></i><b>TIME</b></span>
+              </div>
+            </div>
             <span class="hl" style="--x:14.2%;--y:15%;--w:79.6%;--h:65.6%;--r:2.4%"></span>
           </div></figure>
           <div class="feat-copy">
             <h3><span class="dot">&rsaquo;</span> Heart rate</h3>
             <p>Live heart rate from a Polar H10, Apple Watch, or any Bluetooth chest strap, with five color zones. Turn the phone sideways after a workout and every interval is laid out against your pulse.</p>
+            <p class="feat-hint">Drag across the chart to read any second of the workout. The buttons work too.</p>
           </div>
         </article>
 
@@ -593,6 +609,7 @@
 
   <!-- Demo history for the live analytics replica: [day, reps, work seconds, workout seconds] per exercise -->
   <script type="application/json" id="anData">{"today":20748,"ex":{"PUSHUPS":[[20374,100,290,890],[20376,121,320,960],[20377,41,83,1183],[20381,100,262,862],[20383,42,82,1180],[20388,100,277,877],[20389,124,320,960],[20390,45,89,1188],[20395,100,276,876],[20398,125,320,960],[20398,42,84,1182],[20402,100,272,872],[20404,121,320,960],[20409,100,270,870],[20411,122,320,960],[20412,46,89,1188],[20416,100,262,862],[20418,122,320,960],[20419,45,85,1183],[20423,100,251,851],[20425,123,320,960],[20426,45,86,1185],[20428,200,475,3073],[20430,100,268,868],[20432,126,320,960],[20433,45,84,1182],[20437,100,248,848],[20439,44,84,1183],[20440,129,320,960],[20443,200,455,3068],[20451,100,255,855],[20453,130,320,960],[20454,46,88,1188],[20457,200,484,3094],[20460,45,86,1186],[20465,100,241,841],[20467,135,320,960],[20468,45,85,1185],[20469,200,452,3013],[20472,100,238,838],[20475,49,93,1193],[20481,134,320,960],[20482,44,81,1181],[20485,200,441,2988],[20486,100,232,832],[20489,132,320,960],[20490,45,84,1184],[20493,100,245,845],[20495,132,320,960],[20496,46,87,1187],[20499,200,456,2945],[20509,137,320,960],[20510,45,83,1183],[20513,200,451,2986],[20514,100,244,844],[20516,136,320,960],[20517,48,88,1188],[20521,100,220,820],[20523,47,82,1182],[20526,200,439,2932],[20528,100,229,829],[20531,137,320,960],[20531,49,92,1192],[20537,136,320,960],[20538,50,87,1187],[20540,200,422,2950],[20542,100,221,821],[20544,140,320,960],[20545,49,88,1188],[20549,100,229,829],[20551,141,320,960],[20552,50,88,1188],[20555,200,441,2958],[20559,50,86,1186],[20563,100,214,814],[20568,200,417,2895],[20570,100,212,812],[20572,141,320,960],[20577,100,209,809],[20579,146,320,960],[20580,52,90,1190],[20584,100,222,822],[20586,143,320,960],[20586,51,86,1186],[20593,145,320,960],[20594,53,90,1190],[20596,200,402,2892],[20598,100,220,820],[20601,149,320,960],[20605,100,218,818],[20607,149,320,960],[20608,53,89,1189],[20610,200,427,2868],[20612,100,205,805],[20614,151,320,960],[20615,51,88,1188],[20619,100,216,816],[20622,151,320,960],[20622,53,91,1191],[20627,148,320,960],[20627,100,204,804],[20634,100,203,803],[20635,156,320,960],[20636,55,93,1193],[20639,200,427,2834],[20641,100,212,812],[20642,55,93,1193],[20642,150,320,960],[20647,100,212,812],[20650,153,320,960],[20651,52,86,1186],[20653,200,392,2764],[20654,100,195,795],[20657,54,90,1189],[20657,154,320,960],[20661,100,199,799],[20662,156,320,960],[20664,53,88,1188],[20666,200,381,2754],[20668,100,192,792],[20671,54,88,1188],[20682,100,203,803],[20683,158,320,960],[20685,55,87,1187],[20690,100,193,793],[20691,163,320,960],[20692,52,89,1189],[20694,200,393,2782],[20698,56,91,1191],[20698,164,320,960],[20703,100,193,793],[20705,164,320,960],[20706,56,91,1191],[20709,200,406,2753],[20710,100,193,793],[20712,162,320,960],[20717,100,193,793],[20719,169,320,960],[20720,55,89,1189],[20723,200,391,2760],[20726,167,320,960],[20727,57,90,1190],[20731,100,174,774],[20732,175,320,960],[20734,57,93,1193],[20736,200,368,2748],[20738,100,180,780],[20740,61,96,1196],[20740,181,320,960],[20745,200,373,2703],[20747,62,96,1196],[20747,181,320,960]],"SQUATS":[[20374,74,160,240],[20376,144,320,960],[20379,100,280,880],[20381,74,160,240],[20386,71,160,240],[20388,72,160,240],[20389,146,320,960],[20392,100,281,881],[20395,72,160,240],[20398,149,320,960],[20401,70,160,240],[20402,72,160,240],[20404,149,320,960],[20406,100,274,874],[20408,78,160,240],[20411,145,320,960],[20414,78,160,240],[20416,77,160,240],[20418,154,320,960],[20421,77,160,240],[20421,100,268,868],[20423,72,160,240],[20425,150,320,960],[20428,300,612,3073],[20430,74,160,240],[20432,148,320,960],[20435,75,160,240],[20437,75,160,240],[20440,153,320,960],[20443,300,625,3068],[20444,80,160,240],[20451,75,160,240],[20453,153,320,960],[20457,300,633,3094],[20458,73,160,240],[20461,100,259,859],[20463,79,160,240],[20465,80,160,240],[20467,156,320,960],[20469,300,616,3013],[20472,74,160,240],[20476,100,239,839],[20477,83,160,240],[20479,84,160,240],[20481,155,320,960],[20485,300,622,2988],[20489,162,320,960],[20489,100,235,835],[20490,79,160,240],[20493,78,160,240],[20495,156,320,960],[20499,300,565,2945],[20500,84,160,240],[20507,83,160,240],[20509,161,320,960],[20513,300,611,2986],[20514,78,160,240],[20516,163,320,960],[20518,100,244,844],[20519,82,160,240],[20521,83,160,240],[20526,300,570,2932],[20531,162,320,960],[20534,81,160,240],[20535,79,160,240],[20537,162,320,960],[20540,300,601,2950],[20542,83,160,240],[20544,165,320,960],[20546,100,232,832],[20551,164,320,960],[20555,300,595,2958],[20556,81,160,240],[20561,100,220,820],[20562,85,160,240],[20568,300,553,2895],[20570,87,160,240],[20572,168,320,960],[20574,100,229,829],[20575,85,160,240],[20578,85,160,240],[20579,168,320,960],[20584,87,160,240],[20586,171,320,960],[20588,100,209,809],[20589,88,160,240],[20591,92,160,240],[20593,172,320,960],[20596,300,580,2892],[20598,86,160,240],[20601,173,320,960],[20602,100,218,818],[20604,92,160,240],[20605,82,160,240],[20607,174,320,960],[20610,300,560,2868],[20612,93,160,240],[20614,176,320,960],[20616,100,218,818],[20618,94,160,240],[20619,89,160,240],[20622,174,320,960],[20627,92,160,240],[20627,177,320,960],[20630,100,203,803],[20631,87,160,240],[20634,86,160,240],[20635,179,320,960],[20639,300,524,2834],[20640,86,160,240],[20642,173,320,960],[20644,100,199,799],[20646,94,160,240],[20647,94,160,240],[20650,177,320,960],[20653,300,504,2764],[20654,91,160,240],[20657,181,320,960],[20658,100,201,801],[20659,89,160,240],[20661,96,160,240],[20662,179,320,960],[20666,300,509,2754],[20668,96,160,240],[20671,100,204,804],[20673,92,160,240],[20682,92,160,240],[20683,184,320,960],[20685,100,190,790],[20687,91,160,240],[20689,92,160,240],[20691,188,320,960],[20694,300,512,2782],[20696,98,160,240],[20698,185,320,960],[20700,100,187,787],[20702,99,160,240],[20704,94,160,240],[20705,185,320,960],[20709,300,496,2753],[20710,98,160,240],[20712,195,320,960],[20715,100,188,788],[20716,96,160,240],[20717,96,160,240],[20719,194,320,960],[20723,300,523,2760],[20724,94,160,240],[20726,196,320,960],[20728,100,182,782],[20731,96,160,240],[20732,200,320,960],[20736,300,522,2748],[20738,103,160,240],[20740,202,320,960],[20742,99,160,240],[20742,100,168,768],[20745,300,492,2703],[20746,105,160,240],[20747,205,320,960]],"PULLUPS":[[20375,41,195,1195],[20377,26,100,1183],[20382,45,196,1196],[20383,25,98,1180],[20385,45,195,1195],[20390,28,99,1188],[20390,49,196,1196],[20396,47,194,1194],[20398,27,98,1182],[20398,47,193,1193],[20404,46,195,1195],[20412,28,99,1188],[20417,50,194,1194],[20419,28,98,1183],[20424,49,193,1193],[20426,29,99,1185],[20427,49,191,1191],[20428,100,486,3073],[20431,52,192,1192],[20433,28,98,1182],[20438,52,193,1193],[20439,29,99,1183],[20443,100,488,3068],[20451,55,194,1194],[20454,30,100,1188],[20456,57,197,1197],[20457,100,477,3094],[20460,30,100,1186],[20466,53,189,1189],[20468,30,100,1185],[20469,56,196,1196],[20469,100,445,3013],[20473,56,195,1195],[20475,30,100,1193],[20480,59,198,1198],[20482,30,100,1181],[20483,59,199,1199],[20485,100,425,2988],[20487,57,196,1196],[20490,30,100,1184],[20494,59,197,1197],[20496,31,100,1187],[20497,58,196,1196],[20499,100,424,2945],[20507,56,193,1193],[20510,30,100,1183],[20510,58,196,1196],[20513,100,424,2986],[20515,63,200,1200],[20517,33,100,1188],[20522,62,200,1200],[20523,32,100,1182],[20525,60,198,1198],[20526,100,423,2932],[20529,60,198,1198],[20531,31,100,1192],[20536,62,200,1200],[20538,31,100,1187],[20539,64,200,1200],[20540,100,427,2950],[20543,62,198,1198],[20545,33,100,1188],[20550,62,200,1200],[20552,31,100,1188],[20553,62,200,1200],[20555,100,422,2958],[20557,66,200,1200],[20559,33,100,1186],[20567,63,200,1200],[20568,100,425,2895],[20571,63,200,1200],[20577,65,200,1200],[20580,36,100,1190],[20581,65,200,1200],[20585,68,200,1200],[20586,35,100,1186],[20592,67,200,1200],[20594,35,100,1190],[20595,64,200,1200],[20596,100,410,2892],[20599,65,200,1200],[20608,35,100,1189],[20609,66,200,1200],[20610,100,381,2868],[20615,36,100,1188],[20620,70,200,1200],[20622,37,100,1191],[20623,73,200,1200],[20626,70,200,1200],[20633,70,200,1200],[20636,40,100,1193],[20637,68,200,1200],[20639,100,383,2834],[20642,39,100,1193],[20651,72,200,1200],[20651,38,100,1186],[20653,100,368,2764],[20654,71,198,1198],[20657,39,99,1189],[20662,74,196,1196],[20664,40,100,1188],[20665,73,198,1198],[20666,100,364,2754],[20669,75,199,1199],[20671,40,100,1188],[20685,41,100,1187],[20689,74,198,1198],[20692,43,100,1189],[20694,100,377,2782],[20698,79,199,1199],[20698,42,100,1191],[20705,74,198,1198],[20706,41,100,1191],[20707,76,199,1199],[20709,100,351,2753],[20712,80,199,1199],[20718,81,199,1199],[20720,45,100,1189],[20721,82,199,1199],[20723,100,346,2760],[20726,82,200,1200],[20727,43,100,1190],[20732,84,199,1199],[20734,43,100,1193],[20735,85,199,1199],[20736,100,358,2748],[20739,87,199,1199],[20740,46,100,1196],[20745,100,338,2703],[20746,91,199,1199],[20747,46,100,1196]]}}</script>
+  <script type="application/json" id="hrData">{"name":"HIIT 40/20","ex":["PUSHUPS","SQUATS"],"rounds":8,"iv":[[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20],[1,40,0],[0,20],[1,40,1],[0,20]],"t0":2,"dt":2,"bpm":[90,91,94,96,97,98,100,100,101,101,102,102,103,103,104,104,104,105,106,106,102,99,97,95,93,92,90,89,88,87,91,93,96,98,100,101,103,104,105,106,106,107,108,109,110,111,111,112,111,112,108,105,103,100,98,95,94,92,91,90,93,96,98,100,101,103,104,105,106,107,108,108,109,110,111,111,112,111,112,113,109,105,103,100,98,97,95,94,93,92,95,97,99,101,103,105,106,107,109,110,111,112,112,113,113,114,114,115,115,116,112,109,106,104,102,99,97,95,95,93,97,98,101,103,105,107,108,109,110,111,113,113,114,115,115,115,115,115,115,115,111,108,105,103,101,100,98,97,96,95,98,101,104,106,108,109,111,113,114,115,116,117,117,119,119,120,120,121,122,122,118,114,110,108,105,103,102,100,100,99,101,103,105,107,109,111,111,113,114,115,116,117,118,118,120,120,121,120,121,121,117,114,111,109,107,105,102,101,100,99,103,106,109,112,114,116,117,119,121,121,122,123,123,124,125,125,125,126,127,127,122,118,116,113,111,108,106,104,103,101,104,106,108,111,112,114,115,117,119,120,121,122,122,123,123,123,123,124,124,125,121,118,115,113,112,109,107,105,104,104,107,110,112,114,117,118,121,122,123,124,126,127,128,129,129,129,129,130,130,131,126,122,119,117,114,112,110,109,108,107,109,112,115,117,119,120,122,123,125,126,126,126,126,128,128,129,129,130,131,131,126,123,120,118,115,113,111,109,107,106,110,113,116,119,120,121,123,124,126,127,128,129,130,131,131,132,133,133,133,134,129,126,123,121,118,115,114,112,111,110,113,115,117,119,121,122,123,125,126,127,128,129,130,131,131,131,131,131,132,132,128,125,122,120,118,117,114,114,112,112,115,119,121,123,125,128,129,131,133,134,136,137,137,138,139,139,139,140,141,141,136,132,128,125,122,120,118,117,115,114,118,119,121,123,125,126,127,129,131,131,132,133,134,135,135,135,136,136,136,137,133,130,127,124,122,121,119,117,116,115,118,121,123,126,129,132,133,135,135,136,137,138,139,140,141,141,141,142,143,144,139,135,132,129,127,125,123,121,120,119]}</script>
   <script>
   (function () {
     "use strict";
@@ -2434,6 +2451,210 @@
       var resize = function () { sizeHeat(); scrollHeat(false); drawChart(); };
       if ("ResizeObserver" in window) new ResizeObserver(resize).observe(app); else window.addEventListener("resize", resize);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawChart);
+    })();
+
+    /* ---------- Live heart rate chart: HRDetailView, the screen the app shows sideways ----------
+       A port of its drawChart, scrub readouts and toggles, drawn from #hrData (the same workout as
+       the heart rate export). Lengths are app points: the plot is 696 x 262. */
+    (function () {
+      var app = $("#hrApp"), dataEl = $("#hrData");
+      if (!app || !dataEl) return;
+      var D = JSON.parse(dataEl.textContent);
+      var PW = 696, PH = 262, TOP = 14;
+      var ZONE = ["#ffffff", "#0a84ff", "#8bd706", "#ffd60a", "#ff9f0a", "#ff453a"], WORK = "#8bd706", REST = "#636366";
+      var ZONES = [103, 114, 133, 152, 171];   /* recorded then and current now are the same for this soldier */
+      var pts = D.bpm.map(function (b, i) { return { t: D.t0 + i * D.dt, bpm: b }; });
+      var total = pts[pts.length - 1].t, duration = 0, segs = [];
+      D.iv.forEach(function (v) { duration += v[1]; segs.push({ work: v[0] === 1, w: v[1], ex: v[2] }); });
+      var hMin = Math.min.apply(null, D.bpm), hMax = Math.max.apply(null, D.bpm);
+      var workTotal = 0, brk = 0, counted = 0;
+      segs.forEach(function (s) { if (s.work && counted < D.ex.length) { workTotal += s.w; counted++; } else if (!s.work && !brk) brk = s.w; });
+      var st = { auto: false, strips: true, current: false, scrub: -1 };
+
+      function rgba(hex, a) { var n = parseInt(hex.slice(1), 16); return "rgba(" + (n >> 16) + "," + (n >> 8 & 255) + "," + (n & 255) + "," + a + ")"; }
+      function mmss(s) { return (s < 600 ? "0" : "") + Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2); }
+      function zone(bpm) { for (var i = 0; i < 5; i++) if (bpm <= ZONES[i]) return i; return 5; }
+
+      /* SF Symbols as the app draws them, each sized to its glyph in points */
+      function svg(w, h, body, attrs) {
+        return '<svg viewBox="0 0 ' + w + " " + h + '" style="width:calc(' + w + " * var(--u));height:calc(" + h + ' * var(--u))"' + (attrs || "") + ">" + body + "</svg>";
+      }
+      var LINE = ' fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
+      var HEART = "M5.5 9.7C2.6 7.6 0 5.6 0 3.1 0 1.3 1.3 0 3 0c1.2 0 2 .7 2.5 1.6C6 .7 6.8 0 8 0c1.7 0 3 1.3 3 3.1 0 2.5-2.6 4.5-5.5 6.6z";
+      var G = {
+        auto: svg(15, 12, '<rect x=".65" y=".65" width="13.7" height="10.7" rx="2.6"/><path d="M3.6 2.9l2.7 2.15M3.6 2.9h2.6M3.6 2.9v2.3M11.4 9.1L8.7 6.95M11.4 9.1H8.8M11.4 9.1V6.8" stroke-width="1.2"/>', LINE + ' stroke-width="1.3"'),
+        strips: svg(15, 12, '<rect x=".75" y=".75" width="13.5" height="10.5" rx="2.3"/><path d="M5.25 .75v10.5M9.75 .75v10.5"/>', LINE + ' stroke-width="1.5"'),
+        close: svg(10.33, 10.33, '<path d="M.7.7l8.93 8.93M9.63.7L.7 9.63"/>', LINE + ' stroke-width="1.4"'),
+        recorded: svg(11, 10, '<path fill="currentColor" d="' + HEART + '"/><path d="M5.5 7.9V3.7M3.9 5.2l1.6-1.6 1.6 1.6"' + LINE.replace("currentColor", "#1b1b1b") + ' stroke-width="1.3"/>'),
+        current: svg(11, 10, '<path d="' + HEART + '" transform="translate(.55 .5) scale(.9)" stroke-width="1.25"/><path d="M5.5 7.6V3.9M4 5.3l1.5-1.5L7 5.3" stroke-width="1.1"/>', LINE),
+        play: svg(7, 8, '<path d="M.6.6L6.4 4 .6 7.4z"/>', LINE + ' stroke-width="1.2"'),
+        pause: svg(4.33, 7.67, '<rect width="1.33" height="7.67" rx=".66"/><rect x="3" width="1.33" height="7.67" rx=".66"/>', ' fill="currentColor"'),
+        shuffle: svg(10.67, 8.67, '<path d="M.6 1.7h1.4c1.7 0 2.6 1.4 3.2 2.65S6.8 7 8.6 7M.6 7h1.4c1.7 0 2.6-1.4 3.2-2.65S6.8 1.7 8.6 1.7"/><path d="M8.3 0l2.37 1.7-2.37 1.7zM8.3 5.27l2.37 1.7-2.37 1.7z" fill="currentColor" stroke="none"/>', LINE + ' stroke-width="1.15"'),
+        layers: svg(9.33, 10.33, '<path d="M4.67.55l4.1 2.35-4.1 2.35L.55 2.9z"/><path d="M.9 5.15l3.77 2.15 3.77-2.15"/><path d="M.9 7.45l3.77 2.3 3.77-2.3"/>', LINE + ' stroke-width="1.05"'),
+        heart: svg(12, 11, '<path fill="currentColor" d="' + HEART + '"/>', ' preserveAspectRatio="none"').replace('viewBox="0 0 12 11"', 'viewBox="0 0 11 10"'),
+        timer: svg(12.33, 12.33, '<path d="M6.17.68A5.49 5.49 0 1 1 2.29 2.29"/><path d="M4.5 3.7l1.67 2.47" stroke-width="1.9"/>', LINE + ' stroke-width="1.35"')
+      };
+
+      var fig = app.closest(".device"), plot = $("#hrPlot"), canvas = $("#hrCanvas"), ctx = canvas.getContext("2d");
+      var autoBtn = $("#hrAuto"), stripsBtn = $("#hrStrips"), zonesBtn = $("#hrZones"), yEl = $("#hrY");
+      var bpmEl = $("#hrBpm"), timeEl = $("#hrTime");
+      autoBtn.innerHTML = G.auto; stripsBtn.innerHTML = G.strips; $("#hrClose").innerHTML = G.close;
+      $("i", bpmEl).innerHTML = G.heart; $("i", timeEl).innerHTML = G.timer;
+      $("#hrTitle").textContent = D.name.toUpperCase();
+      /* config chips (work, break, order, rounds) then one pill per exercise */
+      function chip(icon, frame, label) {
+        return '<span class="hr-chip"><i style="width:calc(' + frame + ' * var(--u))">' + icon + "</i><span>" + label + "</span></span>";
+      }
+      $("#hrFoot").innerHTML = '<span class="hr-chips">' + chip(G.play, 8.6, mmss(workTotal)) +
+        (brk > 0 ? chip(G.pause, 6.4, mmss(brk)) : "") + chip(G.shuffle, 13.2, D.ex.length) +
+        chip(G.layers, 11.2, D.rounds) + "</span>" + D.ex.map(function (n) { return '<span class="hr-pill">' + n + "</span>"; }).join("");
+      var chips = $$(".hr-chip", app), pills = $$(".hr-pill", app);
+      var exLabel = $("span", chips[brk > 0 ? 2 : 1]);
+
+      function bounds() {
+        if (st.auto) { var pad = Math.max(3, Math.floor((hMax - hMin) / 10)); return [Math.max(30, hMin - pad), hMax + pad]; }
+        return [Math.max(30, Math.min(50, hMin) - 5), Math.max(ZONES[4] + 20, Math.max(hMax, ZONES[4]) + 10)];
+      }
+      function yPos(bpm, b) { var range = b[1] - b[0]; return range > 0 ? TOP + (1 - (bpm - b[0]) / range) * (PH - TOP) : PH / 2; }
+      /* interpolate(fraction:): the two samples around that second, truncated like Int() */
+      function at(f) {
+        f = Math.max(0, Math.min(1, f));
+        var target = f * total, lo = 0;
+        for (var i = 0; i < pts.length - 1; i++) { lo = i; if (pts[i + 1].t >= target) break; }
+        var p0 = pts[lo], p1 = pts[Math.min(lo + 1, pts.length - 1)], span = p1.t - p0.t;
+        var bpm = Math.trunc(p0.bpm + (span > 0 ? (target - p0.t) / span : 0) * (p1.bpm - p0.bpm));
+        return { bpm: bpm, elapsed: Math.trunc(f * duration), zone: zone(bpm) };
+      }
+      function segAt(f) { var cum = 0; for (var i = 0; i < segs.length; i++) { cum += segs[i].w / duration; if (f <= cum) return segs[i]; } return segs[segs.length - 1]; }
+
+      function draw() {
+        var r = plot.getBoundingClientRect();
+        if (!r.width) return;
+        var dpr = window.devicePixelRatio || 1, cw = Math.round(r.width * dpr), ch = Math.round(r.height * dpr);
+        if (canvas.width !== cw || canvas.height !== ch) { canvas.width = cw; canvas.height = ch; }
+        ctx.setTransform(cw / PW, 0, 0, ch / PH, 0, 0);
+        ctx.clearRect(0, 0, PW, PH);
+        var b = bounds(), x = 0, i;
+        /* 1. phase strips */
+        if (st.strips) segs.forEach(function (s) { var w = s.w / duration * PW; ctx.fillStyle = rgba(s.work ? WORK : REST, 0.13); ctx.fillRect(x, 0, w, PH); x += w; });
+        /* 2. zone boundary dashes */
+        ctx.lineWidth = 1; ctx.setLineDash([4, 5]);
+        ZONES.forEach(function (z, k) {
+          if (z < b[0] || z > b[1]) return;
+          var y = yPos(z, b); ctx.strokeStyle = rgba(ZONE[k], 0.18); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(PW, y); ctx.stroke();
+        });
+        ctx.setLineDash([]);
+        /* 4. the heart rate line, one run per zone, each over its own fading fill */
+        function px(k) { return Math.min(1, Math.max(0, pts[k].t / total)) * PW; }
+        function py(k) { return yPos(pts[k].bpm, b); }
+        function color(z) { return z === 0 ? "#8c8c8c" : ZONE[z]; }
+        function run(path, from, to, c) {
+          var g = ctx.createLinearGradient(0, 0, 0, PH);
+          g.addColorStop(0, rgba(c, 0.35)); g.addColorStop(1, rgba(c, 0.02));
+          ctx.beginPath(); path.forEach(function (p, k) { k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); });
+          ctx.lineTo(to, PH); ctx.lineTo(from, PH); ctx.closePath(); ctx.fillStyle = g; ctx.fill();
+          ctx.beginPath(); path.forEach(function (p, k) { k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); });
+          ctx.lineWidth = 2.5; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = c; ctx.stroke();
+        }
+        var cur = zone(pts[0].bpm), from = px(0), path = [[from, py(0)]];
+        for (i = 0; i < pts.length - 1; i++) {
+          var z = zone(pts[i].bpm);
+          if (z !== cur) { run(path, from, px(i), color(cur)); from = px(i); path = [[from, py(i)]]; cur = z; }
+          path.push([px(i + 1), py(i + 1)]);
+        }
+        run(path, from, px(pts.length - 1), color(cur));
+        /* 4.5 auto scale: this workout's own max and min */
+        if (st.auto) {
+          ctx.lineWidth = 1; ctx.setLineDash([6, 4]); ctx.strokeStyle = "rgba(255,255,255,0.5)";
+          [hMax, hMin].forEach(function (v) { var y = yPos(v, b); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(PW, y); ctx.stroke(); });
+          ctx.setLineDash([]);
+        }
+        /* 5. scrubber */
+        if (st.scrub < 0) return;
+        var sx = Math.max(0, Math.min(st.scrub, PW)), p = at(sx / PW), dy = yPos(p.bpm, b), dc = ZONE[p.zone];
+        ctx.lineWidth = 1; ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, PH); ctx.stroke();
+        [[10, rgba(dc, 0.3)], [5, dc], [2.5, "#fff"]].forEach(function (d) { ctx.beginPath(); ctx.arc(sx, dy, d[0], 0, Math.PI * 2); ctx.fillStyle = d[1]; ctx.fill(); });
+      }
+
+      function render() {
+        var b = bounds(), on = st.scrub >= 0, f = on ? st.scrub / PW : -1, p = on ? at(f) : null, s = on ? segAt(f) : null;
+        var work = on && s.work, phase = on ? (s.work ? WORK : REST) : null;
+        autoBtn.classList.toggle("on", st.auto); autoBtn.setAttribute("aria-pressed", st.auto);
+        stripsBtn.classList.toggle("on", st.strips); stripsBtn.setAttribute("aria-pressed", st.strips);
+        zonesBtn.classList.toggle("on", st.current);
+        $("i", zonesBtn).innerHTML = st.current ? G.current : G.recorded;
+        $("span", zonesBtn).textContent = st.current ? "Current" : "Recorded";
+        /* y axis: MAX, the zone boundaries in range, and with auto scale this workout's max and min */
+        var html = "";
+        function label(v, y, cls, color) { html += "<span" + (cls ? ' class="' + cls + '"' : "") + ' style="top:calc(' + (y - 6).toFixed(2) + " * var(--u))" + (color ? ";color:" + color : "") + '">' + v + "</span>"; }
+        if (!st.auto) label("MAX", yPos(b[1], b), "max");
+        ZONES.forEach(function (z, k) { if (z >= b[0] && z <= b[1]) label(z, yPos(z, b), "", rgba(ZONE[k], 0.7)); });
+        if (st.auto) { label(hMax, yPos(hMax, b), "ext"); label(hMin, yPos(hMin, b), "ext"); }
+        yEl.innerHTML = html;
+        /* chips light up for the phase under the finger, the exercise pill for its work set */
+        chips.forEach(function (c, k) { c.classList.toggle("off", on && (brk > 0 && k === 1 ? s.work : !s.work)); });
+        exLabel.textContent = work ? s.ex + 1 : D.ex.length;
+        pills.forEach(function (el, k) {
+          var hi = work && D.ex[s.ex] === D.ex[k];
+          el.classList.toggle("hi", hi); el.classList.toggle("dim", on && !hi);
+        });
+        bpmEl.classList.toggle("val", on); timeEl.classList.toggle("val", on);
+        $("i", bpmEl).style.color = on ? rgba(ZONE[p.zone], 0.8) : "";
+        $("b", bpmEl).textContent = on ? p.bpm : "HR";
+        $("b", bpmEl).style.color = on ? ZONE[p.zone] : "";
+        $("i", timeEl).style.color = on ? rgba(phase, 0.8) : "";
+        $("b", timeEl).textContent = on ? Math.floor(p.elapsed / 60) + ":" + ("0" + p.elapsed % 60).slice(-2) : "TIME";
+        $("b", timeEl).style.color = on ? phase : "";
+        plot.setAttribute("aria-valuetext", on ? p.bpm + " beats per minute at " + $("b", timeEl).textContent + (work ? ", " + D.ex[s.ex] : on ? ", rest" : "") : "No point selected");
+        draw();
+      }
+      function setScrub(x) { if (x !== st.scrub) { st.scrub = x; render(); } }
+
+      /* drag to read any second, like the app; a tap without a drag clears it. A mouse reads on hover. */
+      var drag = null;
+      function plotX(e) { var r = plot.getBoundingClientRect(); return Math.max(0, Math.min(PW, (e.clientX - r.left) / r.width * PW)); }
+      plot.addEventListener("pointerdown", function (e) {
+        if (e.button > 0) return;
+        drag = { id: e.pointerId, x: e.clientX, y: e.clientY, prev: st.scrub, k: PW / plot.getBoundingClientRect().width };
+        if (e.pointerType === "mouse") try { plot.setPointerCapture(e.pointerId); } catch (err) {}
+        setScrub(plotX(e));
+      });
+      plot.addEventListener("pointermove", function (e) {
+        if (drag ? e.pointerId === drag.id : e.pointerType === "mouse" && !e.buttons) setScrub(plotX(e));
+      });
+      plot.addEventListener("pointerup", function (e) {
+        if (!drag || e.pointerId !== drag.id) return;
+        var moved = Math.hypot(e.clientX - drag.x, e.clientY - drag.y) * drag.k;
+        drag = null;
+        if (moved < 4) setScrub(-1);
+      });
+      plot.addEventListener("pointercancel", function () { if (drag) { var prev = drag.prev; drag = null; setScrub(prev); } });
+      plot.addEventListener("keydown", function (e) {
+        var step = { ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1 }[e.key], t;
+        if (e.key === "Escape") { setScrub(-1); return; }
+        if (e.key === "Home" || e.key === "End") t = e.key === "Home" ? 0 : duration;
+        else if (step) t = (st.scrub < 0 ? 0 : st.scrub / PW * duration) + step * (e.shiftKey ? 60 : D.dt);
+        else return;
+        e.preventDefault();
+        setScrub(Math.max(0, Math.min(duration, t)) / duration * PW);
+      });
+      autoBtn.addEventListener("click", function () { st.auto = !st.auto; render(); });
+      stripsBtn.addEventListener("click", function () { st.strips = !st.strips; render(); });
+      zonesBtn.addEventListener("click", function () { st.current = !st.current; render(); });
+      /* there is nothing behind it on a web page, so closing starts the screen over */
+      var card = $(".hr-card", app);
+      $("#hrClose").addEventListener("click", function () {
+        card.classList.add("closing");
+        setTimeout(function () { st = { auto: false, strips: true, current: false, scrub: -1 }; render(); card.classList.remove("closing"); }, reduced ? 0 : 220);
+      });
+      /* the spotlight steps aside once someone reaches for the chart */
+      ["pointerdown", "focusin"].forEach(function (ev) { app.addEventListener(ev, function () { fig.classList.add("touched"); }); });
+      app.addEventListener("pointerover", function (e) { if (e.pointerType === "mouse") fig.classList.add("touched"); });
+
+      plot.setAttribute("aria-valuemin", 0); plot.setAttribute("aria-valuemax", duration);
+      app.hidden = false; fig.classList.add("live");
+      render();
+      if ("ResizeObserver" in window) new ResizeObserver(draw).observe(plot); else window.addEventListener("resize", draw);
     })();
 
     /* ---------- Rotating quotes, straight from the app, decoded like a transmission ---------- */
