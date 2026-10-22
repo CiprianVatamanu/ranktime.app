@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=16">
+  <link rel="stylesheet" href="/styles.css?v=17">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -600,8 +600,6 @@
     var hasIO = "IntersectionObserver" in window;
     /* Colors.swift: work is systemLime-ish, rest and get ready are systemGray2 */
     var LIME = "#8bd706", GREY = "#636366";
-    /* HeartRateZone.color: zone0 white, then blue, lime, yellow, orange, red */
-    var ZONE_COLORS = ["#ffffff", "#0a84ff", "#8bd706", "#ffd60a", "#ff9f0a", "#ff453a"];
 
     function $(s, r) { return (r || document).querySelector(s); }
     function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
@@ -741,11 +739,6 @@
     });
 
     /* ---------- Simulated heart rate, shared by every running screen ---------- */
-    var MAX_HR = 190;
-    function zoneIndex(bpm) {
-      var p = bpm / MAX_HR;
-      return p < 0.5 ? 0 : p < 0.6 ? 1 : p < 0.7 ? 2 : p < 0.8 ? 3 : p < 0.9 ? 4 : 5;
-    }
     function HeartSim(start) {
       this.bpm = start || 96;
       this.round = 0;
@@ -1431,6 +1424,7 @@
       /* ---- navigation: modes sideways, presets up and down (page swipes) ---- */
       function swap(dx, dy, apply) {
         closeTab(true);
+        hideTip();
         if (reduced || !el.ring.animate) { apply(); after(); return; }
         var moving = [el.ring, el.value, el.preset].concat(dx ? [el.mode] : []);
         var outT = "translate(" + (-dx * 60) + "%, " + (-dy * 40) + "%)", inT = "translate(" + (dx * 60) + "%, " + (dy * 40) + "%)";
@@ -1793,22 +1787,22 @@
         var i = 0; tipText.textContent = "";
         typer = setInterval(function () { i = Math.min(text.length, i + 3); tipText.textContent = text.slice(0, i); if (i >= text.length) clearInterval(typer); }, 22);
       }
-      function placeCard(target) {
+      function placeCard(target, below) {
         var sr = screen.getBoundingClientRect(), u = px(), y = 400 * u;
         if (target) {
           var r = target.getBoundingClientRect(), mid = (r.top + r.bottom) / 2 - sr.top;
-          if (mid < sr.height * 0.5) { tipCard.style.top = (r.bottom - sr.top + 22 * u) + "px"; tipCard.style.bottom = "auto"; return; }
+          if (below || mid < sr.height * 0.5) { tipCard.style.top = (r.bottom - sr.top + 22 * u) + "px"; tipCard.style.bottom = "auto"; return; }
           tipCard.style.top = "auto"; tipCard.style.bottom = (sr.bottom - r.top + 22 * u) + "px"; return;
         }
         tipCard.style.top = y + "px"; tipCard.style.bottom = "auto";
       }
-      function showTip(key, target, force) {
+      function showTip(key, target, force, below) {
         if (tour || !TIPS[key] || (!store.tips && !force) || (shown[key] && !force)) return;
         shown[key] = true;
         tipTitle.textContent = TIPS[key][0];
         typeText(TIPS[key][1]);
         tipSkip.hidden = tipBack.hidden = true; tipStep.textContent = ""; tipNext.textContent = "Got it";
-        placeCard(target);
+        placeCard(target, below);
         tipCard.classList.add("on");
         clearTimeout(tipTimer);
         tipTimer = setTimeout(hideTip, 7000);
@@ -1818,8 +1812,8 @@
       /* the app's tour: welcome card, then five spotlights */
       var STEPS = [
         { keys: [el.title], tip: "title", glow: true },
-        { keys: [el.tabs], tip: "tabs" },
-        { keys: [el.ring.parentNode, el.value], tip: "ring", text: "The ring previews your workout: bright segments are work, dark gaps are rest. The number in the middle is the total time, or total reps in REPS mode. With a tab open, drag up or down to change the value." },
+        { keys: [el.tabs], tip: "tabs", anchor: tabEls[0] },
+        { keys: [el.ring.parentNode, el.value], tip: "ring", anchor: el.ring, text: "The ring previews your workout: bright segments are work, dark gaps are rest. The number in the middle is the total time, or total reps in REPS mode. With a tab open, drag up or down to change the value." },
         { keys: [el.edit, el.plus], tip: "edit", glow: true },
         { keys: [el.menu], tip: "menu", glow: true }
       ];
@@ -1842,7 +1836,7 @@
         typeText(st.text || TIPS[st.tip][1]);
         tipSkip.hidden = false; tipBack.hidden = i === 0; tipStep.textContent = (i + 1) + " of " + STEPS.length;
         tipNext.textContent = i === STEPS.length - 1 ? "Done" : "Next";
-        placeCard(st.keys[0]);
+        placeCard(st.anchor || st.keys[0]);
         tipCard.classList.add("on");
       }
       function endTour() {
@@ -1862,7 +1856,8 @@
       var suppressClick = false;
       el.menu.addEventListener("click", function () {
         if (naming === "rename" && !page().base) { confirmDelete(); return; }
-        toggleMenu(); showTip("menu", el.menu);
+        toggleMenu();
+        if (menuOpen) showTip("menu", $(".menu-sync", el.menuOv), false, true);
       });
       el.menuOv.addEventListener("click", function (e) {
         var item = e.target.closest(".menu-item");

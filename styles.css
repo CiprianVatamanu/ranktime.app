@@ -377,7 +377,8 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 .tab.active { width: calc(72 * var(--u)); height: calc(72 * var(--u)); }
 .tab.active b { font-size: calc(14.4 * var(--u)); }
 .tab.active svg { width: calc(26 * var(--u)); height: calc(15 * var(--u)); }
-.tab.active::after { content: ""; position: absolute; inset: calc(-10 * var(--u)); z-index: -1; border-radius: 50%; background: radial-gradient(circle, rgba(139, 215, 6, 0.55), rgba(139, 215, 6, 0) 70%); filter: blur(calc(6 * var(--u))); }
+/* TabAccelerometerMist: the open tab glows lime from inside */
+.cfg .tab.active { background-image: radial-gradient(circle at 50% 58%, rgba(139, 215, 6, 0.55), rgba(139, 215, 6, 0.16) 58%, rgba(139, 215, 6, 0) 76%); box-shadow: 0 0 calc(18 * var(--u)) rgba(139, 215, 6, 0.35); }
 .cfg.tabopen .tab:not(.active) { opacity: 0.45; }
 .cfg.tabopen .tab:not(.active) svg, .cfg.tabopen .tab:not(.active) b { color: rgba(255, 255, 255, 0.55); }
 /* naming: everything but the header fades back */
@@ -1057,9 +1058,8 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 
 @media (prefers-reduced-motion: reduce) {
   .js .reveal, .js .hero-in { opacity: 1; transform: none; transition: none; animation: none; }
-  .mist i, .mist i b, .splash-bar i, .scroll-cue span, .runrim rect, .cfg-breath i, .hl { animation: none; }
+  .mist i, .mist i b, .splash-bar i, .scroll-cue span, .cfg-breath i, .hl, .cfg-arrow { animation: none !important; }
   .splash-bar i { transform: translateX(90%); }
-  .runrim rect { opacity: 0.35; stroke-dasharray: none; }
     .tilt-card { transition: none; }
 }
 
