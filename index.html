@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=18">
+  <link rel="stylesheet" href="/styles.css?v=19">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -278,7 +278,7 @@
                 <span class="hr-read tm" id="hrTime"><i></i><b>TIME</b></span>
               </div>
             </div>
-            <span class="hl" style="--x:14.2%;--y:15%;--w:79.6%;--h:65.6%;--r:2.4%"></span>
+            <span class="hl" style="--x:7.1%;--y:15%;--w:90.6%;--h:65.6%;--r:2.4%"></span>
           </div></figure>
           <div class="feat-copy">
             <h3><span class="dot">&rsaquo;</span> Heart rate</h3>
@@ -2455,12 +2455,12 @@
 
     /* ---------- Live heart rate chart: HRDetailView, the screen the app shows sideways ----------
        A port of its drawChart, scrub readouts and toggles, drawn from #hrData (the same workout as
-       the heart rate export). Lengths are app points: the plot is 696 x 262. */
+       the heart rate export). Lengths are app points: the plot is 792 x 262 (card widened to fill the screen). */
     (function () {
       var app = $("#hrApp"), dataEl = $("#hrData");
       if (!app || !dataEl) return;
       var D = JSON.parse(dataEl.textContent);
-      var PW = 696, PH = 262, TOP = 14;
+      var PW = 792, PH = 262, TOP = 14;
       var ZONE = ["#ffffff", "#0a84ff", "#8bd706", "#ffd60a", "#ff9f0a", "#ff453a"], WORK = "#8bd706", REST = "#636366";
       var ZONES = [103, 114, 133, 152, 171];   /* recorded then and current now are the same for this soldier */
       var pts = D.bpm.map(function (b, i) { return { t: D.t0 + i * D.dt, bpm: b }; });
