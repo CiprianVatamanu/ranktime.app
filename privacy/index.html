@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-itunes-app" content="app-id=6788129517">
   <title>Privacy Policy - RankTime</title>
-  <meta name="description" content="How RankTime handles your health, camera, Bluetooth, and diagnostics data.">
+  <meta name="description" content="How RankTime handles your health, camera, Bluetooth, location, and diagnostics data.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ranktime.app/privacy/">
   <meta property="og:title" content="Privacy Policy - RankTime">
-  <meta property="og:description" content="How RankTime handles your health, camera, Bluetooth, and diagnostics data.">
+  <meta property="og:description" content="How RankTime handles your health, camera, Bluetooth, location, and diagnostics data.">
   <meta property="og:image" content="https://ranktime.app/og.png?v=3">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -40,7 +40,7 @@
 
   <main class="doc">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: 5 October 2026</p>
+    <p class="updated">Last updated: 28 October 2026</p>
 
     <p class="lead">RankTime is an iPhone interval workout timer. This policy explains what data the app uses, where it is stored, and who can see it. In short: your workout and health data stays on your device and in your own iCloud account. We do not sell your data, and we do not run any server that holds your personal information.</p>
 
@@ -50,6 +50,7 @@
       <li><strong>Heart rate</strong> measured during a workout.</li>
       <li><strong>Body metrics</strong> you enter or import: weight, height, age, biological sex, and body fat percentage, used to estimate calories.</li>
       <li><strong>Completed workouts</strong>, saved as workout sessions with duration and energy.</li>
+      <li><strong>Run distance</strong> of each run you add, saved as Walking + Running Distance.</li>
     </ul>
     <p>HealthKit data is stored by Apple on your device and in your Apple Health account. RankTime never sends HealthKit data to us or to any third party. Body metrics you enter directly are kept in a protected, encrypted file on your device.</p>
 
@@ -61,6 +62,11 @@
 
     <h2>Bluetooth</h2>
     <p>RankTime uses Bluetooth to connect to heart rate sensors, including the Polar H10 and other Bluetooth heart rate straps. This connection is used only to read live heart rate and motion data from the sensor during a session. No Bluetooth data is shared off your device except as heart rate saved to Apple Health, if you allow it.</p>
+
+    <h2>Location</h2>
+    <p>RankTime uses your iPhone's location only to measure a run you add before or after a workout, such as the miles in MURPH. It asks for permission the first time you add a run. GPS switches on a few moments before a run starts, so the first reading is ready, and off again once the run and the break after it are over. It keeps measuring with the phone locked in your pocket, and iOS shows a location indicator while it is in use.</p>
+    <p>Only the total distance of each run is kept. Your route and your position are never saved, never sent to us or anyone else, and never used for analytics or advertising. The distance is saved with the workout on your device and in your iCloud, and in Apple Health as Walking + Running Distance if you allow it.</p>
+    <p>You can turn location off at any time in your iPhone's Settings, under Privacy &amp; Security, Location Services, RankTime. The rest of the app keeps working; only run distance cannot be measured.</p>
 
     <h2>iCloud sync</h2>
     <p>RankTime uses Apple CloudKit to sync your presets, workout history, and body metrics across your own devices. This uses your personal iCloud account and Apple private database. The data is stored in your iCloud, not on our servers, and is not visible to us.</p>
@@ -76,7 +82,7 @@
 
     <h2>Diagnostics and analytics</h2>
     <p>RankTime uses Firebase Crashlytics and Firebase Analytics to record crashes and basic usage events, which helps us fix bugs and improve the app. This is strictly opt in. On first launch the app asks for your choice, and you can change it any time in Settings. If you do not opt in, the Firebase software inside the app is never even started: no identifiers are created and nothing is sent to Google. We do not include personal information, health data, or identifying content in these events.</p>
-    <p>If you opt in, Firebase records crashes, which screens are used, and in-app purchase events (which product, and its price), tied to a random identifier created for this app install. Google may also estimate an approximate location, such as your country or city, from your network connection. The app never reads your device's location. None of this is linked to your name or used for advertising.</p>
+    <p>If you opt in, Firebase records crashes, which screens are used, and in-app purchase events (which product, and its price), tied to a random identifier created for this app install. Google may also estimate an approximate location, such as your country or city, from your network connection. This never uses your iPhone's GPS, and no location from your runs is sent to Firebase. None of this is linked to your name or used for advertising.</p>
 
     <h2>Data we do not collect</h2>
     <ul>
