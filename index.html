@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=19">
+  <link rel="stylesheet" href="/styles.css?v=20">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -186,6 +186,7 @@
                 <div class="run-feed"><div class="letterbox top"></div><div class="letterbox bottom"></div></div>
                 <svg class="run-ring" viewBox="0 0 360 360"><circle class="track" cx="180" cy="180" r="160"/><circle class="glow" cx="180" cy="180" r="160" pathLength="1"/><circle class="arc" cx="180" cy="180" r="160" pathLength="1"/></svg>
                 <div class="g rim run-digits" id="runDigits">00:10</div>
+                <div class="run-status" id="runStatus">TAP TO START</div>
                 <div class="run-rec" id="runRec">00:00:00</div>
                 <div class="run-top"><div class="rp" id="runPill"></div><button class="g rim run-x" id="runX" type="button" aria-label="End workout" data-icon="x"></button></div>
                 <div class="run-ctrls">
@@ -659,6 +660,7 @@
 
     /* ---------- Glyphs, drawn to match the SF Symbols the app uses ---------- */
     var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ';
+    function T(box, k) { return '<svg viewBox="' + box + '" style="--k:' + k + '" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" '; }
     var I = {
       menu: S + 'stroke-width="1.9"><path d="M4.5 7.5h15M4.5 12h15M4.5 16.5h15"/></svg>',
       pencil: S + 'stroke-width="1.6"><path d="M4.6 19.4l1-4.1L15.9 5a2 2 0 0 1 2.8 0l.3.3a2 2 0 0 1 0 2.8L8.7 18.4z"/><path d="M14.1 6.8l3.1 3.1"/></svg>',
@@ -667,7 +669,6 @@
       chevD: S + 'stroke-width="2.4"><path d="M4.5 9l7.5 7.5L19.5 9"/></svg>',
       chevU: S + 'stroke-width="2.4"><path d="M4.5 15l7.5-7.5 7.5 7.5"/></svg>',
       plus: S + 'stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
-      stairs: S + 'stroke-width="2"><path d="M3 19.5h4.5V15H12v-4.5h4.5V6H21"/></svg>',
       trash: S + 'stroke-width="1.8"><path d="M4 6.5h16M9.5 6.5V4.5h5v2M6 6.5l1 13.5h10l1-13.5M10 10.5v6M14 10.5v6"/></svg>',
       camera: S + 'stroke-width="1.8"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>',
       crown: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 7.5l4.6 3.8L12 4.5l4.4 6.8L21 7.5l-1.9 10.5H4.9z"/><rect fill="currentColor" x="5" y="19.2" width="14" height="1.8" rx=".9"/></svg>',
@@ -676,13 +677,17 @@
       speakerSlash: S + 'stroke-width="1.8"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>',
       updown: S + 'stroke-width="2.2"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>',
       playFill: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M7.2 4.6c0-1 1.1-1.6 1.9-1.1l10.6 6.9c.8.5.8 1.7 0 2.2L9.1 19.5c-.8.5-1.9-.1-1.9-1.1z"/></svg>',
-      clock: S + 'stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>',
-      play: S + 'stroke-width="2"><path d="M7.5 4.8v14.4L19 12z"/></svg>',
-      pause: S + 'stroke-width="2.6"><path d="M8.5 5v14M15.5 5v14"/></svg>',
-      repeat: S + 'stroke-width="2"><path d="M17 2.5l3 3-3 3"/><path d="M4 11V9.5a4 4 0 0 1 4-4h12"/><path d="M7 21.5l-3-3 3-3"/><path d="M20 13v1.5a4 4 0 0 1-4 4H4"/></svg>',
-      shuffle: S + 'stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>',
-      layers: S + 'stroke-width="1.9"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/></svg>',
-      layersDown: S + 'stroke-width="1.9"><path d="M12 3l9 4.5-9 4.5-9-4.5z" fill="currentColor" fill-opacity=".25"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/></svg>',
+      /* the config tabs' symbols, drawn to their own bounds as a resizable SF Symbol is; --k is the
+         share of a 19 pt font each one draws at in the mode buttons */
+      clock: T('0 0 24 24', 1) + '><circle cx="12" cy="12" r="11.04" stroke-width="1.92"/><path stroke-width="1.44" d="M12 4.4v8H5.76"/></svg>',
+      play: T('0 0 21.35 24', 0.825) + 'stroke-width="2.6"><path d="M1.3 3.3c0-1.7 1.8-2.6 3.2-1.8l14.6 8.6c1.3.8 1.3 2.6 0 3.4L4.5 22.1c-1.4.8-3.2-.1-3.2-1.8z"/></svg>',
+      stairs: T('0 0 24 24', 0.93) + 'stroke-width="2"><path d="M1 23v-5.1h5.6v-5.65h5.6V6.6h5.7V1H23"/></svg>',
+      pause: T('0 0 12 24', 1) + 'stroke-width="2.4"><path d="M1.2 1.2v21.6M10.8 1.2v21.6"/></svg>',
+      repeat: T('0 0 28.8 24', 0.895) + 'stroke-width="2.25"><path d="M1.15 11.1v-1a5 5 0 0 1 5-5h11.6M27.65 12.9v1a5 5 0 0 1-5 5H11.1"/><path fill="currentColor" stroke-width="1.6" d="M17.7.8l5.3 4.3-5.3 4.3zM11.1 23.2l-5.3-4.3 5.3-4.3z"/></svg>',
+      shuffle: T('0 0 30.45 24', 0.895) + 'stroke-width="2.25"><path d="M1.1 5.2h3.4c2.6 0 3.9 1.1 5.5 3.1l4.9 7.4c1.6 2 2.9 3.1 5.5 3.1h4M1.1 18.8h3.4c2.6 0 3.9-1.1 5.5-3.1l4.9-7.4c1.6-2 2.9-3.1 5.5-3.1h4"/><path fill="currentColor" stroke-width="1.6" d="M24.3.8l5.35 4.4-5.35 4.4zM24.3 23.2l5.35-4.4-5.35-4.4z"/></svg>',
+      layers: T('0 0 22.1 24', 1) + 'stroke-width="2"><path d="M11.05 1 21.1 6.8 11.05 12.6 1 6.8z"/><path d="M2.75 11 1 12l10.05 5.8L21.1 12l-1.75-1M2.75 16.2 1 17.2 11.05 23l10.05-5.8-1.75-1"/></svg>',
+      layersDown: T('0 0 20.8 24', 1) + 'stroke-width="2"><path d="M9.75 11.8 19.8 6v11.1L9.75 22.9z"/><path d="M5.35 9.3 15.45 3.5v2.1M5.35 9.3v11.1l1.6-.9M1 6.8 11.1 1v1.2M1 6.8v11.1l1.5-.85"/></svg>',
+      run: T('0 0 18.4 24', 1) + '><circle cx="11.5" cy="2.4" r="2.36" fill="currentColor" stroke="none"/><path stroke-width="1.9" d="M3.4 10.9l.75-4.5 4.4-.3M10.6 6.8l3 4.2 3.85-1.6"/><path stroke-width="3.6" d="M6.6 6.5 9.9 6.4M9.4 7.2l-1.7 5.3"/><path stroke-width="2.1" d="M7 12.9l-1.3 5.5L1 22.9M8.3 13.1l5.6 3.5-4.4 3.7"/></svg>',
       mic: S + 'stroke-width="1.7"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>',
       micSlash: S + 'stroke-width="1.7"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M3 3l18 18"/></svg>',
       video: S + 'stroke-width="1.7"><path d="M15 10.5l6-3.5v10l-6-3.5"/><path d="M3.5 6.5h9a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/></svg>',
@@ -812,9 +817,10 @@
             if (last.timer !== null && st.timer !== last.timer) retrigger(name, "swap");
             last.name = st.name; last.timer = st.timer;
           }
-          var repsText = st.reps == null ? "" : String(st.reps);
+          /* a run's distance (#335) takes the reps' place, without the pop a counted rep gets */
+          var repsText = st.dist != null ? st.dist : st.reps == null ? "" : String(st.reps);
           if (repsText !== last.reps) {
-            if (last.reps !== null && repsText !== "" && +repsText > +last.reps) { retrigger(reps, "pop"); retrigger(flash, "go"); }
+            if (st.dist == null && last.reps !== null && repsText !== "" && +repsText > +last.reps) { retrigger(reps, "pop"); retrigger(flash, "go"); }
             reps.textContent = repsText; last.reps = repsText;
           }
           /* hidden, not a zero dash: a zero dash with round caps still paints a dot */
@@ -1064,7 +1070,7 @@
     })();
 
     /* ---------- The phone: the app's first screen, playable ----------
-       TimerConfigView (app 1.47) and TimerRunningView on an iPhone 17 Pro, 402 x 874 pt.
+       TimerConfigView (app 1.48, with the RUN tab of #335) and TimerRunningView on an iPhone 17 Pro, 402 x 874 pt.
        Every control does what it does in the app. The first touch of each one explains itself in
        the app's own onboarding card, and "Take the tour" runs the app's welcome tour. */
     (function () {
@@ -1074,23 +1080,32 @@
       /* ---- workouts: the built in templates and presets (Models.swift) ---- */
       var RS = 0.8;                                    /* RingScale.current on a 402 pt phone (#332) */
       var SOLDIER = { PUSHUPS: 17029, SQUATS: 22204, PULLUPS: 7808 };   /* same soldier as the screenshots */
-      var TABS = ["work", "rest", "exercises", "rounds"];
-      var LABEL = { time: { work: "Time/Set", rest: "Rest", exercises: "Exercises", rounds: "Rounds" },
-                    reps: { work: "Reps/Set", rest: "Rest", exercises: "Exercises", rounds: "Target" } };
-      var EXPLAIN = { time: { work: "How long each set of work lasts", rest: "How long you rest between sets", exercises: "Exercises done during this workout, in order", rounds: "How many times the circuit repeats" },
-                      reps: { work: "How many reps you do in one set", rest: "How long you rest between sets", exercises: "Exercises done during this workout, in order", rounds: "Total reps to finish the workout" } };
+      var TABS = ["work", "rest", "exercises", "rounds", "run"];
+      var LABEL = { time: { work: "Time/Set", rest: "Rest", exercises: "Exercises", rounds: "Rounds", run: "Run" },
+                    reps: { work: "Reps/Set", rest: "Rest", exercises: "Exercises", rounds: "Target", run: "Run" } };
+      /* runs are in kilometers, the app's default unit; miles are a setting there */
+      var RUN_HINT = "Tap before or after, drag to set the kilometers. 0 is no run";
+      var EXPLAIN = { time: { work: "How long each set of work lasts", rest: "How long you rest between sets", exercises: "Exercises done during this workout, in order", rounds: "How many times the circuit repeats", run: RUN_HINT },
+                      reps: { work: "How many reps you do in one set", rest: "How long you rest between sets", exercises: "Exercises done during this workout, in order", rounds: "Total reps to finish the workout", run: RUN_HINT } };
       function builtIns() {
         /* page order (#329): TIME opens on its base page, REPS on its first preset */
         return {
-          time: [{ id: "tabata", name: "TABATA", base: true, cfg: { mode: "time", rest: 10, rounds: 8, mixed: false, ladder: null, ex: [{ n: "SQUATS", w: 20 }] } },
-                 { id: "emom", name: "EMOM", cfg: { mode: "time", rest: 50, rounds: 20, mixed: false, ladder: null, ex: [{ n: "PULLUPS", w: 10 }] } }],
-          reps: [{ id: "murph", name: "MURPH", cfg: { mode: "reps", rest: 10, rounds: 1, mixed: true, ladder: null, ex: [{ n: "PULLUPS", t: 100, s: 2 }, { n: "PUSHUPS", t: 200, s: 4 }, { n: "SQUATS", t: 300, s: 6 }] } },
-                 { id: "centurion", name: "CENTURION", base: true, cfg: { mode: "reps", rest: 30, rounds: 1, mixed: false, ladder: null, ex: [{ n: "PUSHUPS", t: 100, s: 5 }] } }]
+          time: [{ id: "tabata", name: "TABATA", base: true, cfg: { mode: "time", rest: 10, rounds: 8, mixed: false, ladder: null, ex: [{ n: "SQUATS", w: 20 }], run: [0, 0] } },
+                 { id: "emom", name: "EMOM", cfg: { mode: "time", rest: 50, rounds: 20, mixed: false, ladder: null, ex: [{ n: "PULLUPS", w: 10 }], run: [0, 0] } }],
+          reps: [{ id: "murph", name: "MURPH", cfg: { mode: "reps", rest: 10, rounds: 1, mixed: true, ladder: null, ex: [{ n: "PULLUPS", t: 100, s: 2 }, { n: "PUSHUPS", t: 200, s: 4 }, { n: "SQUATS", t: 300, s: 6 }], run: [0, 0] } },
+                 { id: "centurion", name: "CENTURION", base: true, cfg: { mode: "reps", rest: 30, rounds: 1, mixed: false, ladder: null, ex: [{ n: "PUSHUPS", t: 100, s: 5 }], run: [0, 0] } }]
         };
       }
       /* the visitor's own presets and settings stay in this browser only */
       var KEY = "rt-phone-1", store = (function () {
-        try { var v = JSON.parse(localStorage.getItem(KEY)); if (v && v.pages && v.pages.time && v.pages.reps) return v; } catch (e) {}
+        try {
+          var v = JSON.parse(localStorage.getItem(KEY));
+          if (v && v.pages && v.pages.time && v.pages.reps) {
+            /* saved before the RUN tab: no runs, as the app decodes a config without them */
+            v.pages.time.concat(v.pages.reps).forEach(function (p) { if (!p.cfg.run) p.cfg.run = [0, 0]; });
+            return v;
+          }
+        } catch (e) {}
         return { pages: builtIns(), tips: true, sound: true };
       })();
       function persist() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
@@ -1144,6 +1159,12 @@
       function totalReps(c) { return sum(c.ex.map(function (x, e) { return targetOf(c, e); })); }
       function totalText(c) { return c.mode === "time" ? mmss(totalSecs(c)) : String(totalReps(c)); }
 
+      /* RunDistance (#335): meters, shown in tenths of a kilometer, 0 (no run) up to a marathon */
+      function km(m) { return (m / 1000).toFixed(1); }
+      function runStep(m, steps) { return clamp((Math.round(m / 100) + steps) * 100, 0, 42195); }
+      /* the card a drag on the RUN tab edits: the first run with a distance, else BEFORE */
+      function firstPick(t) { return t === "run" && !cfg.run[0] && cfg.run[1] ? 1 : 0; }
+
       /* tabDisplayValue and PickerValueView */
       function tabValue(t) {
         if (t === "work") {
@@ -1152,6 +1173,7 @@
         }
         if (t === "rest") return mmss(cfg.rest);
         if (t === "exercises") return String(cfg.ex.length);
+        if (t === "run") return km(cfg.run[0] + cfg.run[1]);     /* both runs together, no unit */
         return cfg.mode === "reps" ? String(totalReps(cfg)) : String(cfg.ladder ? cfg.ladder.length : cfg.rounds);
       }
       function pickerValue(t) {
@@ -1161,6 +1183,7 @@
         }
         if (t === "rest") return mmss(cfg.rest);
         if (t === "exercises") return String(cfg.ex.length);
+        if (t === "run") return km(cfg.run[pick]);
         return cfg.mode === "reps" ? String(cfg.ex[pick].t) : String(cfg.ladder ? cfg.ladder.length : cfg.rounds);
       }
       function locked(t) { return t === "rounds" && !!cfg.ladder; }
@@ -1178,7 +1201,7 @@
       var glowCv = $("canvas.glow", el.ring), arcCv = $("canvas.arcs", el.ring), gctx = glowCv.getContext("2d"), actx = arcCv.getContext("2d");
       var rimCv = $("canvas.rimglow", el.value), rctx = rimCv.getContext("2d");
       var modeCards = $$(".mode-card"), chipsEl = $("#presetChips");
-      el.tabs.innerHTML = TABS.map(function (t) { return '<button type="button" class="g rim rim-grey tab" data-t="' + t + '"><span class="ic"></span><b></b></button>'; }).join("");
+      el.tabs.innerHTML = TABS.map(function (t) { return '<button type="button" class="g rim rim-grey tab" data-t="' + t + '"><span class="in"><span class="ic"></span><b></b></span></button>'; }).join("");
       var tabEls = $$(".tab", el.tabs);
       function px() { return screen.clientWidth / 402; }       /* one app point in CSS pixels */
 
@@ -1186,6 +1209,7 @@
       var ringState = { draw: 1, split: 1, fill: reduced ? 1 : 0 };
       function litSeg(sg) {
         if (!tab) return true;
+        if (tab === "run") return false;             /* the runs are not segments of the ring */
         if (tab === "rest") return sg.type === "rest";
         if (sg.type !== "work") return false;
         if (tab === "exercises" || cfg.ladder) return true;
@@ -1246,81 +1270,103 @@
         gctx.globalAlpha = actx.globalAlpha = 1;
       }
 
-      /* ---- RunningRimView (#333): a misty electric current laps the value box, 4 s on, 6 s off ---- */
-      var rim = { pts: null, len: 0, w: 0, h: 0 };
+      /* ---- RunningRimView (#333): a misty electric current laps the value box, 4 s on, 6 s off ----
+         The app's layers one for one: a haze round the box, a mist and a glow along the trail, a hot
+         core on its front half and sparks at the head. The box shrinks with the ring (#332) and its
+         glow with it, so every size below is points times RS. */
+      var rim = { pts: null };
       function rimPath() {
-        var dpr = Math.min(2, window.devicePixelRatio || 1), u = px(), bleed = 32 * u;
+        var dpr = Math.min(2, window.devicePixelRatio || 1), s = RS * px(), bleed = 40 * s;
         var w = el.value.offsetWidth, h = el.value.offsetHeight, W = w + 2 * bleed, H = h + 2 * bleed;
         if (!w) return;
-        if (rimCv.width !== Math.round(W * dpr)) { rimCv.width = Math.round(W * dpr); rimCv.height = Math.round(H * dpr); }
-        var r = Math.min(22.4 * u, h / 2), x0 = bleed, y0 = bleed, pts = [], N = 260, i;
-        /* perimeter, clockwise from the top left after the corner */
-        var straight = [[x0 + r, y0, x0 + w - r, y0], [x0 + w, y0 + r, x0 + w, y0 + h - r], [x0 + w - r, y0 + h, x0 + r, y0 + h], [x0, y0 + h - r, x0, y0 + r]];
-        var corners = [[x0 + w - r, y0 + r, -Math.PI / 2], [x0 + w - r, y0 + h - r, 0], [x0 + r, y0 + h - r, Math.PI / 2], [x0 + r, y0 + r, Math.PI]];
-        var raw = [];
-        for (var k = 0; k < 4; k++) {
-          var L = straight[k];
-          for (i = 0; i < 24; i++) raw.push([L[0] + (L[2] - L[0]) * i / 24, L[1] + (L[3] - L[1]) * i / 24]);
-          var C = corners[k];
-          for (i = 0; i < 12; i++) { var an = C[2] + (Math.PI / 2) * i / 12; raw.push([C[0] + r * Math.cos(an), C[1] + r * Math.sin(an)]); }
-        }
+        if (rimCv.width !== Math.round(W * dpr) || rimCv.height !== Math.round(H * dpr)) { rimCv.width = Math.round(W * dpr); rimCv.height = Math.round(H * dpr); }
+        var r = Math.min(28 * s, h / 2), lx = bleed, ty = bleed, rx = bleed + w, by = bleed + h, raw = [], pts = [], N = 360, i;
+        function line(x0, y0, x1, y1, n) { for (i = 0; i < n; i++) raw.push([x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n]); }
+        function corner(cx, cy, a0) { for (i = 0; i < 12; i++) raw.push([cx + r * Math.cos(a0 + Math.PI / 2 * i / 12), cy + r * Math.sin(a0 + Math.PI / 2 * i / 12)]); }
+        /* SwiftUI's rounded rectangle starts halfway down the right edge and runs clockwise */
+        line(rx, ty + h / 2, rx, by - r, 12); corner(rx - r, by - r, 0);
+        line(rx - r, by, lx + r, by, 24); corner(lx + r, by - r, Math.PI / 2);
+        line(lx, by - r, lx, ty + r, 12); corner(lx + r, ty + r, Math.PI);
+        line(lx + r, ty, rx - r, ty, 24); corner(rx - r, ty + r, -Math.PI / 2);
+        line(rx, ty + r, rx, ty + h / 2, 12);
         var acc = [0];
         for (i = 1; i <= raw.length; i++) { var p = raw[i - 1], q = raw[i % raw.length]; acc.push(acc[i - 1] + Math.hypot(q[0] - p[0], q[1] - p[1])); }
         var total = acc[raw.length], j = 0;
-        for (i = 0; i < N; i++) {
-          var d = total * i / N;
+        for (var k = 0; k < N; k++) {
+          var d = total * k / N;
           while (acc[j + 1] < d) j++;
-          var t = (d - acc[j]) / (acc[j + 1] - acc[j] || 1), a = raw[j], b = raw[(j + 1) % raw.length];
-          pts.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+          var f = (d - acc[j]) / (acc[j + 1] - acc[j] || 1), a = raw[j], b = raw[(j + 1) % raw.length];
+          pts.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
         }
-        rim = { pts: pts, w: W, h: H, dpr: dpr, u: u };
+        rim = { pts: pts, w: W, h: H, dpr: dpr, s: s };
       }
       function rimAt(f) { var n = rim.pts.length, x = ((f % 1) + 1) % 1 * n, i = Math.floor(x), t = x - i, a = rim.pts[i % n], b = rim.pts[(i + 1) % n]; return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+      /* the border from f0 to f1, as points */
+      function rimArc(f0, f1) { var n = Math.ceil((f1 - f0) * rim.pts.length) + 1, out = []; for (var i = 0; i <= n; i++) out.push(rimAt(f0 + (f1 - f0) * i / n)); return out; }
       function hash(st, slot) { var x = Math.sin(st * 12.9898 + slot * 78.233) * 43758.5453; return x - Math.floor(x); }
       function noise(x, seed) { var i = Math.floor(x), f = x - i, e = f * f * (3 - 2 * f); return hash(i, seed) + (hash(i + 1, seed) - hash(i, seed)) * e; }
-      /* blurred strokes via a shadow cast from far off canvas: works in every browser */
-      function blurStroke(ctx, pts, width, color, blur) {
-        ctx.save(); ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.shadowOffsetX = 10000; ctx.strokeStyle = "#000"; ctx.lineWidth = width; ctx.lineCap = "round";
-        ctx.beginPath(); pts.forEach(function (p, i) { if (i) ctx.lineTo(p[0] - 10000, p[1]); else ctx.moveTo(p[0] - 10000, p[1]); }); ctx.stroke(); ctx.restore();
+      var RIM = "139,215,6", HOT = "191,235,151";      /* Colors.work, and it mixed 45% toward white */
+      function polyline(ctx, pts, width, style) {
+        ctx.lineWidth = width; ctx.lineCap = ctx.lineJoin = "round"; ctx.strokeStyle = style;
+        ctx.beginPath(); pts.forEach(function (p, i) { if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); }); ctx.stroke();
       }
-      function blurDot(ctx, p, radius, color, blur) {
-        ctx.save(); ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.shadowOffsetX = 10000; ctx.fillStyle = "#000";
-        ctx.beginPath(); ctx.arc(p[0] - 10000, p[1], radius, 0, 2 * Math.PI); ctx.fill(); ctx.restore();
+      function disc(ctx, p, radius, style) { ctx.fillStyle = style; ctx.beginPath(); ctx.arc(p[0], p[1], radius, 0, 2 * Math.PI); ctx.fill(); }
+      /* fadeIn: nothing at `from`, full at the head, dimmed unevenly by `shimmer` like a live current */
+      function fadeIn(ctx, rgb, peak, from, to, t, shimmer, seed) {
+        var g = ctx.createLinearGradient(from[0], from[1], to[0], to[1]);
+        for (var k = 0; k <= 8; k++) {
+          var at = k / 8, pulse = 1 - shimmer + shimmer * noise(t * 9 - at * 4, seed);
+          g.addColorStop(at, "rgba(" + rgb + "," + (peak * Math.pow(at, 1.6) * pulse).toFixed(4) + ")");
+        }
+        return g;
+      }
+      /* A blurred layer: the shapes are drawn off canvas and only their shadow, in `rgb`, lands on it.
+         Shadows ignore the canvas transform, so the offset and blur are in device pixels, and a
+         shadow's blur is twice the Gaussian's deviation, which is what SwiftUI's blur radius is. */
+      function blurred(ctx, rgb, radius, draw) {
+        ctx.save();
+        ctx.shadowColor = "rgb(" + rgb + ")"; ctx.shadowBlur = 2 * radius * rim.dpr; ctx.shadowOffsetX = 10000 * rim.dpr;
+        ctx.translate(-10000, 0);
+        draw(ctx);
+        ctx.restore();
       }
       function drawRim(now) {
         if (!rim.pts) return;
-        var ctx = rctx, u = rim.u, t = now / 1000, cycle = 10, inC = t % cycle;
+        var ctx = rctx, s = rim.s, t = now / 1000, inC = t % 10, ring = rim.pts.concat([rim.pts[0]]);
         ctx.setTransform(rim.dpr, 0, 0, rim.dpr, 0, 0);
         ctx.clearRect(0, 0, rim.w, rim.h);
         if (tab || running || naming) return;
-        if (reduced) { blurStroke(ctx, rim.pts.concat([rim.pts[0]]), 8 * u, "rgba(139,215,6,0.2)", 8 * u); return; }
-        if (inC >= 4) return;
-        var fade = Math.min(1, inC / 0.5, (4 - inC) / 0.5), strength = fade * (0.78 + 0.22 * noise(t * 18, 7));
-        var head = (inC / 2.4) % 1, arcLen = 0.28, K = 26, i;
-        ctx.globalCompositeOperation = "lighter";
-        blurStroke(ctx, rim.pts.concat([rim.pts[0]]), 10 * u, "rgba(139,215,6," + (0.12 * strength).toFixed(3) + ")", 10 * u);
-        for (i = 0; i < K; i++) {
-          var f0 = head - arcLen + arcLen * i / K, f1 = head - arcLen + arcLen * (i + 1) / K, at = (i + 1) / K, rise = Math.pow(at, 1.6);
-          var seg = [rimAt(f0), rimAt(f1)], pulse = 0.5 + 0.5 * noise(t * 9 - at * 4, 3);
-          blurStroke(ctx, seg, 14 * u, "rgba(139,215,6," + (0.85 * strength * rise * 0.55).toFixed(3) + ")", 10 * u);
-          blurStroke(ctx, seg, 5 * u, "rgba(139,215,6," + (strength * rise * pulse).toFixed(3) + ")", 4 * u);
-          if (at > 0.5) {
-            ctx.strokeStyle = "rgba(205,240,140," + (0.9 * strength * Math.pow((at - 0.5) * 2, 1.6)).toFixed(3) + ")";
-            ctx.lineWidth = 1.4 * u; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(seg[0][0], seg[0][1]); ctx.lineTo(seg[1][0], seg[1][1]); ctx.stroke();
-          }
+        if (reduced) {
+          /* Reduce Motion: a calm haze round the whole box, nothing moving */
+          blurred(ctx, RIM, 8 * s, function (c) { polyline(c, ring, 8 * s, "rgba(0,0,0,0.2)"); });
+          blurred(ctx, RIM, 2 * s, function (c) { polyline(c, ring, 2.5 * s, "rgba(0,0,0,0.25)"); });
+          polyline(ctx, ring, 1 * s, "rgba(" + RIM + ",0.3)");
+          return;
         }
-        var hp = rimAt(head);
-        blurDot(ctx, hp, 9 * u, "rgba(139,215,6," + (0.6 * strength).toFixed(3) + ")", 10 * u);
-        blurDot(ctx, hp, 6 * u, "rgba(205,240,140," + (0.9 * strength).toFixed(3) + ")", 4 * u);
-        ctx.fillStyle = "rgba(255,255,255," + (0.95 * strength).toFixed(3) + ")"; ctx.beginPath(); ctx.arc(hp[0], hp[1], 1.6 * u, 0, 2 * Math.PI); ctx.fill();
+        if (inC >= 4) return;
+        var strength = Math.min(1, inC / 0.5, (4 - inC) / 0.5) * (0.78 + 0.22 * noise(t * 18, 7));
+        var arcLen = 0.28, head = (inC / 2.4) % 1, hp = rimAt(head), tp = rimAt(head - arcLen), mp = rimAt(head - arcLen / 2);
+        var trail = rimArc(head - arcLen, head), front = rimArc(head - arcLen / 2, head);
+        /* the whole box breathes faintly, so the trail rises out of a haze */
+        blurred(ctx, RIM, 10 * s, function (c) { polyline(c, ring, 10 * s, "rgba(0,0,0," + (0.12 * strength).toFixed(4) + ")"); });
+        /* mist: wide and soft */
+        blurred(ctx, RIM, 10 * s, function (c) {
+          polyline(c, trail, 14 * s, fadeIn(c, "0,0,0", 0.85 * strength, tp, hp, t, 0, 0));
+          disc(c, hp, 9 * s, "rgba(0,0,0," + (0.6 * strength).toFixed(4) + ")");
+        });
+        /* glow: the body of the current, shimmering, with a flare at the head */
+        blurred(ctx, RIM, 4 * s, function (c) { polyline(c, trail, 5 * s, fadeIn(c, "0,0,0", strength, tp, hp, t, 0.5, 3)); });
+        blurred(ctx, HOT, 4 * s, function (c) { disc(c, hp, 6 * s, "rgba(0,0,0," + (0.9 * strength).toFixed(4) + ")"); });
+        /* core: front half only, so the trail ends in haze rather than in a line */
+        polyline(ctx, front, 1.4 * s, fadeIn(ctx, HOT, 0.9 * strength, mp, hp, t, 0.35, 5));
+        disc(ctx, hp, 1.6 * s, "rgba(255,255,255," + (0.95 * strength).toFixed(4) + ")");
+        /* sparks: a few specks crackling just off the path near the head, re-rolled 24 times a second */
         var tick = Math.floor(t * 24);
-        for (i = 0; i < 3; i++) {
+        for (var i = 0; i < 3; i++) {
           var along = hash(tick, i), across = hash(tick, i + 10) - 0.5, sz = hash(tick, i + 20), f = head - along * arcLen * 0.45;
           var p = rimAt(f), q = rimAt(f - 0.002), dx = p[0] - q[0], dy = p[1] - q[1], L = Math.max(Math.hypot(dx, dy), 0.001);
-          ctx.fillStyle = "rgba(255,255,255," + ((0.25 + 0.6 * sz) * (1 - along) * strength).toFixed(3) + ")";
-          ctx.beginPath(); ctx.arc(p[0] - dy / L * across * 10 * u, p[1] + dx / L * across * 10 * u, (0.5 + sz * 0.9) * u, 0, 2 * Math.PI); ctx.fill();
+          disc(ctx, [p[0] - dy / L * across * 10 * s, p[1] + dx / L * across * 10 * s], (0.5 + sz * 0.9) * s, "rgba(255,255,255," + ((0.25 + 0.6 * sz) * (1 - along) * strength).toFixed(4) + ")");
         }
-        ctx.globalCompositeOperation = "source-over";
       }
 
       /* ---- one render for the whole config screen ---- */
@@ -1335,6 +1381,7 @@
         if (t === "work") return cfg.ladder ? I.stairs : cfg.mode === "time" ? I.clock : I.play;
         if (t === "rest") return I.pause;
         if (t === "exercises") return cfg.mixed ? I.shuffle : I.repeat;
+        if (t === "run") return I.run;
         return cfg.mode === "time" ? I.layers : I.layersDown;
       }
       function render(opts) {
@@ -1344,6 +1391,7 @@
         el.cfg.classList.toggle("tabopen", !!tab);
         el.cfg.classList.toggle("naming", !!naming);
         el.cfg.classList.toggle("drag", !!tab && draggable(tab));
+        el.cfg.classList.toggle("runoff", tab === "run" && !cfg.run[pick]);
         /* header */
         if (tab) {
           var at = TABS.indexOf(tab), prev = TABS.slice(0, at).filter(function (t) { return !locked(t); }).length, next = TABS.slice(at + 1).filter(function (t) { return !locked(t); }).length;
@@ -1374,7 +1422,7 @@
         setValue(big, opts.roll);
         el.unit.textContent = cfg.mode === "reps" ? "reps" : "min:sec";
         el.total.textContent = totalText(cfg);
-        var ml = tab === "exercises" ? (cfg.mixed ? "MIXED" : "CONTINUOUS") : tab === "work" ? (cfg.ladder ? "LADDER" : "NORMAL") : "";
+        var ml = tab === "exercises" ? (cfg.mixed ? "MIXED" : "CONTINUOUS") : tab === "work" ? (cfg.ladder ? "LADDER" : "NORMAL") : tab === "run" ? (pick ? "AFTER" : "BEFORE") : "";
         el.modeLbl.textContent = ml;
         el.modeLbl.classList.toggle("on", !!ml);
         /* mode buttons */
@@ -1395,6 +1443,7 @@
           $(".ic", b).innerHTML = tabIcon(t);
           $("b", b).textContent = tabValue(t);
           b.classList.toggle("active", t === tab);
+          b.classList.toggle("zero", t === "run" && !cfg.run[0] && !cfg.run[1]);
           b.style.opacity = locked(t) ? 0.5 : "";
           b.setAttribute("aria-label", LABEL[mode][t] + " " + tabValue(t));
         });
@@ -1415,6 +1464,13 @@
         } else if (tab === "work" && cfg.ladder) {
           on = true;
           html = '<button type="button" class="g rim cfg-card cfg-ladder" data-ladder="1">' + cfg.ladder.map(function (v) { return "<i>" + (cfg.mode === "time" ? mmss(v) : v) + "</i>"; }).join("") + "</button>";
+        } else if (tab === "run") {
+          /* RunLegCardsView: the selected card full, a set run dimmed, no run fainter still */
+          on = true;
+          html = ["before", "after"].map(function (leg, i) {
+            var m = cfg.run[i];
+            return '<button type="button" class="g rim cfg-card cfg-run' + (i === pick ? "" : m ? " dim" : " off") + '" data-card="' + i + '" aria-label="' + (i ? "After" : "Before") + " workout run, " + km(m) + " km" + (m ? "" : ", off") + '"><span class="km"><b>' + km(m) + "</b><i>km</i></span><small>" + leg + "</small></button>";
+          }).join("");
         } else if ((tab === "work" && (cfg.mode === "time" || !cfg.ladder)) || (tab === "rounds" && cfg.mode === "reps")) {
           on = true;
           html = cfg.ex.map(function (x, i) {
@@ -1479,7 +1535,7 @@
         if (locked(t)) { banner("warn", "Ladder mode is active in Work"); return; }
         if (tab === t) { closeTab(); return; }
         tab = t;
-        pick = 0;
+        pick = firstPick(t);
         render({ roll: true });
       }
       function closeTab(silent) {
@@ -1492,15 +1548,16 @@
         var i = TABS.indexOf(tab) + dir;
         while (i >= 0 && i < TABS.length && locked(TABS[i])) i += dir;
         if (i < 0 || i >= TABS.length) { bounce(-dir, 0); return; }
-        tab = TABS[i]; pick = 0; render({ roll: true });
+        tab = TABS[i]; pick = firstPick(tab); render({ roll: true });
       }
 
-      /* ---- editing values: drag up or down, 40 pt per step (20 pt for reps), like PickerSliderView ---- */
+      /* ---- editing values: drag up or down, 40 pt per step (20 pt for reps and runs), like PickerSliderView ---- */
       var drag = null;
       function changeBy(steps, from) {
         var c = cfg, t = tab;
         if (!t || !draggable(t)) return;
-        if (t === "rest") c.rest = clamp(from + steps * 5, 5, 600);
+        if (t === "run") c.run[pick] = runStep(from, steps);    /* tenths of a kilometer, down to 0 = no run */
+        else if (t === "rest") c.rest = clamp(from + steps * 5, 5, 600);
         else if (t === "rounds" && c.mode === "time") c.rounds = clamp(from + steps, 1, 60);
         else if (t === "rounds") c.ex[pick].t = clamp(from + steps, 1, 999);
         else if (t === "work" && c.mode === "time") c.ex[pick].w = clamp(from + steps * 5, 5, 600);
@@ -1513,6 +1570,7 @@
       }
       function currentEditable() {
         var c = cfg, t = tab;
+        if (t === "run") return c.run[pick];
         if (t === "rest") return c.rest;
         if (t === "rounds") return c.mode === "time" ? c.rounds : c.ex[pick].t;
         if (t === "work") return c.mode === "time" ? c.ex[pick].w : c.ex[pick].s;
@@ -1604,7 +1662,7 @@
       /* ---- TimerRunningView, in real time, with the app's beeps and spoken cues ---- */
       var pill = Pill($("#runPill"));
       var runBg = $("#runBg"), runNext = $("#runNext"), ringArc = $(".run-ring .arc", el.run), ringGlow = $(".run-ring .glow", el.run);
-      var digits = $("#runDigits"), recEl = $("#runRec"), camBtn = $("#runCam"), micBtn = $("#runMic"), recBtn = $("#runRecBtn");
+      var digits = $("#runDigits"), runStatus = $("#runStatus"), recEl = $("#runRec"), camBtn = $("#runCam"), micBtn = $("#runMic"), recBtn = $("#runRecBtn");
       var audio = null, muted = false;
       function sound() { return store.sound && !muted; }
       function beep(freq, dur) {
@@ -1639,7 +1697,8 @@
         cancelAnimationFrame(running.raf);
         running = null;
         if (spoken) say(spoken);
-        el.run.classList.remove("on", "paused", "cam", "recording");
+        el.run.classList.remove("on", "paused", "cam", "recording", "runleg");
+        runStatus.classList.remove("on");
         el.run.setAttribute("aria-hidden", "true");
         el.cfg.classList.remove("morph");
         render();
@@ -1653,6 +1712,68 @@
         camBtn.setAttribute("aria-label", on ? "Turn off camera" : "Turn on camera");
         $("#runPill").classList.toggle("large", on);
         if (!on) { running.recording = false; el.run.classList.remove("recording"); }
+      }
+      /* ---- runs before and after the workout (#335): a Get Ready, the run, then a break that waits
+         for a tap before the workout and its own Get Ready; after it, the same break and the last
+         run. A run ends on distance: a 5:00 per kilometer pace played ten times faster stands in for
+         the phone's GPS. Runs and breaks count up, in TIME too. ---- */
+      var RUN_PACE = 1000 / 300, RUN_FF = 10;
+      /* the ring's progress arc; hidden at zero, where a zero-length dash with round caps paints a dot */
+      function ringTo(prog) {
+        ringArc.style.strokeDasharray = ringGlow.style.strokeDasharray = prog.toFixed(4) + " 1";
+        ringArc.style.visibility = ringGlow.style.visibility = prog > 0.0005 ? "" : "hidden";
+      }
+      function runName(leg) { return "RUN " + km(cfg.run[leg]) + " KM"; }
+      function enterExtra(r, x) {
+        r.x = x ? { type: x.type, leg: x.leg, e: 0 } : null;
+        r.lastSec = -1;
+        el.run.classList.toggle("runleg", !!x && x.type === "run");
+        if (!x) return;
+        if (x.type === "run") { setCam(false); beep(1320, 0.18); say("Run " + km(cfg.run[x.leg]) + " kilometers"); showTip("runLive"); }
+        else if (x.type === "handoff") say(x.leg == null ? "Run complete. Tap when you are ready" : "Tap when you are ready to run");
+      }
+      function nextExtra(r) {
+        pill.mistFlash();
+        enterExtra(r, r.queue.shift());
+        if (r.x) return;
+        if (r.after) { stopRun("Workout complete! Great job!"); showTip("done"); }
+        else r.lastI = -1;                              /* on to the workout's own Get Ready */
+      }
+      function extraFrame(r, dt) {
+        var x = r.x, live = !r.paused, target = x.leg != null ? cfg.run[x.leg] : 0;
+        if (live) {
+          var step = x.type === "run" ? dt * RUN_FF : dt;
+          x.e += step;
+          if (x.type !== "getReady") r.up += step;
+        }
+        var rem = 10 - x.e, meters = x.type === "run" ? Math.min(target, x.e * RUN_PACE) : 0;
+        if (x.type === "getReady") {
+          var whole = Math.ceil(rem - 1e-6);
+          if (live && whole !== r.lastSec) { r.lastSec = whole; if (whole >= 1 && whole <= 3) beep(880, 0.12); }
+          if (rem <= 0) { nextExtra(r); return; }
+        } else if (x.type === "run" && meters >= target) { nextExtra(r); return; }
+        var color = x.type === "run" ? LIME : GREY;
+        runBg.style.background = color;
+        runNext.style.background = LIME;
+        runNext.style.opacity = x.type === "getReady" ? clamp((3 - rem) / 3, 0, 1) : 0;
+        var bpm = r.hr.step(live ? dt : 0, x.type === "run" ? "work" : x.type === "handoff" ? "rest" : "getReady");
+        r.beat += dt;
+        if (r.beat >= 60 / bpm) { r.beat = 0; pill.beat(); }
+        var clock = x.type === "getReady" ? mmss(rem) : mmss(Math.floor(cfg.mode === "reps" ? r.up : x.e));
+        digits.textContent = clock;
+        runStatus.classList.toggle("on", x.type === "handoff");
+        var prog = x.type === "run" ? meters / target : x.type === "handoff" && r.after ? 1 : 0;
+        ringTo(prog);
+        var showTimer = Math.floor(r.wall / 5) % 2 === 1;
+        pill.set({
+          color: color, work: x.type === "run",
+          fraction: x.type === "run" ? meters / target : x.type === "getReady" ? rem / 10 : 1,
+          hr: bpm, name: showTimer ? clock : x.leg != null ? runName(x.leg) : r.list[0].name, timer: showTimer,
+          reps: x.type === "handoff" && x.leg == null && cfg.mode === "reps" ? 0 : null,
+          dist: x.type === "run" ? (meters / 1000).toFixed(2) : null,
+          border: (r.cam || cfg.mode === "reps") && r.after ? 1 : null
+        });
+        if (r.recording) recEl.textContent = "00:" + mmss(Math.floor(r.recT));
       }
       function startRun() {
         if (running) return;
@@ -1668,7 +1789,7 @@
         render();
         try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); if (audio.resume) audio.resume(); } catch (e) {}
         var list = timeline(), total = totalOf(list), repsTotal = totalReps(cfg), workTotal = total - list[0].secs;
-        running = { t: 0, last: performance.now(), list: list, hr: new HeartSim(98), beat: 0, lastI: -1, raf: 0, paused: false, cam: false, recording: false, recT: 0, wall: 0, lastSec: -1 };
+        running = { t: 0, last: performance.now(), list: list, hr: new HeartSim(98), beat: 0, lastI: -1, raf: 0, paused: false, cam: false, recording: false, recT: 0, wall: 0, lastSec: -1, x: null, queue: [], up: 0, after: false };
         setCam(false);
         el.cfg.classList.add("morph");
         el.run.classList.add("on");
@@ -1676,13 +1797,23 @@
         banner(null);
         say("Let's begin");
         var r = running;
+        if (cfg.run[0]) { r.queue = [{ type: "run", leg: 0 }, { type: "handoff", leg: null }]; enterExtra(r, { type: "getReady", leg: 0 }); }
         (function frame(now) {
           if (running !== r) return;
           var dt = Math.min(0.05, (now - r.last) / 1000);
           r.last = now;
-          if (!r.paused) { r.t += dt; r.wall += dt; }
+          if (!r.paused) { r.wall += dt; if (!r.x) r.t += dt; }
           if (r.recording) r.recT += dt;
-          if (r.t >= total) { stopRun("Workout complete! Great job!"); showTip("done"); return; }
+          if (r.x) { extraFrame(r, dt); if (running === r) r.raf = requestAnimationFrame(frame); return; }
+          if (r.t >= total) {
+            /* the run after the workout comes first, behind a break the user ends */
+            if (cfg.run[1] && !r.after) {
+              r.after = true; r.up += total - list[0].secs; r.queue = [{ type: "run", leg: 1 }];
+              pill.mistFlash(); enterExtra(r, { type: "handoff", leg: 1 });
+              r.raf = requestAnimationFrame(frame); return;
+            }
+            stopRun("Workout complete! Great job!"); showTip("done"); return;
+          }
           var ph = playhead(list, r.t), iv = ph.iv, rem = iv.secs - ph.e;
           if (ph.i !== r.lastI) {
             if (r.lastI !== -1) pill.mistFlash();
@@ -1710,11 +1841,12 @@
             for (var k = 1; k < ph.i; k++) repsDone += list[k].reps || 0;
             if (iv.type === "work") { setDone = Math.floor(ph.e / iv.secs * iv.reps + 1e-6); repsDone += setDone; }
           }
-          var shown = iv.type === "getReady" ? rem : cfg.mode === "reps" ? r.t - list[0].secs : total - r.t;
+          runStatus.classList.remove("on");
+          var shown = iv.type === "getReady" ? rem : cfg.mode === "reps" ? r.up + r.t - list[0].secs : total - r.t;
           var clock = mmss(cfg.mode === "reps" && iv.type !== "getReady" ? Math.floor(shown) : shown);
           digits.textContent = clock;
           var prog = iv.type === "getReady" ? 0 : cfg.mode === "reps" ? repsDone / repsTotal : (r.t - list[0].secs) / workTotal;
-          ringArc.style.strokeDasharray = ringGlow.style.strokeDasharray = prog.toFixed(4) + " 1";
+          ringTo(prog);
           var showTimer = Math.floor(r.wall / 5) % 2 === 1;
           pill.set({
             color: color, work: iv.type === "work",
@@ -1729,6 +1861,8 @@
       }
       el.run.addEventListener("click", function (e) {
         if (!running || e.target.closest("button")) return;
+        /* a break before or after a run waits for this tap: it starts the next part (#335) */
+        if (running.x && running.x.type === "handoff" && !running.paused) { nextExtra(running); return; }
         running.paused = !running.paused;
         el.run.classList.toggle("paused", running.paused);
         if (!running.paused) say("Continue");
@@ -1768,13 +1902,15 @@
       /* ---- tips: the app's onboarding card, once per control ---- */
       var TIPS = {
         title: ["Two ways to train", "TIME runs intervals on a clock. REPS counts repetitions instead. Swipe sideways to switch."],
-        tabs: ["Shape your workout", "Four tabs cover work, rest, exercises and rounds, or your reps target in REPS mode. Tap one to open its editor, tap it again to close."],
+        tabs: ["Shape your workout", "Five tabs cover work, rest, exercises, rounds (or your reps target in REPS mode) and an optional run before or after. Tap one to open its editor, tap it again to close."],
         work: ["Time per set", "Drag up or down anywhere on the screen to change it, 5 seconds a step. Tap an empty spot to close."],
         workReps: ["Reps per set", "Pick an exercise below, then drag up or down to set how many reps make one set."],
         rest: ["Rest", "How long you rest between sets. Drag up or down to change it."],
         exercises: ["Exercises", "Tap an exercise to swap in another trained one, or pick MURPH to run three at once. The buttons switch mixed and continuous order."],
         rounds: ["Rounds", "How many times the circuit repeats. Drag up or down to change it."],
         target: ["Target", "Total reps to finish the workout, per exercise. Pick one below and drag to change it."],
+        run: ["Run before or after", "Add a run before or after the workout, like the two miles of MURPH. Tap before or after, then drag up or down to set the distance. In the app the phone's GPS measures it, even locked in a pocket."],
+        runLive: ["Run", "The ring and the bar fill with the distance. In the app the phone's GPS measures it. Here the run plays at ten times speed."],
         ring: ["Your workout at a glance", "The ring previews your workout: bright segments are work, dark gaps are rest. The number in the middle is the total time, or total reps in REPS mode."],
         edit: ["Rename or save", "This button changes with what you do. Pencil: rename your workout. Checkmark: save the changes you made, or confirm a name you typed. A plus appears underneath it to save your changes as a separate new workout."],
         plus: ["Save as new", "Type a name and the setup becomes its own workout, one swipe away."],
@@ -1921,7 +2057,8 @@
         var t = b.getAttribute("data-t");
         openTab(t);
         var key = t === "work" && cfg.mode === "reps" ? "workReps" : t === "rounds" && cfg.mode === "reps" ? "target" : t;
-        if (tab) showTip(shown.tabs ? key : "tabs", el.tabs); else showTip("tabs", el.tabs);
+        /* anchored to the tab itself: the tabs layer spans the whole screen and pushed the card off it */
+        if (tab) showTip(shown.tabs ? key : "tabs", b); else showTip("tabs", b);
       });
       el.modes.addEventListener("click", function (e) {
         var b = e.target.closest("button");
@@ -1932,7 +2069,7 @@
       });
       el.cards.addEventListener("click", function (e) {
         var card = e.target.closest("[data-card]"), chip = e.target.closest("[data-chip]");
-        if (card) { pick = +card.getAttribute("data-card"); render(); showTip("cards", el.cards); }
+        if (card) { pick = +card.getAttribute("data-card"); render(); if (tab !== "run") showTip("cards", el.cards); }
         if (chip) { openPicker(+chip.getAttribute("data-chip")); showTip("chip", el.cards); }
         if (e.target.closest("[data-ladder]")) setLadder(false);
       });
@@ -1957,7 +2094,7 @@
         var dx = e.clientX - drag.x, dy = e.clientY - drag.y, u = px();
         if (!drag.moved && Math.hypot(dx, dy) > 6) drag.moved = true;
         if (tab && drag.moved && Math.abs(dy) > Math.abs(dx) && draggable(tab)) {
-          var per = (cfg.mode === "reps" && tab !== "rest" ? 20 : 40) * u;
+          var per = ((cfg.mode === "reps" && tab !== "rest") || tab === "run" ? 20 : 40) * u;
           changeBy(Math.trunc(-dy / per), drag.from);
           if (e.cancelable) e.preventDefault();
         }
