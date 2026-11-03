@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ranktime.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://ranktime.app/guides/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ranktime.app/</loc><lastmod>2026-11-04</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://ranktime.app/guides/</loc><lastmod>2026-11-03</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/murph-workout/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/cindy-workout/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/amrap-workout/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -9,9 +9,9 @@
   <url><loc>https://ranktime.app/guides/emom-workout/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/hiit-intervals/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/100-pushups-a-day/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://ranktime.app/whats-new/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ranktime.app/whats-next/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ranktime.app/support/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://ranktime.app/privacy/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://ranktime.app/terms/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://ranktime.app/whats-new/</loc><lastmod>2026-11-03</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ranktime.app/whats-next/</loc><lastmod>2026-11-03</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ranktime.app/support/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ranktime.app/privacy/</loc><lastmod>2026-11-03</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://ranktime.app/terms/</loc><lastmod>2026-11-03</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
