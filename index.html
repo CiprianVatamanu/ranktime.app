@@ -1276,7 +1276,7 @@
       var CROWN = [452, 160, 120, 50], HAND_X = 512, HAND_TOP = 322, HAND_BOTTOM = 538, HAND_W = 44;
       var CX = 512, CY = 560, R = 310, LINE = 70, LIME_ARC = [10, 215], GRAY_ARC = [235, 350];
       var LOGO_LIME = "176,230,74", LOGO_GRAY = "142,142,147";       /* Colors.logoLime, Colors.logoGray */
-      var REST_GLOW = 0.22, DIM_DEPTH = 0.45, WAVE_W = 0.25, BUILD_END = 1.1, PRESS_AT = 1.32, CYCLE = 6;
+      var REST_GLOW = 0.22, DIM_DEPTH = 0.45, WAVE_W = 0.25, BUILD_END = 1.1, PRESS_AT = 1.32, CYCLE = 5.5;   /* a pulse every 5.5 s, a calm breath */
       function phase(t, a, b) { return Math.min(1, Math.max(0, (t - a) / (b - a))); }
       function smooth(x) { return x * x * (3 - 2 * x); }
       function bump(x) { return 4 * x * (1 - x); }
@@ -1321,15 +1321,18 @@
         p.rim = 1 - dim * (1 - smooth(phase(u, 0.44, 0.92)));
         return p;
       }
-      /* after the press: crown and hand stay joined and charged, and the logo breathes. Each cycle a
-         softer press sends the light down the hand, then round the ring, which swells and settles. */
+      /* after the press: crown and hand stay joined, at their normal size, and the logo breathes. Each
+         cycle a softer press widens them, sends the light down the hand and round the ring, which swells
+         and settles, and they are back to normal well before the next pulse. */
       function breath(c, sinceLoop) {
         var p = base(), relax = smooth(phase(sinceLoop, 0, 0.9)), b = 0.5 - 0.5 * Math.cos(2 * Math.PI * c / CYCLE);
+        var settle = 1 - smooth(phase(c, 0.7, 1.8));
         var energy = bump(phase(c, 0.6, 1.5)), wave = phase(c, 0.62, 1.7) * (1 + WAVE_W), dim = 0.22 * smooth(phase(c, 0, 0.1));
         var down = smooth(phase(c, 0, 0.08)), release = phase(c, 0.1, 0.36);
         p.reach = 1;
-        p.swell = mix(1, 0.3, relax);
-        p.handSwell = mix(1, 0.45, relax);
+        /* the big press's swell goes first; each soft press widens them again, then they settle */
+        p.swell = Math.max(1 - relax, 0.55 * smooth(phase(c, 0, 0.12)) * settle);
+        p.handSwell = Math.max(1 - relax, 0.6 * smooth(phase(c, 0.04, 0.18)) * settle);
         p.press = 0.4 * down * (1 - backOut(release));
         p.bloom = 0.45 * bump(phase(c, 0.02, 0.4));
         p.ripples = [win(c, 0.04, 0.7, false)].filter(function (x) { return x != null; }); p.rippleLight = 0.55;
