@@ -302,13 +302,13 @@
             <!-- Live copy: the same screen without its skeletons, and the app's skeletons moving on top (#figData) -->
             <div class="tr-live" id="trLive" hidden aria-hidden="true">
               <img src="/assets/screens/trainer-live.jpg" width="660" height="1435" loading="lazy" alt="">
-              <canvas class="fig" data-fig="PULLUPS" data-pt="42" style="left:20.100%;top:35.675%"></canvas>
-              <canvas class="fig" data-fig="PUSHUPS" data-pt="42" style="left:20.100%;top:43.913%"></canvas>
-              <canvas class="fig" data-fig="SQUATS" data-pt="42" style="left:20.100%;top:52.151%"></canvas>
-              <canvas class="fig" data-fig="BURPEES" data-pt="42" style="left:20.100%;top:60.389%"></canvas>
-              <canvas class="fig" data-fig="SWINGS" data-pt="42" style="left:20.100%;top:68.627%"></canvas>
-              <canvas class="fig" data-fig="SNATCHES" data-pt="42" style="left:20.100%;top:76.865%"></canvas>
-              <canvas class="fig" data-fig="LUNGES" data-pt="42" style="left:20.100%;top:93.341%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="PULLUPS" data-pt="42" style="left:20.100%;top:35.675%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="PUSHUPS" data-pt="42" style="left:20.100%;top:43.913%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="SQUATS" data-pt="42" style="left:20.100%;top:52.151%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="BURPEES" data-pt="42" style="left:20.100%;top:60.389%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="SWINGS" data-pt="42" style="left:20.100%;top:68.627%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="SNATCHES" data-pt="42" style="left:20.100%;top:76.865%"></canvas>
+              <canvas class="fig" data-look="both" data-fig="LUNGES" data-pt="42" style="left:20.100%;top:93.341%"></canvas>
             </div>
             <span class="hl" style="--x:19.2%;--y:35.2%;--w:12%;--h:47%;--r:12px"></span>
           </div></figure>
@@ -1180,7 +1180,10 @@
     /* ---------- ExerciseFigureView (#352): a skeleton looping one rep, white bones and every joint in
        its group's colour. Drawn from the app's own ExerciseBody loops (#figData: per exercise, 40
        frames of 14 joints in body lengths x 1000, y up, exported from the app's source). A canvas
-       says which exercise (data-fig) and how many app points wide it is (data-pt). ---------- */
+       says which exercise (data-fig), how many app points wide it is (data-pt) and its look (data-look,
+       #355): camera (joints in colour), polar (all white, the strap's dot beating on the chest in its
+       heart rate zone's colour) or both (each look for 5.5 s). The page has no strap, so the dot's heart
+       rate walks through zones 1 to 5, as the app does with no live reading. ---------- */
     var Figures = (function () {
       var data = null;
       try { data = JSON.parse($("#figData").textContent); } catch (e) {}
@@ -1189,6 +1192,27 @@
       /* JointGroup order and colours: shoulders systemBlue, hips green, elbows purple, wrists orange, knees yellow, ankles pink */
       var GROUPS = [[[2, 3], "#0a84ff"], [[8, 9], "#30d158"], [[4, 5], "#bf5af2"], [[6, 7], "#ff9f0a"], [[10, 11], "#ffd60a"], [[12, 13], "#ff375f"]];
       var MARGIN = 0.09, boxes = {}, sets = {}, raf = 0, lastDraw = -1e9;
+      function hex(c) { return [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; }
+      GROUPS.forEach(function (g) { g.push(hex(g[1])); });
+      /* HeartRateZone colours, dark mode: zone 1 systemBlue, 2 Colors.work, 3 systemYellow, 4 systemOrange, 5 systemRed */
+      var ZONE_RGB = [null, "10,132,255", "139,215,6", "255,214,10", "255,159,10", "255,69,58"];
+      /* HeartRateZoneSettings defaults: the top of zones 0 to 4 */
+      var ZONE_TOP = [103, 114, 133, 152, 171];
+      function zoneOf(bpm) { for (var z = 0; z < ZONE_TOP.length; z++) if (bpm <= ZONE_TOP[z]) return z; return 5; }
+      /* FigureHeart.walkBPM: up from zone 1 to zone 5 and back, 4 s a zone, gliding middle to middle */
+      var MIDS = [109, 124, 143, 162, 181], WALK = MIDS.concat(MIDS.slice(1, 4).reverse());
+      function walkBPM(t) {
+        var at = (t / 4) % WALK.length, i = Math.floor(at), x = at - i, e = x * x * (3 - 2 * x);
+        return WALK[i] + (WALK[(i + 1) % WALK.length] - WALK[i]) * e;
+      }
+      function beatPulse(p) { return p < 0.08 ? p / 0.08 : Math.exp(-(p - 0.08) * 5); }
+      /* FigureLook.polarAmount: 0 camera, 1 Polar; "both" holds each 5.5 s and crossfades in 0.45 s */
+      function polarAmount(look, t) {
+        if (look === "polar") return 1;
+        if (look !== "both" || reduced) return 0;
+        var c = t % 11, r = function (x) { var p = Math.min(1, Math.max(0, x / 0.45)); return p * p * (3 - 2 * p); };
+        return c < 5.5 ? 1 - r(c) : r(c - 5.5);
+      }
       function box(n) {
         if (boxes[n]) return boxes[n];
         var x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
@@ -1231,7 +1255,22 @@
           f.bell.forEach(function (j) { mx += q[j][0]; my += q[j][1]; });
           dot(P([mx / f.bell.length, my / f.bell.length]), Math.max(3 * pt, s * 0.05), LIME);
         }
-        GROUPS.forEach(function (g) { g[0].forEach(function (j) { if (q[j]) dot(P(q[j]), joint, g[1]); }); });
+        var polar = polarAmount(cv.getAttribute("data-look"), now / 1000);
+        GROUPS.forEach(function (g) {
+          var c = g[2], col = polar <= 0 ? g[1] : "rgb(" + c.map(function (v) { return Math.round(v + (255 - v) * polar); }).join(",") + ")";
+          g[0].forEach(function (j) { if (q[j]) dot(P(q[j]), joint, col); });
+        });
+        /* the strap's dot on the breastbone, a beat at the heart rate in its zone's colour (#355) */
+        if (polar > 0 && q[2] && q[3] && q[8] && q[9]) {
+          var sx = (q[2][0] + q[3][0]) / 2, sy = (q[2][1] + q[3][1]) / 2, hx = (q[8][0] + q[9][0]) / 2, hy = (q[8][1] + q[9][1]) / 2;
+          var chest = P([sx + (hx - sx) * 0.3, sy + (hy - sy) * 0.3]), r = Math.max(2.2 * pt, s * 0.045);
+          var bpm = walkBPM(now / 1000), rgb = ZONE_RGB[Math.max(1, zoneOf(Math.round(bpm)))];
+          if (cv._t != null) cv._ph = ((cv._ph || 0) + Math.max(0, Math.min(0.2, (now - cv._t) / 1000)) * bpm / 60) % 1;
+          cv._t = now;
+          var pulse = reduced ? 0.5 : beatPulse(cv._ph || 0);
+          dot(chest, r * (1.9 + 1.1 * pulse), "rgba(" + rgb + "," + ((0.14 + 0.3 * pulse) * polar).toFixed(3) + ")");
+          dot(chest, r * (1 + 0.25 * pulse), "rgba(" + rgb + "," + ((0.7 + 0.3 * pulse) * polar).toFixed(3) + ")");
+        }
       }
       function all() { var out = []; for (var k in sets) out = out.concat(sets[k]); return out; }
       /* 30 frames a second, as TimelineView(minimumInterval: 1/30); one still frame under Reduce Motion */
@@ -1729,7 +1768,7 @@
         gctx.globalAlpha = actx.globalAlpha = 1;
       }
 
-      /* ---- RunningRimView (#333): a misty electric current laps the value box, 4 s on, 6 s off ----
+      /* ---- RunningRimView (#333): a misty electric current laps the value box once every 5.5 s breath (#357) ----
          The app's layers one for one: a haze round the box, a mist and a glow along the trail, a hot
          core on its front half and sparks at the head. The box shrinks with the ring (#332) and its
          glow with it, so every size below is points times RS. */
@@ -1791,7 +1830,9 @@
       }
       function drawRim(now) {
         if (!rim.pts) return;
-        var ctx = rctx, s = rim.s, t = now / 1000, inC = t % 10, ring = rim.pts.concat([rim.pts[0]]);
+        /* one 2.4 s lap, then a rest, every 5.5 s, whatever the heart rate (#357) */
+        var LAP = 2.4, BREATH = 5.5;
+        var ctx = rctx, s = rim.s, t = now / 1000, inC = t % BREATH, ring = rim.pts.concat([rim.pts[0]]);
         ctx.setTransform(rim.dpr, 0, 0, rim.dpr, 0, 0);
         ctx.clearRect(0, 0, rim.w, rim.h);
         if (tab || running || naming) return;
@@ -1802,9 +1843,9 @@
           polyline(ctx, ring, 1 * s, "rgba(" + RIM + ",0.3)");
           return;
         }
-        if (inC >= 4) return;
-        var strength = Math.min(1, inC / 0.5, (4 - inC) / 0.5) * (0.78 + 0.22 * noise(t * 18, 7));
-        var arcLen = 0.28, head = (inC / 2.4) % 1, hp = rimAt(head), tp = rimAt(head - arcLen), mp = rimAt(head - arcLen / 2);
+        if (inC >= LAP) return;
+        var strength = Math.min(1, inC / 0.5, (LAP - inC) / 0.5) * (0.78 + 0.22 * noise(t * 18, 7));
+        var arcLen = 0.28, head = (inC / LAP) % 1, hp = rimAt(head), tp = rimAt(head - arcLen), mp = rimAt(head - arcLen / 2);
         var trail = rimArc(head - arcLen, head), front = rimArc(head - arcLen / 2, head);
         /* the whole box breathes faintly, so the trail rises out of a haze */
         blurred(ctx, RIM, 10 * s, function (c) { polyline(c, ring, 10 * s, "rgba(0,0,0," + (0.12 * strength).toFixed(4) + ")"); });
@@ -1922,7 +1963,7 @@
         if (tab === "exercises") {
           on = true;
           html = cfg.ex.map(function (x, i) {
-            return '<button type="button" class="g rim cfg-card cfg-chip" data-chip="' + i + '"><span class="row">' + insignia(RANKS[rankIndex(SOLDIER[x.n] || 0)], 16) + I.camera + '</span><span class="nm">' + x.n + "</span></button>";
+            return '<button type="button" class="g rim cfg-card cfg-chip" data-chip="' + i + '"><span class="row">' + insignia(RANKS[rankIndex(SOLDIER[x.n] || 0)], 16) + (x.m === "polar" ? I.sensor : I.camera) + '</span><span class="nm">' + x.n + "</span></button>";
           }).join("");
         } else if (tab === "work" && cfg.ladder) {
           on = true;
@@ -2080,8 +2121,9 @@
 
       /* ---- exercise picker (ExercisePickerOverlay): one list of single exercises, a tick each,
          up to three in tap order (#336); a camera and a Polar icon per row (#348); every row loops
-         its exercise as a skeleton (#352). The bundled exercises are camera trained, none on a strap. ---- */
-      var pickBase = null, refuseTimer = 0;
+         its exercise as a skeleton (#352). Here every exercise is trained both ways, so either icon can
+         be its pick, and a Polar pick shows the Polar look (#355). The pick is `m` on the exercise. ---- */
+      var pickBase = null;
       function openPicker() {
         pickBase = clone(cfg.ex);                      /* the workout as the card found it */
         el.pickPanel.innerHTML = '<div class="pick-list" id="pickList">' + LIBRARY.map(function (n) {
@@ -2101,13 +2143,23 @@
       }
       function closePicker() { el.pickOv.classList.remove("on"); Figures.show("picker", []); }
       function paintPicker() {
-        var names = cfg.ex.map(function (x) { return x.n; });
         $$(".pick-row", el.pickPanel).forEach(function (row) {
-          var on = names.indexOf(row.getAttribute("data-ex")) >= 0;
-          row.classList.toggle("on", on);
-          row.setAttribute("aria-pressed", on);
-          $(".pr-tick", row).innerHTML = on ? I.tickOn : I.tickOff;
+          var x = cfg.ex.filter(function (e) { return e.n === row.getAttribute("data-ex"); })[0], polar = !!x && x.m === "polar";
+          row.classList.toggle("on", !!x);
+          row.setAttribute("aria-pressed", !!x);
+          $(".pr-tick", row).innerHTML = x ? I.tickOn : I.tickOff;
+          /* the icon counting it in this workout is lime and larger (#348) */
+          $(".pr-m.cam", row).classList.toggle("picked", !!x && !polar);
+          $(".pr-m.pol", row).classList.toggle("picked", polar);
+          $(".pr-fig", row).setAttribute("data-look", polar ? "polar" : "camera");
         });
+      }
+      /* an icon picks how this exercise counts; one not in the workout yet is ticked in first */
+      function pickMethod(n, row, method) {
+        if (!cfg.ex.some(function (e) { return e.n === n; }) && !tick(n, row)) return;
+        cfg.ex.forEach(function (e) { if (e.n === n) { if (method === "polar") e.m = "polar"; else delete e.m; } });
+        render();
+        paintPicker();
       }
       /* the numbers a newly ticked exercise starts with: its own if it was in the workout when the
          card opened, else a slot no kept exercise owns, else the mode's defaults */
@@ -2118,6 +2170,7 @@
         var free = pickBase.filter(function (x) { return kept.indexOf(x.n) < 0 && LIBRARY.indexOf(x.n) >= 0; })[0];
         var x = free ? clone(free) : cfg.mode === "time" ? { w: cfg.ex[0] ? cfg.ex[0].w : 30 } : cfg.mode === "amrap" ? { s: 10 } : { t: 100, s: 10 };
         x.n = n;
+        delete x.m;                                   /* a pick stays with its own exercise, never a slot */
         return x;
       }
       function shakeRow(row) { retrigger(row, "wiggle"); if (navigator.vibrate) navigator.vibrate([30, 40, 30]); }
@@ -2135,16 +2188,6 @@
         render();
         paintPicker();
         return true;
-      }
-      /* an untrained icon: the red reason in place of the name for two seconds */
-      function refuse(row) {
-        var name = $(".pr-n", row);
-        clearTimeout(refuseTimer);
-        $$(".pick-row.refused", el.pickPanel).forEach(function (r) { r.classList.remove("refused"); $(".pr-n", r).textContent = r.getAttribute("data-ex"); });
-        row.classList.add("refused");
-        name.textContent = "Polar not set up";
-        retrigger(name, "wiggle");
-        refuseTimer = setTimeout(function () { row.classList.remove("refused"); name.textContent = row.getAttribute("data-ex"); }, 2000);
       }
 
       /* ---- ladder (#301): the work tab's stairs, each step one round (TIME) or one set (REPS) ---- */
@@ -2463,7 +2506,7 @@
         run: ["Run before or after", "Add a run before or after the workout, like the two miles of MURPH. Tap before or after, then drag up or down to set the distance. In the app the phone's GPS measures it, even locked in a pocket."],
         runLive: ["Run", "The ring and the bar fill with the distance. In the app the phone's GPS measures it. Here the run plays at ten times speed."],
         handoff: ["Set your phone down", "In the app the workout carries on by itself once the phone is down where the camera can see you. Here, tap the screen."],
-        polar: ["Camera or Polar", "Each exercise counts with the camera or a Polar H10 strap, your pick. These come trained for the camera; train one with the strap in the Trainer and its icon lights up."],
+        polar: ["Camera or Polar", "Each exercise counts with the camera or a Polar H10 strap, your pick. Counted by the strap, its skeleton turns white and the strap's dot on the chest beats with your heart rate, in its zone's colour."],
         ring: ["Your workout at a glance", "The ring previews your workout: bright segments are work, dark gaps are rest. The number in the middle is the total time, or total reps in REPS mode."],
         edit: ["Rename or save", "This button changes with what you do. Pencil: rename your workout. Checkmark: save the changes you made, or confirm a name you typed. A plus appears underneath it to save your changes as a separate new workout."],
         plus: ["Save as new", "Type a name and the setup becomes its own workout, one swipe away."],
@@ -2632,9 +2675,7 @@
         var row = e.target.closest(".pick-row");
         if (!row) { if (!e.target.closest(".pick-panel")) closePicker(); return; }
         var m = e.target.closest(".pr-m"), n = row.getAttribute("data-ex");
-        if (m && m.getAttribute("data-m") === "polar") { refuse(row); showTip("polar", el.pickPanel, false, true); return; }
-        /* the camera icon on a row not ticked yet ticks it in; on a ticked row it is already the pick */
-        if (m && row.classList.contains("on")) return;
+        if (m) { pickMethod(n, row, m.getAttribute("data-m")); if (m.getAttribute("data-m") === "polar") showTip("polar", el.pickPanel, false, true); return; }
         tick(n, row);
       });
       el.pickOv.addEventListener("keydown", function (e) {
