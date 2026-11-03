@@ -1301,59 +1301,68 @@
         p.glow = REST_GLOW + (0.5 - REST_GLOW) * (1 - phase(t, 0.98, BUILD_END));
         return p;
       }
-      /* LaunchHandoff.parts, without the trip to the config ring */
+      /* the ring's slow breath, `c` seconds into a pulse: smallest at the press, fullest half way */
+      function breathOf(c) { return 0.5 - 0.5 * Math.cos(2 * Math.PI * c / CYCLE); }
+      /* LaunchHandoff.parts, without the trip to the config ring. The hand joins the crown only while
+         the press charges it, then drops back to its own place, and both shrink back to their size. */
       function pressed(u) {
         var p = base(), s0 = 0.08, energy = bump(phase(u, 0.40, 0.80)), wave = phase(u, 0.44, 0.92) * (1 + WAVE_W), dim = DIM_DEPTH * smooth(phase(u, s0, s0 + 0.06));
-        var down = smooth(phase(u, s0, s0 + 0.06)), release = phase(u, s0 + 0.09, s0 + 0.24);
+        var down = smooth(phase(u, s0, s0 + 0.06)), release = phase(u, s0 + 0.09, s0 + 0.24), settle = 1 - smooth(phase(u, 0.6, 1.08));
+        var b = breathOf(Math.max(0, u - s0));
         p.press = down * (1 - backOut(release));
         p.bloom = bump(phase(u, s0 + 0.03, s0 + 0.32));
         p.crownShimmer = win(u, s0 + 0.04, s0 + 0.22);
         p.ripples = [s0 + 0.05, s0 + 0.13].map(function (a) { return win(u, a, a + 0.42, false); }).filter(function (x) { return x != null; });
-        p.swell = smooth(phase(u, s0, s0 + 0.12));
-        p.reach = smooth(phase(u, s0 + 0.02, s0 + 0.12));
-        p.handSwell = smooth(phase(u, s0 + 0.04, s0 + 0.18));
+        p.swell = smooth(phase(u, s0, s0 + 0.12)) * settle;
+        p.reach = smooth(phase(u, s0 + 0.02, s0 + 0.12)) * (1 - smooth(phase(u, 0.48, 0.86)));
+        p.handSwell = smooth(phase(u, s0 + 0.04, s0 + 0.18)) * settle;
         p.handDim = u < 0.44 ? smooth(phase(u, s0, s0 + 0.06)) : 0;
         p.handShimmer = u > s0 && u < 0.44 ? smooth(phase(u, 0.20, 0.44)) : null;
-        p.handGlow = 0.4 + 0.45 * energy;
-        p.glow = REST_GLOW + 0.3 * energy;
+        p.handGlow = 0.4 + 0.25 * b + 0.45 * energy;
+        p.glow = REST_GLOW + 0.13 * b + 0.3 * energy;
         p.front = Math.min(1, wave) * 360; p.frontGlint = glintOf(wave / (1 + WAVE_W));
         p.arcLight = PLACE.map(function (pl) { return 1 - dim * (1 - lit(wave, pl)); });
         p.rim = 1 - dim * (1 - smooth(phase(u, 0.44, 0.92)));
+        p.scale = 1 + 0.016 * b;
         return p;
       }
-      /* after the press: crown and hand stay joined, at their normal size, and the logo breathes. Each
-         cycle a softer press widens them, sends the light down the hand and round the ring, which swells
-         and settles, and they are back to normal well before the next pulse. */
-      function breath(c, sinceLoop) {
-        var p = base(), relax = smooth(phase(sinceLoop, 0, 0.9)), b = 0.5 - 0.5 * Math.cos(2 * Math.PI * c / CYCLE);
+      /* after the press the logo is its own self again and breathes. Every pulse a softer press joins
+         the hand to the crown and widens both while the light runs down the hand and round the ring; then
+         the hand drops back to its place and both are their normal size well before the next pulse.
+         `quiet`: the first cycle, whose press was the big one. */
+      function breath(c, quiet) {
+        var p = base(), b = breathOf(c);
+        p.handGlow = 0.4 + 0.25 * b;
+        p.glow = REST_GLOW + 0.13 * b;
+        p.scale = 1 + 0.016 * b;
+        if (quiet) return p;
         var settle = 1 - smooth(phase(c, 0.7, 1.8));
         var energy = bump(phase(c, 0.6, 1.5)), wave = phase(c, 0.62, 1.7) * (1 + WAVE_W), dim = 0.22 * smooth(phase(c, 0, 0.1));
         var down = smooth(phase(c, 0, 0.08)), release = phase(c, 0.1, 0.36);
-        p.reach = 1;
-        /* the big press's swell goes first; each soft press widens them again, then they settle */
-        p.swell = Math.max(1 - relax, 0.55 * smooth(phase(c, 0, 0.12)) * settle);
-        p.handSwell = Math.max(1 - relax, 0.6 * smooth(phase(c, 0.04, 0.18)) * settle);
+        p.reach = smooth(phase(c, 0.02, 0.12)) * (1 - smooth(phase(c, 0.62, 1.0)));
+        p.swell = 0.55 * smooth(phase(c, 0, 0.12)) * settle;
+        p.handSwell = 0.6 * smooth(phase(c, 0.04, 0.18)) * settle;
         p.press = 0.4 * down * (1 - backOut(release));
         p.bloom = 0.45 * bump(phase(c, 0.02, 0.4));
         p.ripples = [win(c, 0.04, 0.7, false)].filter(function (x) { return x != null; }); p.rippleLight = 0.55;
         p.handDim = c < 0.62 ? 0.6 * smooth(phase(c, 0, 0.08)) : 0;
         p.handShimmer = c > 0.02 && c < 0.62 ? smooth(phase(c, 0.12, 0.62)) : null;
-        p.handGlow = 0.4 + 0.25 * b + 0.3 * energy;
-        p.glow = REST_GLOW + 0.13 * b + 0.18 * energy;
+        p.handGlow += 0.3 * energy;
+        p.glow += 0.18 * energy;
         p.front = Math.min(1, wave) * 360; p.frontGlint = 0.75 * glintOf(wave / (1 + WAVE_W));
         p.arcLight = PLACE.map(function (pl) { return 1 - dim * (1 - lit(wave, pl)); });
         p.rim = 1 - dim * (1 - smooth(phase(c, 0.62, 1.7)));
-        p.scale = 1 + 0.016 * b;
         return p;
       }
+      /* one pulse every CYCLE seconds, counted from the big press, which is the first */
+      var FIRST_PULSE = PRESS_AT + 0.08;
       function partsAt(t) {
         if (reduced) return base();
         if (t < PRESS_AT) return build(Math.min(t, BUILD_END));
         var u = t - PRESS_AT;
         if (u < 1.08) return pressed(u);
-        var since = u - 1.08;
-        /* resting until the first soft press, 1.2 s after the big one; each cycle starts and ends at rest */
-        return breath(since < 1.2 ? CYCLE - 1e-6 : (since - 1.2) % CYCLE, since);
+        var since = t - FIRST_PULSE, k = Math.floor(since / CYCLE);
+        return breath(since - k * CYCLE, k === 0);
       }
 
       /* AppLogoGeometry.crownPath */
