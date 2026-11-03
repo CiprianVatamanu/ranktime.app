@@ -1251,7 +1251,9 @@
         if (f.prop === "bell" && f.bell.length) {
           var mx = 0, my = 0;
           f.bell.forEach(function (j) { mx += q[j][0]; my += q[j][1]; });
-          dot(P([mx / f.bell.length, my / f.bell.length]), Math.max(3 * pt, s * 0.05), LIME);
+          /* grey in the Polar look like the joints (#355): only the heart rate dot keeps a colour */
+          var bellCol = polarAmount(cv.getAttribute("data-look"), now / 1000) > 0.5 ? "rgba(255,255,255,0.45)" : LIME;
+          dot(P([mx / f.bell.length, my / f.bell.length]), Math.max(3 * pt, s * 0.05), bellCol);
         }
         GROUPS.forEach(function (g) {
           var c = g[2], col = polar <= 0 ? g[1] : "rgba(" + c.map(function (v) { return Math.round(v + (255 - v) * polar); }).join(",") + "," + (1 + (0.45 - 1) * polar).toFixed(3) + ")";
