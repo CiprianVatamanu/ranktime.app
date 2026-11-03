@@ -148,9 +148,12 @@
       <div class="mist" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
       <div class="wrap hero-inner">
         <div class="splash hero-in" style="--i:0">
-          <img class="splash-logo" src="/logo.png" alt="RankTime app icon" width="150" height="150">
+          <span class="splash-mark">
+            <img class="splash-logo" src="/logo.png" alt="RankTime app icon" width="150" height="150">
+            <!-- AnimatedAppLogo (#338) and the loading screen's crown press (#340), drawn live; the picture stays without scripts -->
+            <canvas class="splash-anim" id="splashAnim" aria-hidden="true"></canvas>
+          </span>
           <div class="splash-word">RankTime</div>
-          <div class="splash-bar" aria-hidden="true"><i></i></div>
         </div>
         <h1 class="stencil hero-in" style="--i:1">EVERY REP EARNS RANK</h1>
         <p class="tagline hero-in" style="--i:2">RankTime counts your reps with the iPhone camera, from the front, the side or behind. Murph, Cindy, Tabata, EMOM and AMRAP come built in, with heart rate, GPS runs and a military service record that never resets.</p>
@@ -1255,6 +1258,223 @@
       var figs = $$(".fig", live);
       if (!hasIO) { Figures.show("trainer", figs); return; }
       new IntersectionObserver(function (es) { Figures.show("trainer", es[0].isIntersecting ? figs : []); }, { rootMargin: "60px" }).observe(live);
+    })();
+
+    /* ---------- Hero: the app's splash logo, live ----------
+       AnimatedAppLogo (#338): the crown drops in, white runs down the hand, the ring fills clockwise,
+       lime then grey. Then the loading screen's press (#340, LaunchHandoff): the crown goes in, the hand
+       reaches up and joins it, a light runs down the hand and the ring lights up again behind a wave.
+       The app grows the ring into the config ring from there; the page instead keeps the crown and the
+       hand joined and charged, and breathes: every cycle a soft press sends the light down the hand and
+       round the ring, which swells and settles. Geometry and timings are the app's (AppLogoGeometry,
+       AppLogoTimeline, LaunchHandoff), drawn in the artwork's 1024 units. */
+    (function () {
+      var mark = $(".splash-mark"), cv = $("#splashAnim");
+      if (!mark || !cv || !cv.getContext || !window.Path2D) return;
+      var ctx = cv.getContext("2d");
+      mark.classList.add("live");
+      var CROWN = [452, 160, 120, 50], HAND_X = 512, HAND_TOP = 322, HAND_BOTTOM = 538, HAND_W = 44;
+      var CX = 512, CY = 560, R = 310, LINE = 70, LIME_ARC = [10, 215], GRAY_ARC = [235, 350];
+      var LOGO_LIME = "176,230,74", LOGO_GRAY = "142,142,147";       /* Colors.logoLime, Colors.logoGray */
+      var REST_GLOW = 0.22, DIM_DEPTH = 0.45, WAVE_W = 0.25, BUILD_END = 1.1, PRESS_AT = 1.32, CYCLE = 6;
+      function phase(t, a, b) { return Math.min(1, Math.max(0, (t - a) / (b - a))); }
+      function smooth(x) { return x * x * (3 - 2 * x); }
+      function bump(x) { return 4 * x * (1 - x); }
+      function backOut(x) { if (x <= 0) return 0; var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+      function glintOf(p) { return p > 0 && p < 1 ? Math.min(1, p / 0.12) * Math.min(1, (1 - p) / 0.2) : 0; }
+      function win(t, a, b, eased) { if (t < a || t >= b) return null; var x = phase(t, a, b); return eased === false ? x : smooth(x); }
+      function mix(a, b, x) { return a * (1 - x) + b * x; }
+      /* how far the colour wave has lit an arc whose middle is `place` turns round */
+      function lit(wave, place) { return smooth(Math.min(1, Math.max(0, (wave - place) / WAVE_W))); }
+      var PLACE = [(LIME_ARC[0] + LIME_ARC[1]) / 720, (GRAY_ARC[0] + GRAY_ARC[1]) / 720];
+
+      function base() {
+        return { crown: 1, bloom: 0, press: 0, swell: 0, crownShimmer: null, ripples: [], hand: 1, reach: 0, handSwell: 0,
+                 handDim: 0, handShimmer: null, handGlow: 0.4, lime: 1, gray: 1, glow: REST_GLOW, front: 0, frontGlint: 0,
+                 arcLight: [1, 1], rim: 1, scale: 1, rippleLight: 1 };
+      }
+      /* AppLogoTimeline.parts */
+      function build(t) {
+        var p = base(), sweep = LIME_ARC[0] + (GRAY_ARC[1] - LIME_ARC[0]) * smooth(phase(t, 0.42, 0.98));
+        p.crown = backOut(phase(t, 0, 0.26)); p.bloom = bump(phase(t, 0.02, 0.42)); p.hand = smooth(phase(t, 0.18, 0.46));
+        p.lime = phase(sweep, LIME_ARC[0], LIME_ARC[1]); p.gray = phase(sweep, GRAY_ARC[0], GRAY_ARC[1]);
+        p.glow = REST_GLOW + (0.5 - REST_GLOW) * (1 - phase(t, 0.98, BUILD_END));
+        return p;
+      }
+      /* LaunchHandoff.parts, without the trip to the config ring */
+      function pressed(u) {
+        var p = base(), s0 = 0.08, energy = bump(phase(u, 0.40, 0.80)), wave = phase(u, 0.44, 0.92) * (1 + WAVE_W), dim = DIM_DEPTH * smooth(phase(u, s0, s0 + 0.06));
+        var down = smooth(phase(u, s0, s0 + 0.06)), release = phase(u, s0 + 0.09, s0 + 0.24);
+        p.press = down * (1 - backOut(release));
+        p.bloom = bump(phase(u, s0 + 0.03, s0 + 0.32));
+        p.crownShimmer = win(u, s0 + 0.04, s0 + 0.22);
+        p.ripples = [s0 + 0.05, s0 + 0.13].map(function (a) { return win(u, a, a + 0.42, false); }).filter(function (x) { return x != null; });
+        p.swell = smooth(phase(u, s0, s0 + 0.12));
+        p.reach = smooth(phase(u, s0 + 0.02, s0 + 0.12));
+        p.handSwell = smooth(phase(u, s0 + 0.04, s0 + 0.18));
+        p.handDim = u < 0.44 ? smooth(phase(u, s0, s0 + 0.06)) : 0;
+        p.handShimmer = u > s0 && u < 0.44 ? smooth(phase(u, 0.20, 0.44)) : null;
+        p.handGlow = 0.4 + 0.45 * energy;
+        p.glow = REST_GLOW + 0.3 * energy;
+        p.front = Math.min(1, wave) * 360; p.frontGlint = glintOf(wave / (1 + WAVE_W));
+        p.arcLight = PLACE.map(function (pl) { return 1 - dim * (1 - lit(wave, pl)); });
+        p.rim = 1 - dim * (1 - smooth(phase(u, 0.44, 0.92)));
+        return p;
+      }
+      /* after the press: crown and hand stay joined and charged, and the logo breathes. Each cycle a
+         softer press sends the light down the hand, then round the ring, which swells and settles. */
+      function breath(c, sinceLoop) {
+        var p = base(), relax = smooth(phase(sinceLoop, 0, 0.9)), b = 0.5 - 0.5 * Math.cos(2 * Math.PI * c / CYCLE);
+        var energy = bump(phase(c, 0.6, 1.5)), wave = phase(c, 0.62, 1.7) * (1 + WAVE_W), dim = 0.22 * smooth(phase(c, 0, 0.1));
+        var down = smooth(phase(c, 0, 0.08)), release = phase(c, 0.1, 0.36);
+        p.reach = 1;
+        p.swell = mix(1, 0.3, relax);
+        p.handSwell = mix(1, 0.45, relax);
+        p.press = 0.4 * down * (1 - backOut(release));
+        p.bloom = 0.45 * bump(phase(c, 0.02, 0.4));
+        p.ripples = [win(c, 0.04, 0.7, false)].filter(function (x) { return x != null; }); p.rippleLight = 0.55;
+        p.handDim = c < 0.62 ? 0.6 * smooth(phase(c, 0, 0.08)) : 0;
+        p.handShimmer = c > 0.02 && c < 0.62 ? smooth(phase(c, 0.12, 0.62)) : null;
+        p.handGlow = 0.4 + 0.25 * b + 0.3 * energy;
+        p.glow = REST_GLOW + 0.13 * b + 0.18 * energy;
+        p.front = Math.min(1, wave) * 360; p.frontGlint = 0.75 * glintOf(wave / (1 + WAVE_W));
+        p.arcLight = PLACE.map(function (pl) { return 1 - dim * (1 - lit(wave, pl)); });
+        p.rim = 1 - dim * (1 - smooth(phase(c, 0.62, 1.7)));
+        p.scale = 1 + 0.016 * b;
+        return p;
+      }
+      function partsAt(t) {
+        if (reduced) return base();
+        if (t < PRESS_AT) return build(Math.min(t, BUILD_END));
+        var u = t - PRESS_AT;
+        if (u < 1.08) return pressed(u);
+        var since = u - 1.08;
+        /* resting until the first soft press, 1.2 s after the big one; each cycle starts and ends at rest */
+        return breath(since < 1.2 ? CYCLE - 1e-6 : (since - 1.2) % CYCLE, since);
+      }
+
+      /* AppLogoGeometry.crownPath */
+      function crownRect(pop, press, grow, swell) {
+        var sc = (0.55 + 0.45 * pop) * (1 + 0.22 * swell), x = CROWN[0] - grow, y = CROWN[1] - grow, w0 = CROWN[2] + 2 * grow, h0 = CROWN[3] + 2 * grow;
+        var w = w0 * sc, h = h0 * sc * (1 - 0.2 * Math.max(0, press)), drop = -26 * (1 - pop) + 26 * press;
+        return [x + w0 / 2 - w / 2, y + h0 / 2 - h / 2 + drop, w, h];
+      }
+      function capsule(r) {
+        var p = new Path2D(), x = r[0], y = r[1], w = r[2], h = r[3], q = h / 2;
+        p.moveTo(x + q, y); p.lineTo(x + w - q, y); p.arc(x + w - q, y + q, q, -Math.PI / 2, Math.PI / 2); p.lineTo(x + q, y + h); p.arc(x + q, y + q, q, Math.PI / 2, Math.PI * 1.5); p.closePath();
+        return p;
+      }
+      function ripple(w) { var g = 1 + 4.2 * (1 - Math.pow(1 - w, 2)), cw = CROWN[2] * g, ch = CROWN[3] * g; return [CROWN[0] + CROWN[2] / 2 - cw / 2, CROWN[1] + CROWN[3] / 2 - ch / 2, cw, ch]; }
+      function arcPath(a, b, rad) { var p = new Path2D(); if (b > a) p.arc(CX, CY, rad || R, (a - 90) * Math.PI / 180, (b - 90) * Math.PI / 180); return p; }
+      function ringPoint(d) { var a = (d - 90) * Math.PI / 180; return [CX + R * Math.cos(a), CY + R * Math.sin(a)]; }
+      function line(x, y0, y1) { var p = new Path2D(); p.moveTo(x, y0); p.lineTo(x, y1); return p; }
+      function dot(x, y, r) { var p = new Path2D(); p.arc(x, y, r, 0, 2 * Math.PI); return p; }
+
+      var unit = 1;                                  /* device px per artwork unit, for shadows */
+      /* a blurred copy only: SwiftUI's blur radius is the Gaussian deviation, a canvas shadow's blur is
+         twice that, in device pixels, and the shape itself is drawn far off canvas (as the value box glow) */
+      function blurred(radius, style, paint) {
+        ctx.save();
+        ctx.shadowColor = style; ctx.shadowBlur = 2 * radius * unit; ctx.shadowOffsetX = 8000 * unit; ctx.shadowOffsetY = 0;
+        ctx.translate(-8000, 0);
+        ctx.fillStyle = ctx.strokeStyle = "#000";
+        paint();
+        ctx.restore();
+      }
+      function draw(p) {
+        var dpr = Math.min(2, window.devicePixelRatio || 1), css = cv.clientWidth;
+        if (!css) return;
+        var W = Math.round(css * dpr);
+        if (cv.width !== W) { cv.width = W; cv.height = W; }
+        var box = css / 1.24, k = box / 1024, margin = box * 0.12;
+        unit = k * dpr * p.scale;
+        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, W);
+        ctx.globalCompositeOperation = "source-over";
+        /* artwork units, breathing about the ring's centre */
+        ctx.setTransform(unit, 0, 0, unit, (margin + CX * k) * dpr - CX * unit, (margin + CY * k) * dpr - CY * unit);
+        ctx.lineCap = "round";
+
+        var shown = Math.min(1, p.crown * 2.5), crown = crownRect(p.crown, p.press, 0, p.swell), crownPath = capsule(crown);
+        var top = HAND_TOP + (crown[1] + crown[3] / 2 - HAND_TOP) * p.reach;
+        function handY(f) { return top + (HAND_BOTTOM - top) * f; }
+        var front = handY(p.hand), litTo = p.handShimmer != null ? Math.min(p.hand, p.handShimmer) : p.hand;
+        var handW = HAND_W * (1 + 0.3 * p.handSwell);
+        var arcs = [[LIME_ARC[0], LIME_ARC[0] + (LIME_ARC[1] - LIME_ARC[0]) * p.lime, LOGO_LIME, p.arcLight[0]],
+                    [GRAY_ARC[0], GRAY_ARC[0] + (GRAY_ARC[1] - GRAY_ARC[0]) * p.gray, LOGO_GRAY, p.arcLight[1]]];
+
+        /* the ring's halo, behind what has filled */
+        arcs.forEach(function (a) {
+          if (a[1] <= a[0]) return;
+          blurred(26, "rgba(" + a[2] + "," + (p.glow * a[3]).toFixed(3) + ")", function () { ctx.lineWidth = LINE * 1.8; ctx.stroke(arcPath(a[0], a[1])); });
+        });
+        /* the crown's and the hand's glow; the stretch the light has charged glows brighter */
+        blurred(26, "rgba(255,255,255," + (shown * 0.3 + p.bloom * 0.5).toFixed(3) + ")", function () { ctx.fill(capsule(crownRect(p.crown, p.press, 22, p.swell))); });
+        if (p.hand > 0) blurred(26, "rgba(255,255,255," + p.handGlow.toFixed(3) + ")", function () { ctx.lineWidth = handW * 2; ctx.stroke(line(HAND_X, top, front)); });
+        if (p.handShimmer != null && litTo > 0) blurred(26, "rgba(255,255,255," + (0.5 * glintOf(p.handShimmer)).toFixed(3) + ")", function () { ctx.lineWidth = handW * 2.6; ctx.stroke(line(HAND_X, top, handY(litTo))); });
+
+        /* the logo in the artwork's own colours: a hand waiting for the light is dimmed below it */
+        ctx.lineWidth = handW;
+        if (litTo > 0) { ctx.strokeStyle = "#fff"; ctx.stroke(line(HAND_X, top, handY(litTo))); }
+        if (p.hand > litTo) { ctx.strokeStyle = "rgba(255,255,255," + (1 - 0.45 * p.handDim).toFixed(3) + ")"; ctx.stroke(line(HAND_X, handY(litTo), front)); }
+        ctx.fillStyle = "rgba(255,255,255," + shown.toFixed(3) + ")"; ctx.fill(crownPath);
+        ctx.lineWidth = LINE;
+        arcs.forEach(function (a) { if (a[1] > a[0]) { ctx.strokeStyle = "rgba(" + a[2] + "," + a[3].toFixed(3) + ")"; ctx.stroke(arcPath(a[0], a[1])); } });
+
+        /* the specular rim on the ring's outer edge, over what has filled */
+        if (ctx.createConicGradient) {
+          var rimG = ctx.createConicGradient(-Math.PI * 0.75, CX, CY);
+          [[0, 0], [0.2, 0], [0.35, 0.15], [0.5, 0.4], [0.65, 0.15], [0.8, 0], [1, 0]].forEach(function (s) { rimG.addColorStop(s[0], "rgba(255,255,255," + (s[1] * p.rim).toFixed(3) + ")"); });
+          ctx.strokeStyle = rimG; ctx.lineWidth = 8.5; ctx.lineCap = "butt";
+          arcs.forEach(function (a) { if (a[1] > a[0]) ctx.stroke(arcPath(a[0], a[1], R + LINE / 2 - 4.25)); });
+          ctx.lineCap = "round";
+        }
+
+        /* light riding the fill while it flows, and the front running round the ring after a press */
+        var heads = [];
+        ctx.lineWidth = LINE * 0.45;
+        [[LIME_ARC, p.lime], [GRAY_ARC, p.gray]].forEach(function (f) {
+          var g = glintOf(f[1]); if (!g) return;
+          var head = f[0][0] + (f[0][1] - f[0][0]) * f[1], tail = Math.max(f[0][0], head - 45);
+          heads.push([ringPoint(head), g]);
+          if (head - tail <= 1) return;
+          var a = ringPoint(tail), b = ringPoint(head), grad = ctx.createLinearGradient(a[0], a[1], b[0], b[1]);
+          grad.addColorStop(0, "rgba(255,255,255,0)"); grad.addColorStop(1, "rgba(255,255,255," + (0.5 * g).toFixed(3) + ")");
+          ctx.strokeStyle = grad; ctx.stroke(arcPath(tail, head));
+        });
+        if (p.frontGlint > 0) {
+          var hd = p.front, tl = Math.max(0, hd - 50), A = ringPoint(tl), B = ringPoint(hd), fg = ctx.createLinearGradient(A[0], A[1], B[0], B[1]);
+          fg.addColorStop(0, "rgba(255,255,255,0)"); fg.addColorStop(1, "rgba(255,255,255," + (0.45 * p.frontGlint).toFixed(3) + ")");
+          ctx.strokeStyle = fg;
+          arcs.forEach(function (a) { var f0 = Math.max(a[0], tl), f1 = Math.min(a[1], hd); if (f1 > f0) ctx.stroke(arcPath(f0, f1)); });
+          heads.push([B, p.frontGlint]);
+        }
+        /* waves leaving the pressed crown */
+        p.ripples.forEach(function (w) {
+          ctx.strokeStyle = "rgba(255,255,255," + (0.85 * p.rippleLight * Math.pow(1 - w, 1.3)).toFixed(3) + ")"; ctx.lineWidth = 3 + 9 * (1 - w);
+          ctx.stroke(capsule(ripple(w)));
+        });
+
+        /* soft added light where the fill pours and where the press sends its light */
+        var handGlint = glintOf(p.hand);
+        if (!handGlint && !heads.length && p.handShimmer == null && p.crownShimmer == null && !p.ripples.length) return;
+        ctx.globalCompositeOperation = "lighter";
+        if (handGlint) blurred(16, "rgba(255,255,255," + (0.75 * handGlint).toFixed(3) + ")", function () { ctx.fill(dot(HAND_X, front, HAND_W * 0.6)); });
+        heads.forEach(function (h) { blurred(16, "rgba(255,255,255," + (0.35 * h[1]).toFixed(3) + ")", function () { ctx.fill(dot(h[0][0], h[0][1], LINE * 0.4)); }); });
+        if (p.handShimmer != null) blurred(16, "rgba(255,255,255," + (0.95 * glintOf(p.handShimmer)).toFixed(3) + ")", function () { ctx.fill(dot(HAND_X, handY(p.handShimmer), handW * 1.1)); });
+        if (p.crownShimmer != null) blurred(16, "rgba(255,255,255," + (0.95 * glintOf(p.crownShimmer)).toFixed(3) + ")", function () { ctx.fill(dot(crown[0] + crown[2] * p.crownShimmer, crown[1] + crown[3] / 2, CROWN[3] * 0.8)); });
+        p.ripples.forEach(function (w) { blurred(16, "rgba(255,255,255," + (0.6 * p.rippleLight * Math.pow(1 - w, 1.6)).toFixed(3) + ")", function () { ctx.lineWidth = 8 + 20 * (1 - w); ctx.stroke(capsule(ripple(w))); }); });
+        ctx.globalCompositeOperation = "source-over";
+      }
+
+      var t0 = null;
+      draw(reduced ? base() : build(0));
+      if (reduced) { if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { draw(base()); }); return; }
+      /* the intro starts when the hero is first seen, and the breath only runs while it is on screen */
+      loopWhileVisible(mark, function (dt, now) {
+        if (t0 == null) t0 = now + 150;
+        draw(partsAt(Math.max(0, (now - t0) / 1000)));
+      });
+      if ("ResizeObserver" in window) new ResizeObserver(function () { if (t0 == null) draw(build(0)); }).observe(cv);
     })();
 
     /* ---------- The phone: the app's first screen, playable ----------
