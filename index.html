@@ -1180,7 +1180,7 @@
        its group's colour. Drawn from the app's own ExerciseBody loops (#figData: per exercise, 40
        frames of 14 joints in body lengths x 1000, y up, exported from the app's source). A canvas
        says which exercise (data-fig), how many app points wide it is (data-pt) and its look (data-look,
-       #355): camera (joints in colour), polar (all white, the strap's dot beating on the chest in its
+       #355): camera (joints in colour), polar (a soft see-through grey, the strap's dot beating on the chest in its
        heart rate zone's colour) or both (each look for 5.5 s). The page has no strap, so the dot's heart
        rate walks through zones 1 to 5, as the app does with no live reading. ---------- */
     var Figures = (function () {
@@ -1243,20 +1243,21 @@
         var line = Math.max(1.5 * pt, s * 0.022), joint = Math.max(1.5 * pt, s * 0.02), floorY = oy + bx.y * s;
         if (!f.hangs) seg([ox, floorY], [ox + bx.w * s, floorY], "rgba(255,255,255,0.2)", Math.max(pt, line * 0.6), "butt");
         if (f.prop === "bar" && (q[6] || q[7])) { var y = P(q[6] || q[7])[1]; seg([ox, y], [ox + bx.w * s, y], "rgba(255,255,255,0.45)", line, "round"); }
+        /* the Polar look's body is a soft see-through grey, so the strap's dot is what stands out (#355) */
+        var polar = polarAmount(cv.getAttribute("data-look"), now / 1000), near = 0.85 + (0.4 - 0.85) * polar, farA = 0.35 + (0.18 - 0.35) * polar;
         BONES.forEach(function (bn) {
           if (!q[bn[0]] || !q[bn[1]]) return;
           var far = f.far.indexOf(bn[0]) >= 0 || f.far.indexOf(bn[1]) >= 0;
-          seg(P(q[bn[0]]), P(q[bn[1]]), far ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.85)", line, "round");
+          seg(P(q[bn[0]]), P(q[bn[1]]), "rgba(255,255,255," + (far ? farA : near).toFixed(3) + ")", line, "round");
         });
-        if (q[0]) dot(P(q[0]), Math.max(2.5 * pt, s * 0.058), "rgba(255,255,255,0.85)");
+        if (q[0]) dot(P(q[0]), Math.max(2.5 * pt, s * 0.058), "rgba(255,255,255," + near.toFixed(3) + ")");
         if (f.prop === "bell" && f.bell.length) {
           var mx = 0, my = 0;
           f.bell.forEach(function (j) { mx += q[j][0]; my += q[j][1]; });
           dot(P([mx / f.bell.length, my / f.bell.length]), Math.max(3 * pt, s * 0.05), LIME);
         }
-        var polar = polarAmount(cv.getAttribute("data-look"), now / 1000);
         GROUPS.forEach(function (g) {
-          var c = g[2], col = polar <= 0 ? g[1] : "rgb(" + c.map(function (v) { return Math.round(v + (255 - v) * polar); }).join(",") + ")";
+          var c = g[2], col = polar <= 0 ? g[1] : "rgba(" + c.map(function (v) { return Math.round(v + (255 - v) * polar); }).join(",") + "," + (1 + (0.45 - 1) * polar).toFixed(3) + ")";
           g[0].forEach(function (j) { if (q[j]) dot(P(q[j]), joint, col); });
         });
         /* the strap's dot on the breastbone, a beat at the heart rate in its zone's colour (#355) */
