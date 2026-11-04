@@ -1,6 +1,20 @@
 {
-  "generated": "2026-10-18T12:00:00Z",
+  "generated": "2026-11-04T04:16:00Z",
   "versions": [
+    {
+      "version": "1.56.0",
+      "date": "2026-11-04",
+      "items": [
+        "Camera counting rebuilt: reps count from the front, side or back.",
+        "Only the exercise you picked counts, and the app says what it saw.",
+        "6 new ready-to-use exercises: burpees, swings, snatches, sit-ups, lunges, jumping jacks.",
+        "AMRAP mode, with Cindy and Pushup Test built in.",
+        "Runs before or after a workout, measured by GPS.",
+        "Moving skeletons show every exercise.",
+        "Up to 3 exercises per workout. The Trainer now lists single exercises.",
+        "Pick camera or Polar per exercise. With the strap off, the camera takes over."
+      ]
+    },
     {
       "version": "1.44.2",
       "date": "2026-10-16",
