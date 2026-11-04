@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=21">
+  <link rel="stylesheet" href="/styles.css?v=22">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -86,7 +86,7 @@
         "name": "How does RankTime count reps?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "With the iPhone camera, on the phone itself. Nine exercises count straight away, from the front, the side or behind, with the phone on the floor or a tripod: push-ups, pull-ups, squats, burpees, kettlebell swings, snatches, sit-ups, lunges and jumping jacks. Teach it any other exercise with 3 of your own reps. With a Polar H10 chest strap it can count from the strap instead."
+          "text": "With the iPhone camera, on the phone itself. Nine exercises count straight away, from the front, the side or behind, with the phone on the floor or a tripod: push-ups, pull-ups, squats, burpees, kettlebell swings, snatches, sit-ups, lunges and jumping jacks. Teach it any other exercise with 20 seconds of your own reps. With a Polar H10 chest strap it can count from the strap instead."
         }
       },
       {
@@ -298,23 +298,31 @@
 
         <article class="feat reveal" style="--i:1" id="featTrainer">
           <figure class="device"><div class="scr">
-            <img src="/assets/screens/trainer.jpg" width="660" height="1435" loading="lazy" alt="RankTime Trainer: pullups, pushups, squats, burpees, swings, snatches and lunges ready to count with the camera, each with a skeleton doing the move, lifetime reps and rank">
-            <!-- Live copy: the same screen without its skeletons, and the app's skeletons moving on top (#figData) -->
+            <img src="/assets/screens/trainer.jpg" width="660" height="1435" loading="lazy" alt="RankTime Trainer: pullups, pushups, squats, burpees, swings and snatches on cards, each with its camera and Polar symbols lit, a skeleton doing the move, lifetime reps and rank; the list fades out above the ADD EXERCISE button">
+            <!-- Live copy: the screen without its list, the whole list (9 cards, no skeletons) scrolling in the
+                 app's list window, and the app's skeletons moving on top (#figData) -->
             <div class="tr-live" id="trLive" hidden aria-hidden="true">
               <img src="/assets/screens/trainer-live.jpg" width="660" height="1435" loading="lazy" alt="">
-              <canvas class="fig" data-look="both" data-fig="PULLUPS" data-pt="42" style="left:20.100%;top:35.675%"></canvas>
-              <canvas class="fig" data-look="both" data-fig="PUSHUPS" data-pt="42" style="left:20.100%;top:43.913%"></canvas>
-              <canvas class="fig" data-look="both" data-fig="SQUATS" data-pt="42" style="left:20.100%;top:52.151%"></canvas>
-              <canvas class="fig" data-look="both" data-fig="BURPEES" data-pt="42" style="left:20.100%;top:60.389%"></canvas>
-              <canvas class="fig" data-look="both" data-fig="SWINGS" data-pt="42" style="left:20.100%;top:68.627%"></canvas>
-              <canvas class="fig" data-look="both" data-fig="SNATCHES" data-pt="42" style="left:20.100%;top:76.865%"></canvas>
-              <canvas class="fig" data-look="both" data-fig="LUNGES" data-pt="42" style="left:20.100%;top:93.341%"></canvas>
+              <div class="tr-list">
+                <div class="tr-strip">
+                  <img src="/assets/screens/trainer-list.jpg" width="660" height="1054" loading="lazy" alt="">
+                  <canvas class="fig" data-look="both" data-fig="PULLUPS" data-pt="42" style="left:20.100%;top:2.181%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="PUSHUPS" data-pt="42" style="left:20.100%;top:13.396%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="SQUATS" data-pt="42" style="left:20.100%;top:24.611%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="BURPEES" data-pt="42" style="left:20.100%;top:35.826%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="SWINGS" data-pt="42" style="left:20.100%;top:47.040%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="SNATCHES" data-pt="42" style="left:20.100%;top:58.255%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="SITUPS" data-pt="42" style="left:20.100%;top:69.470%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="LUNGES" data-pt="42" style="left:20.100%;top:80.685%"></canvas>
+                  <canvas class="fig" data-look="both" data-fig="JUMPING JACKS" data-pt="42" style="left:20.100%;top:91.900%"></canvas>
+                </div>
+              </div>
             </div>
-            <span class="hl" style="--x:19.2%;--y:35.2%;--w:12%;--h:47%;--r:12px"></span>
+            <span class="hl" style="--x:2.5%;--y:33.6%;--w:95%;--h:49.2%;--r:20px"></span>
           </div></figure>
           <div class="feat-copy">
             <h3><span class="dot">&rsaquo;</span> Camera rep counting</h3>
-            <p>Nine exercises count straight away, from the front, the side or behind, with the phone on the floor or a tripod. Teach it any other with 3 of your own reps. Only the exercise you picked counts, or let a Polar H10 count it instead.</p>
+            <p>Nine exercises count straight away, from the front, the side or behind, with the phone on the floor or a tripod. Teach it any other with 20 seconds of your own reps. Only the exercise you picked counts, or let a Polar H10 count it instead.</p>
           </div>
         </article>
 
@@ -656,7 +664,7 @@
           </details>
           <details>
             <summary>How does RankTime count reps?</summary>
-            <p>With the iPhone camera, on the phone itself. Nine exercises count straight away, from the front, the side or behind, with the phone on the floor or a tripod: push-ups, pull-ups, squats, burpees, kettlebell swings, snatches, sit-ups, lunges and jumping jacks. Teach it any other exercise with 3 of your own reps. With a Polar H10 chest strap it can count from the strap instead.</p>
+            <p>With the iPhone camera, on the phone itself. Nine exercises count straight away, from the front, the side or behind, with the phone on the floor or a tripod: push-ups, pull-ups, squats, burpees, kettlebell swings, snatches, sit-ups, lunges and jumping jacks. Teach it any other exercise with 20 seconds of your own reps. With a Polar H10 chest strap it can count from the strap instead.</p>
           </details>
           <details>
             <summary>Can I do Murph with both runs?</summary>
@@ -2523,7 +2531,7 @@
         camera: ["Camera", "With the camera on, the app records your set with the timer and reps burned into the video and counts reps by watching you."],
         record: ["Recording", "The recording keeps the live bar and the RankTime mark, ready to share."],
         done: ["Workout complete! Great job!", "In the app this lands in Analytics, adds to your rank and counts toward this week's medal."],
-        trainer: ["The Trainer", "Nine exercises come ready to count. Teach it any other with 3 of your own reps."],
+        trainer: ["The Trainer", "Nine exercises come ready to count. Teach it any other with 20 seconds of your own reps."],
         analytics: ["Analytics", "Every workout you finish lands here, charted and analyzed."],
         progress: ["Progress", "Track your body over time with guided photos and stats."],
         settings: ["Settings", "Connections, notifications, Apple Health, heart rate zones and sound."]
