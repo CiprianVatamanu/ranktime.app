@@ -1,0 +1,69 @@
+{
+  "generated": "2026-11-13T07:02:58Z",
+  "guides": [
+    {
+      "id": "start-workout",
+      "title": "Start a workout",
+      "summary": "Set one up, then the camera and the strap count your reps.",
+      "seconds": 405,
+      "video": "howto/start-workout.mp4",
+      "poster": "howto/start-workout.jpg"
+    },
+    {
+      "id": "exercises",
+      "title": "Change exercises",
+      "summary": "Pick up to three, bodyweight or weights, and set their order.",
+      "seconds": 63,
+      "video": "howto/exercises.mp4",
+      "poster": "howto/exercises.jpg"
+    },
+    {
+      "id": "save-workout",
+      "title": "Save your own workout",
+      "summary": "Keep your changes as a new workout.",
+      "seconds": 47,
+      "video": "howto/save-workout.mp4",
+      "poster": "howto/save-workout.jpg"
+    },
+    {
+      "id": "run",
+      "title": "Add a run",
+      "summary": "A run before or after the workout, measured by GPS.",
+      "seconds": 32,
+      "video": "howto/run.mp4",
+      "poster": "howto/run.jpg"
+    },
+    {
+      "id": "trainer",
+      "title": "The Trainer",
+      "summary": "Teach the app an exercise, test it, and see the holds.",
+      "seconds": 252,
+      "video": "howto/trainer.mp4",
+      "poster": "howto/trainer.jpg"
+    },
+    {
+      "id": "analytics",
+      "title": "Read your analytics",
+      "summary": "Calendar, charts, exercises, coach and every workout.",
+      "seconds": 215,
+      "video": "howto/analytics.mp4",
+      "poster": "howto/analytics.jpg"
+    },
+    {
+      "id": "ranks",
+      "title": "Ranks and medals",
+      "summary": "How your reps earn ranks and weekly medals.",
+      "seconds": 73,
+      "video": "howto/ranks.mp4",
+      "poster": "howto/ranks.jpg"
+    },
+    {
+      "id": "share",
+      "title": "Share a workout",
+      "summary": "Make a picture of a workout and its ranks.",
+      "seconds": 48,
+      "video": "howto/share.mp4",
+      "poster": "howto/share.jpg"
+    }
+  ]
+}
