@@ -1219,7 +1219,8 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 .guide-card strong { display: block; font-size: 18px; line-height: 1.25; margin-bottom: 4px; }
 .guide-card span.sub { display: block; color: var(--muted); font-size: 15px; line-height: 1.4; }
 .app-cta { display: flex; gap: 18px; align-items: center; margin: 44px 0 10px; padding: 22px; border-radius: 22px; background: var(--material); box-shadow: inset 0 0 0 1px rgba(139, 215, 6, 0.35); }
-.app-cta img { flex: 0 0 auto; width: 72px; height: 72px; border-radius: 16px; }
+/* the RankTime icon only: a bare `img` here also rounded Apple's badge and cut its border (#318: never restyle the badge) */
+.app-cta > img { flex: 0 0 auto; width: 72px; height: 72px; border-radius: 16px; }
 .app-cta h2 { margin: 0 0 6px !important; }
 .app-cta p { margin-bottom: 14px !important; }
 .app-cta .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
