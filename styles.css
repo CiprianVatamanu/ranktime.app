@@ -264,6 +264,26 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 .sbar svg { height: calc(12 * var(--u)); width: auto; }
 .island { position: absolute; z-index: 8; top: calc(11 * var(--u)); left: 50%; width: calc(126 * var(--u)); height: calc(37 * var(--u)); margin-left: calc(-63 * var(--u)); border-radius: 99px; background: #000; }
 .screen > .mist { transition: opacity 0.6s ease, filter 0.6s ease; }
+/* The config mist moves by the page (#377): on TIME the blobs go slowly round the screen's middle, a turn
+   a minute; on REPS the turn holds where it is and they swell and brighten together about once a rep. */
+@property --pkx { syntax: "<number>"; inherits: true; initial-value: 1; }
+.screen > .mist i { animation: mist-x 78s ease-in-out infinite alternate, mist-turn 60s linear infinite; }
+.screen > .mist i:nth-child(1) { transform-origin: calc(22cqw + 68cqmin) calc(20cqh + 68cqmin); }
+.screen > .mist i:nth-child(2) { transform-origin: calc(-22cqw + 64cqmin) calc(20cqh + 64cqmin); animation-delay: -20s, 0s; }
+.screen > .mist i:nth-child(3) { transform-origin: calc(28cqw + 70cqmin) calc(-22cqh + 70cqmin); animation-delay: -40s, 0s; }
+.screen > .mist i:nth-child(4) { transform-origin: calc(-28cqw + 66cqmin) calc(-18cqh + 66cqmin); animation-delay: -60s, 0s; }
+.screen > .mist.pulse i { animation-play-state: running, paused; }
+.screen > .mist i b { background: radial-gradient(closest-side,
+    rgba(139, 215, 6, calc(var(--pk) * var(--pkx))) 0%,
+    rgba(139, 215, 6, calc(var(--pk) * 0.65 * var(--pkx))) 30%,
+    rgba(139, 215, 6, calc(var(--pk) * 0.25 * var(--pkx))) 65%,
+    rgba(139, 215, 6, 0) 100%); }
+.screen > .mist.pulse i b { animation: mist-y 105s ease-in-out infinite alternate, mist-pulse 2.4s ease-in-out infinite; }
+.screen > .mist.pulse i:nth-child(2) b { animation-delay: -30s, 0s; }
+.screen > .mist.pulse i:nth-child(3) b { animation-delay: -55s, 0s; }
+.screen > .mist.pulse i:nth-child(4) b { animation-delay: -80s, 0s; }
+@keyframes mist-turn { to { rotate: 360deg; } }
+@keyframes mist-pulse { 0%, 100% { scale: 1; --pkx: 1; } 50% { scale: 1.07; --pkx: 1.2; } }
 /* a tab open: AmbientMistView slides to the margins and greys */
 .screen.tabbed > .mist { opacity: 0.22; filter: grayscale(1); }
 
@@ -282,6 +302,9 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 .cfg-title { left: calc(90 * var(--u)); right: calc(90 * var(--u)); top: calc(131 * var(--u)); height: calc(60 * var(--u)); border-radius: 999px; overflow: hidden; cursor: pointer; padding: 0; color: #fff; }
 .cfg-title .lbl { position: absolute; inset: 0; display: grid; place-items: center; font-size: calc(20 * var(--u)); font-weight: 600; letter-spacing: calc(1.5 * var(--u)); color: var(--lime); text-shadow: 0 0 calc(1.5 * var(--u)) rgba(0, 0, 0, 0.75); white-space: nowrap; }
 .cfg.tabopen .cfg-title .lbl { color: #fff; letter-spacing: calc(2 * var(--u)); text-shadow: none; }
+/* the mode's mark before its name (#377): an 18 pt box, 8 pt before the text */
+.cfg-title .lbl .mk { display: inline-block; width: calc(18 * var(--u)); height: calc(18 * var(--u)); margin-right: calc(8 * var(--u)); vertical-align: calc(-2.5 * var(--u)); }
+.cfg-title .lbl .mk svg { display: block; width: 100%; height: 100%; }
 .cfg-title .chev { position: absolute; top: 50%; margin-top: calc(-7 * var(--u)); color: rgba(255, 255, 255, 0.7); display: grid; transition: opacity 0.25s ease; }
 .cfg-title .chev svg { width: calc(14 * var(--u)); height: calc(14 * var(--u)); }
 .cfg-title .chev.l { left: calc(18 * var(--u)); }
@@ -515,6 +538,15 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 .run-ring .arc { stroke: rgba(255, 255, 255, 0.85); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 0 1; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5)); transition: stroke 0.3s ease; }
 .run.paused .run-ring .arc { stroke: rgba(255, 255, 255, 0.3); }
 .run.paused .run-ring .glow { stroke: rgba(255, 255, 255, 0.15); }
+/* REPS: the track, the glow and the fill are the config ring's own dots (#377) */
+.run-ring.dotted .track, .run-ring.dotted .glow, .run-ring.dotted .arc { display: none; }
+.run-ring .dtrack circle { fill: rgba(255, 255, 255, 0.15); }
+.run-ring .dglow { filter: blur(8px); }
+.run-ring .dglow circle { fill: rgba(255, 255, 255, 0.4); }
+.run-ring .dlit { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5)); }
+.run-ring .dlit circle { fill: rgba(255, 255, 255, 0.85); }
+.run.paused .run-ring .dlit circle { fill: rgba(255, 255, 255, 0.3); }
+.run.paused .run-ring .dglow circle { fill: rgba(255, 255, 255, 0.15); }
 .run-digits { position: absolute; left: 50%; top: calc(451 * var(--u)); transform: translate(-50%, -50%); padding: calc(9.6 * var(--u)) calc(22.4 * var(--u)); border-radius: calc(22.4 * var(--u)); font-size: calc(57.6 * var(--u)); line-height: 1.2; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; text-shadow: 0 0 2px rgba(0, 0, 0, 0.75), 0 0 6px rgba(0, 0, 0, 0.45), 0 0 12px rgba(0, 0, 0, 0.2); }
 /* RunStatusLabel (#335): what a break waits on, under the clock */
 .run-status { position: absolute; left: 50%; top: calc(526 * var(--u)); transform: translate(-50%, -50%); font-size: calc(10.4 * var(--u)); font-weight: 800; letter-spacing: calc(0.96 * var(--u)); color: #fff; text-shadow: 0 0 calc(3.2 * var(--u)) rgba(0, 0, 0, 0.7); white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
@@ -1195,10 +1227,25 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 .doc .app-cta .store-btn.soon { color: var(--lime); background: rgba(139, 215, 6, 0.14); cursor: default; }
 .doc .app-cta .ghost-btn { display: inline-flex; align-items: center; padding: 11px 20px; border-radius: 99px; font-weight: 600; text-decoration: none; color: #fff; background: rgba(255, 255, 255, 0.12); }
 .doc .app-cta .ghost-btn:hover { background: rgba(255, 255, 255, 0.2); }
+/* Free PDF box: the same on every guide (the PDFs themselves: .claude/pdf/README.md) */
+.pdf-cta { display: flex; gap: 22px; align-items: center; margin: 44px 0 0; padding: 22px; border-radius: 22px; background: var(--material); box-shadow: inset 0 0 0 1px var(--glassline); }
+.pdf-cta + .app-cta { margin-top: 16px; }
+.pdf-cta .pdf-thumb { flex: 0 0 auto; width: 104px; line-height: 0; transform: rotate(-3deg); transition: transform 0.2s ease; }
+.pdf-cta .pdf-thumb:hover { transform: rotate(0deg) translateY(-2px); }
+.pdf-cta .pdf-thumb img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.14); }
+.pdf-cta .stencil { display: block; font-family: var(--stencil); color: var(--lime); font-size: 13px; letter-spacing: 0.24em; margin-bottom: 4px; }
+.pdf-cta h2 { margin: 0 0 6px !important; }
+.pdf-cta p { margin-bottom: 14px !important; }
+.doc .pdf-cta .pdf-btn { display: inline-flex; align-items: center; padding: 11px 20px; border-radius: 99px; font-weight: 600; text-decoration: none; color: #000; background: var(--lime); }
+/* A note in a guide's text that points to its PDF (build.py writes them from the PDF source) */
+.doc .pdf-note { margin: 22px 0 28px; padding: 14px 18px; border-radius: 14px; color: var(--text); background: rgba(139, 215, 6, 0.08); box-shadow: inset 0 0 0 1px rgba(139, 215, 6, 0.3); }
+.doc .pdf-note strong { color: var(--lime); }
+.doc .pdf-note a { white-space: nowrap; }
 .more-guides { margin-top: 36px; }
 @media (max-width: 560px) {
   .doc .shots figure { flex-basis: 42%; }
   .app-cta { flex-direction: column; align-items: flex-start; }
+  .pdf-cta { flex-direction: column; align-items: flex-start; }
   .guide-card img { width: 58px; }
 }
 
