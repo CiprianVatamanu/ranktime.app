@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://ranktime.app/">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="preload" href="/assets/AllertaStencil.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=25">
+  <link rel="stylesheet" href="/styles.css?v=26">
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -791,9 +791,6 @@
       layers: T('0 0 22.1 24', 1) + 'stroke-width="2"><path d="M11.05 1 21.1 6.8 11.05 12.6 1 6.8z"/><path d="M2.75 11 1 12l10.05 5.8L21.1 12l-1.75-1M2.75 16.2 1 17.2 11.05 23l10.05-5.8-1.75-1"/></svg>',
       layersDown: T('0 0 20.8 24', 1) + 'stroke-width="2"><path d="M9.75 11.8 19.8 6v11.1L9.75 22.9z"/><path d="M5.35 9.3 15.45 3.5v2.1M5.35 9.3v11.1l1.6-.9M1 6.8 11.1 1v1.2M1 6.8v11.1l1.5-.85"/></svg>',
       run: T('0 0 18.4 24', 1) + '><circle cx="11.5" cy="2.4" r="2.36" fill="currentColor" stroke="none"/><path stroke-width="1.9" d="M3.4 10.9l.75-4.5 4.4-.3M10.6 6.8l3 4.2 3.85-1.6"/><path stroke-width="3.6" d="M6.6 6.5 9.9 6.4M9.4 7.2l-1.7 5.3"/><path stroke-width="2.1" d="M7 12.9l-1.3 5.5L1 22.9M8.3 13.1l5.6 3.5-4.4 3.7"/></svg>',
-      /* the mode marks before TIME MODE and REPS MODE (#377): a stopwatch, and a # */
-      modeTime: T('0 0 20 23', 1) + 'stroke-width="1.9"><circle cx="10" cy="13.2" r="8.75"/><path d="M7.4 1.1h5.2M10 1.3v3M10 13.2V8.3M16.8 5.3l1.5-1.5"/></svg>',
-      modeReps: T('0 0 18 20', 1) + 'stroke-width="2.1"><path d="M6.7 1.1 4.8 18.9M13.2 1.1l-1.9 17.8M1.4 6.3h15.4M.9 13.7h15.4"/></svg>',
       /* REPS's time limit, and its finish button ("timer"): a dial open by the top, a tick at 12, the hand toward 11 */
       timer: T('0 0 24 24', 1) + 'stroke-width="2.2"><path d="M12 1.6a10.4 10.4 0 1 1-7.4 3.1"/><path d="M12 1.8v3.6"/><path stroke-width="3" d="M11.4 11.4 7.8 7.6"/></svg>',
       /* the Polar strap ("sensor.radiowaves.left.and.right"): a ring between two pairs of waves */
@@ -1973,8 +1970,8 @@
           el.edit.classList.toggle("lit", isDirty);
           el.edit.setAttribute("aria-label", isDirty ? "Save current workout" : "Close tab");
         } else {
-          /* the mode's mark before its name (#377): a stopwatch on TIME, a # on REPS */
-          el.mode.innerHTML = '<span><i class="mk">' + (mode === "time" ? I.modeTime : I.modeReps) + "</i>" + MODE_NAME[mode] + " MODE</span>";
+          /* the mode name alone, as the app's pill since #377 (v1.74.2): no stopwatch or # before it */
+          el.mode.textContent = MODE_NAME[mode] + " MODE";
           chevL.className = "chev l" + (mode === MODES[0] ? " gone" : ""); chevR.className = "chev r" + (mode === MODES[MODES.length - 1] ? " gone" : "");
           el.edit.innerHTML = naming || isDirty ? I.check : I.pencil;
           el.edit.classList.toggle("lit", !naming && isDirty);
