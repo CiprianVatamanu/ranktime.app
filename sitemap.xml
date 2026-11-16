@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ranktime.app/</loc><lastmod>2026-11-04</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://ranktime.app/guides/</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ranktime.app/guides/</loc><lastmod>2026-11-16</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/murph-workout/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/murph-workout/ranktime-murph-workout.pdf</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ranktime.app/guides/cindy-workout/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -30,6 +30,8 @@
   <url><loc>https://ranktime.app/guides/100-squats-a-day/ranktime-100-squats-a-day.pdf</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ranktime.app/guides/how-many-pull-ups/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ranktime.app/guides/how-many-pull-ups/ranktime-how-many-pull-ups.pdf</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ranktime.app/guides/rest-between-sets/</loc><lastmod>2026-11-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ranktime.app/guides/rest-between-sets/ranktime-rest-between-sets.pdf</loc><lastmod>2026-11-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ranktime.app/whats-new/</loc><lastmod>2026-11-04</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ranktime.app/whats-next/</loc><lastmod>2026-11-03</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://ranktime.app/support/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
