@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-17T19:53:40Z",
+  "generated": "2026-11-17T20:51:54Z",
   "guides": [
     {
       "id": "start-workout",
@@ -44,8 +44,8 @@
     {
       "id": "analytics",
       "title": "Read your analytics",
-      "summary": "Calendar, charts, exercises, coach and every workout.",
-      "seconds": 224,
+      "summary": "Calendar, charts, exercises, rank targets, coach and every workout.",
+      "seconds": 364,
       "video": "howto/analytics.mp4",
       "poster": "howto/analytics.jpg"
     },
