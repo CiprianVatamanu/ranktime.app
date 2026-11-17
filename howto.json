@@ -1,19 +1,19 @@
 {
-  "generated": "2026-11-13T07:02:58Z",
+  "generated": "2026-11-17T19:53:40Z",
   "guides": [
     {
       "id": "start-workout",
       "title": "Start a workout",
-      "summary": "Set one up, then the camera and the strap count your reps.",
-      "seconds": 405,
+      "summary": "TIME or REPS: set one up, then the camera and the strap count your reps.",
+      "seconds": 427,
       "video": "howto/start-workout.mp4",
       "poster": "howto/start-workout.jpg"
     },
     {
       "id": "exercises",
       "title": "Change exercises",
-      "summary": "Pick up to three, bodyweight or weights, and set their order.",
-      "seconds": 63,
+      "summary": "Pick up to three, bodyweight, weights or holds, and set their order.",
+      "seconds": 75,
       "video": "howto/exercises.mp4",
       "poster": "howto/exercises.jpg"
     },
@@ -21,7 +21,7 @@
       "id": "save-workout",
       "title": "Save your own workout",
       "summary": "Keep your changes as a new workout.",
-      "seconds": 47,
+      "seconds": 48,
       "video": "howto/save-workout.mp4",
       "poster": "howto/save-workout.jpg"
     },
@@ -45,7 +45,7 @@
       "id": "analytics",
       "title": "Read your analytics",
       "summary": "Calendar, charts, exercises, coach and every workout.",
-      "seconds": 215,
+      "seconds": 224,
       "video": "howto/analytics.mp4",
       "poster": "howto/analytics.jpg"
     },
@@ -53,7 +53,7 @@
       "id": "ranks",
       "title": "Ranks and medals",
       "summary": "How your reps earn ranks and weekly medals.",
-      "seconds": 73,
+      "seconds": 76,
       "video": "howto/ranks.mp4",
       "poster": "howto/ranks.jpg"
     },
