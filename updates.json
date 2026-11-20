@@ -1,6 +1,23 @@
 {
-  "generated": "2026-11-04T04:16:00Z",
+  "generated": "2026-11-20T21:45:00Z",
   "versions": [
+    {
+      "version": "2.0.0",
+      "date": "2026-11-20",
+      "items": [
+        "Two pages, TIME and REPS: on TIME the clock ends each set, on REPS your reps do.",
+        "The last tab sets how a workout ends: after its rounds, on a target, or on a time limit (AMRAP).",
+        "Holds: front, reverse and side plank, wall sit, horse stance and handstand. The clock runs only while you hold the position.",
+        "5 new exercises: dips, clean & press, thrusters, military press and deadlifts.",
+        "Kettlebell reps show which hand did them: L, R, D for both hands on one bell, LR for a bell in each hand.",
+        "The Trainer has its own tab for bodyweight, weights and holds, with one card per exercise.",
+        "Holds earn ranks too: every 2 seconds held counts as a rep.",
+        "Turn the phone sideways to fit your whole body in a tight space.",
+        "8 video guides, and spoken hints that explain each page and button the first time.",
+        "Your first progress photo's outline guides you back to the same spot.",
+        "Fixes: the camera no longer freezes the screen, and recording at 4K 60 no longer crashes."
+      ]
+    },
     {
       "version": "1.56.0",
       "date": "2026-11-04",
