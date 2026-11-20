@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-itunes-app" content="app-id=6788129517">
-  <title>Workout Guides - RankTime</title>
+  <title>Workout Guides: Kettlebell, Calisthenics, HIIT and More - RankTime</title>
   <meta name="description" content="Free workout guides by category: calisthenics and bodyweight, kettlebell workouts, isometric holds like the plank, HIIT, CrossFit and strength training basics.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ranktime.app/guides/">
-  <meta property="og:title" content="Workout Guides - RankTime">
+  <meta property="og:title" content="Workout Guides: Kettlebell, Calisthenics, HIIT and More">
   <meta property="og:description" content="Workout guides by category: calisthenics, kettlebell workouts, isometric holds, HIIT, CrossFit and strength training basics, each with a free PDF.">
   <meta property="og:image" content="https://ranktime.app/og.png?v=3">
   <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/guides/">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="/styles.css?v=27">
+  <link rel="stylesheet" href="/styles.css?v=28">
 </head>
 <body>
   <div class="ambient" aria-hidden="true"></div>
@@ -42,9 +42,10 @@
     <h1>Workout Guides</h1>
     <p class="updated">Clear, practical guides to the workouts people search for most.</p>
 
-    <p class="lead">Each guide explains the workout in plain words, gives you sample sessions and scaling options, comes with a free PDF, and shows how to run it step by step. Pick a category:</p>
+    <p class="lead">Each guide explains the workout in plain words, gives you sample sessions and scaling options, comes with a free PDF, and shows how to run it step by step. Pick a category, or All to see every guide:</p>
 
     <nav class="cat-nav" aria-label="Guide categories">
+      <a href="/guides/">All</a>
       <a href="#bodyweight-workouts">Bodyweight</a>
       <a href="#kettlebell-workouts">Kettlebell</a>
       <a href="#isometric-exercises">Isometric holds</a>
@@ -182,6 +183,42 @@
         </div>
       </div>
     </section>
+    <script>
+      /* Guide categories (#5): a chip shows only its category, All shows every guide, and the address
+         keeps the pick (#kettlebell-workouts) for sharing and the back button. Without scripts the chips are
+         plain links to each section and every guide stays on the page, as it does for search engines. */
+      (function () {
+        var nav = document.querySelector('.cat-nav');
+        var cats = [].slice.call(document.querySelectorAll('.guide-cat'));
+        var links = [].slice.call(nav.querySelectorAll('a'));
+        function idOf(a) { return a.getAttribute('href').split('#')[1] || ''; }
+        links.forEach(function (a) {
+          var id = idOf(a), n = document.createElement('span');
+          n.className = 'n';
+          n.textContent = document.querySelectorAll((id ? '#' + id : '.guide-cat') + ' .guide-card').length;
+          a.appendChild(n);
+        });
+        function show(id) {
+          var known = cats.some(function (c) { return c.id === id; });
+          cats.forEach(function (c) { c.hidden = known && c.id !== id; });
+          links.forEach(function (a) {
+            if (idOf(a) === (known ? id : '')) a.setAttribute('aria-current', 'true');
+            else a.removeAttribute('aria-current');
+          });
+        }
+        nav.addEventListener('click', function (e) {
+          var a = e.target.closest('a');
+          if (!a) return;
+          e.preventDefault();
+          var id = idOf(a);
+          history.pushState(null, '', id ? '#' + id : location.pathname);
+          show(id);
+          if (nav.getBoundingClientRect().top < 0) nav.scrollIntoView({ block: 'start' });
+        });
+        window.addEventListener('popstate', function () { show(location.hash.slice(1)); });
+        show(location.hash.slice(1));
+      })();
+    </script>
   </main>
 
   <footer class="site-footer">

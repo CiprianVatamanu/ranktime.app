@@ -1245,6 +1245,9 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 .doc .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
 .doc .cat-nav a { display: inline-flex; align-items: center; padding: 9px 16px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; color: #fff; background: rgba(255, 255, 255, 0.12); transition: background 0.2s ease, color 0.2s ease; }
 .doc .cat-nav a:hover { color: var(--lime); background: rgba(255, 255, 255, 0.2); }
+.doc .cat-nav a[aria-current], .doc .cat-nav a[aria-current]:hover { color: #000; background: var(--lime); }
+.doc .cat-nav a .n { margin-left: 7px; font-size: 13px; opacity: 0.6; }
+.doc .cat-nav { scroll-margin-top: 80px; }
 .doc .guide-cat { scroll-margin-top: 80px; }
 .doc .guide-cat > p { color: var(--muted); }
 @media (max-width: 560px) {
