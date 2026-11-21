@@ -17,7 +17,7 @@
   <meta name="twitter:image" content="https://ranktime.app/og.png?v=3">
   <link rel="canonical" href="https://ranktime.app/guides/">
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="/styles.css?v=29">
+  <link rel="stylesheet" href="/styles.css?v=30">
 </head>
 <body>
   <div class="ambient" aria-hidden="true"></div>
@@ -42,20 +42,20 @@
     <h1>Workout Guides</h1>
     <p class="updated">Clear, practical guides to the workouts people search for most.</p>
 
-    <p class="lead">Each guide explains the workout in plain words, gives you sample sessions and scaling options, comes with a free PDF, and shows how to run it step by step. Pick a category, or All to see every guide:</p>
+    <p class="lead">Each guide explains the workout in plain words, gives you sample sessions and scaling options, comes with a free PDF, and shows how to run it step by step. Pick a category to see its own page, or scroll for every guide:</p>
 
     <nav class="cat-nav" aria-label="Guide categories">
-      <a href="/guides/">All</a>
-      <a href="#bodyweight-workouts">Bodyweight</a>
-      <a href="#kettlebell-workouts">Kettlebell</a>
-      <a href="#isometric-exercises">Isometric holds</a>
-      <a href="#hiit-workouts">HIIT</a>
-      <a href="#crossfit-workouts">CrossFit</a>
-      <a href="#strength-training">Training basics</a>
+      <a href="/guides/" aria-current="page">All</a>
+      <a href="/guides/calisthenics-workouts/">Bodyweight</a>
+      <a href="/guides/kettlebell-workouts/">Kettlebell</a>
+      <a href="/guides/isometric-exercises/">Isometric holds</a>
+      <a href="/guides/hiit-workouts/">HIIT</a>
+      <a href="/guides/crossfit-workouts/">CrossFit</a>
+      <a href="/guides/strength-training/">Training basics</a>
     </nav>
 
     <section class="guide-cat" id="bodyweight-workouts">
-      <h2>Calisthenics and Bodyweight Workouts</h2>
+      <h2><a href="/guides/calisthenics-workouts/">Calisthenics and Bodyweight Workouts</a></h2>
       <p>Push-ups, pull-ups, squats and burpees, with no equipment: daily challenges, fitness tests with real standards, and plans to raise your numbers.</p>
       <div class="guide-list">
         <a class="guide-card" href="/guides/100-pushups-a-day/">
@@ -86,7 +86,7 @@
     </section>
 
     <section class="guide-cat" id="kettlebell-workouts">
-      <h2>Kettlebell Workouts</h2>
+      <h2><a href="/guides/kettlebell-workouts/">Kettlebell Workouts</a></h2>
       <p>One kettlebell and three lifts to learn in order: the deadlift, the swing, then the snatch. Technique, the muscles each one works, which bell to use, workouts and tests.</p>
       <div class="guide-list">
         <a class="guide-card" href="/guides/kettlebell-deadlift/">
@@ -105,7 +105,7 @@
     </section>
 
     <section class="guide-cat" id="isometric-exercises">
-      <h2>Isometric Exercises: Planks and Wall Sits</h2>
+      <h2><a href="/guides/isometric-exercises/">Isometric Exercises: Planks and Wall Sits</a></h2>
       <p>Isometric exercises build strength while you hold still. How long people really hold a plank or a wall sit, what the research shows, and plans to hold longer.</p>
       <div class="guide-list">
         <a class="guide-card" href="/guides/average-plank-time/">
@@ -120,7 +120,7 @@
     </section>
 
     <section class="guide-cat" id="hiit-workouts">
-      <h2>HIIT Workouts: Tabata, EMOM, AMRAP and Ladders</h2>
+      <h2><a href="/guides/hiit-workouts/">HIIT Workouts: Tabata, EMOM, AMRAP and Ladders</a></h2>
       <p>High intensity interval training and the classic workout formats: how each one works, how to set the work and the rest, and sample workouts to try.</p>
       <div class="guide-list">
         <a class="guide-card" href="/guides/hiit-intervals/">
@@ -147,7 +147,7 @@
     </section>
 
     <section class="guide-cat" id="crossfit-workouts">
-      <h2>CrossFit Workouts</h2>
+      <h2><a href="/guides/crossfit-workouts/">CrossFit Workouts</a></h2>
       <p>Two famous CrossFit benchmarks, Murph and Cindy: how to scale them, how to pace them, and what a good score is.</p>
       <div class="guide-list">
         <a class="guide-card" href="/guides/murph-workout/">
@@ -162,7 +162,7 @@
     </section>
 
     <section class="guide-cat" id="strength-training">
-      <h2>Strength Training Basics</h2>
+      <h2><a href="/guides/strength-training/">Strength Training Basics</a></h2>
       <p>The basics behind every workout here, starting with how long to rest between sets for strength, muscle or endurance, from the research.</p>
       <div class="guide-list">
         <a class="guide-card" href="/guides/rest-between-sets/">
@@ -183,42 +183,6 @@
         </div>
       </div>
     </section>
-    <script>
-      /* Guide categories (#5): a chip shows only its category, All shows every guide, and the address
-         keeps the pick (#kettlebell-workouts) for sharing and the back button. Without scripts the chips are
-         plain links to each section and every guide stays on the page, as it does for search engines. */
-      (function () {
-        var nav = document.querySelector('.cat-nav');
-        var cats = [].slice.call(document.querySelectorAll('.guide-cat'));
-        var links = [].slice.call(nav.querySelectorAll('a'));
-        function idOf(a) { return a.getAttribute('href').split('#')[1] || ''; }
-        links.forEach(function (a) {
-          var id = idOf(a), n = document.createElement('span');
-          n.className = 'n';
-          n.textContent = document.querySelectorAll((id ? '#' + id : '.guide-cat') + ' .guide-card').length;
-          a.appendChild(n);
-        });
-        function show(id) {
-          var known = cats.some(function (c) { return c.id === id; });
-          cats.forEach(function (c) { c.hidden = known && c.id !== id; });
-          links.forEach(function (a) {
-            if (idOf(a) === (known ? id : '')) a.setAttribute('aria-current', 'true');
-            else a.removeAttribute('aria-current');
-          });
-        }
-        nav.addEventListener('click', function (e) {
-          var a = e.target.closest('a');
-          if (!a) return;
-          e.preventDefault();
-          var id = idOf(a);
-          history.pushState(null, '', id ? '#' + id : location.pathname);
-          show(id);
-          if (nav.getBoundingClientRect().top < 0) nav.scrollIntoView({ block: 'start' });
-        });
-        window.addEventListener('popstate', function () { show(location.hash.slice(1)); });
-        show(location.hash.slice(1));
-      })();
-    </script>
   </main>
 
   <footer class="site-footer">

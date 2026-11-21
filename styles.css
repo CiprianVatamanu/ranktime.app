@@ -1242,15 +1242,18 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 .doc .pdf-note strong { color: var(--lime); }
 .doc .pdf-note a { white-space: nowrap; }
 .more-guides { margin-top: 36px; }
-/* Guide categories on /guides/ (#5): chips that jump to a section, one section per category */
+/* Guide categories (#5): chips that open each category page, on /guides/ and on every category page */
 .doc .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
 .doc .cat-nav a { display: inline-flex; align-items: center; padding: 9px 16px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; color: #fff; background: rgba(255, 255, 255, 0.12); transition: background 0.2s ease, color 0.2s ease; }
 .doc .cat-nav a:hover { color: var(--lime); background: rgba(255, 255, 255, 0.2); }
 .doc .cat-nav a[aria-current], .doc .cat-nav a[aria-current]:hover { color: #000; background: var(--lime); }
-.doc .cat-nav a .n { margin-left: 7px; font-size: 13px; opacity: 0.6; }
 .doc .cat-nav { scroll-margin-top: 80px; }
 .doc .guide-cat { scroll-margin-top: 80px; }
 .doc .guide-cat > p { color: var(--muted); }
+/* each section heading on /guides/ opens its category page */
+.doc .guide-cat h2 a { color: inherit; text-decoration: none; }
+.doc .guide-cat h2 a::after { content: "\00a0\203A"; color: var(--lime); }
+.doc .guide-cat h2 a:hover { color: var(--lime); }
 @media (max-width: 560px) {
   .doc .shots figure { flex-basis: 42%; }
   .app-cta { flex-direction: column; align-items: flex-start; }
