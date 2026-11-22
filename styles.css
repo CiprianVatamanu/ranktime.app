@@ -1203,6 +1203,19 @@ main.doc { position: relative; max-width: var(--docw); margin: 0 auto; padding: 
 .doc .facts tr:last-child th, .doc .facts tr:last-child td { border-bottom: 0; }
 .doc .facts th { color: var(--muted); font-weight: 500; width: 38%; }
 .doc .facts td { color: #fff; }
+/* Side by side comparison (dips guide): a header row, then one row per point, short cells. */
+.doc .compare { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 6px 0 18px; border-radius: 12px; overflow: hidden; background: var(--material); font-size: 15px; }
+.doc .compare th, .doc .compare td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--hair); vertical-align: top; }
+.doc .compare tbody tr:last-child th, .doc .compare tbody tr:last-child td { border-bottom: 0; }
+.doc .compare th:first-child { width: 28%; }
+.doc .compare thead th { color: #fff; font-weight: 600; }
+.doc .compare tbody th { color: var(--muted); font-weight: 500; }
+.doc .compare td { color: #fff; }
+.doc .compare .pick { color: var(--lime); font-weight: 600; }
+@media (max-width: 520px) {
+  .doc .compare { font-size: 13.5px; }
+  .doc .compare th, .doc .compare td { padding: 10px 7px; }
+}
 .doc ol { padding-left: 22px; margin-bottom: 14px; }
 .doc ol li::marker { color: var(--lime); font-weight: 600; }
 .doc .shots { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin: 26px 0 30px; }
